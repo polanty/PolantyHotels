@@ -1,4 +1,13 @@
 # PolantyHotels
+
+* <img width="396" height="570" alt="Class Diagram Core Models" src="https://github.com/user-attachments/assets/e4e1c2e8-b71e-4a93-879b-e82dbec4f862" />
+
+* <img width="1341" height="647" alt="Sequence Diagram — Booking Flow (Guest → Confirmed)" src="https://github.com/user-attachments/assets/abaff4cd-6ea1-4e32-9aec-a4be31d579ff" />
+
+* <img width="731" height="514" alt="Component Diagram (High-level)" src="https://github.com/user-attachments/assets/239a9e98-07a0-4487-a231-3bc60b641170" />
+
+
+
 # product owner
 
 
