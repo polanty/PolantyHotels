@@ -15,19 +15,6 @@ I should be able to perform all of these as a guest user , however I can only bo
 I can Login, Delete my account , Update my Information (password, profile picture, Name, email), I should be able to view details of each hotel,  my bookings, my reviews, settings etc
 And I should get information about important stuff like email update, password update or changes to my Billing Information.
 
-# Chat Gpt generated prompt
-Below is a **clear, structured, product-owner level specification** of your hotel search & booking platform, written in a way that you can hand directly to developers, architects, or investors.
-It includes:
-✅ Full product model
-✅ User roles & permissions
-✅ Functional + non-functional requirements
-✅ System architecture (MERN + Cloud)
-✅ Integration with Azure AD (if desired)
-✅ Multi-region admin constraints
-✅ Booking + review + analytics workflows
-✅ Future-proofing for scalability & compliance
-
----
 
 # **Hotel Booking Platform — Full Product Model (Product Owner Perspective)**
 
@@ -297,14 +284,14 @@ AD can be used for **staff/admin login only** or for all users, depending on you
 ---
 
 If you want, I can also generate:
-✅ ERD (database structure)
-✅ UML diagrams
-✅ Full API documentation
-✅ Full project folder structure (React + Node)
-✅ User stories + acceptance criteria
+* ✅ ERD (database structure)
+* ✅ UML diagrams
+* ✅ Full API documentation
+* ✅ Full project folder structure (React + Node)
+* ✅ User stories + acceptance criteria
 Just tell me which one you want next.
 
-# My question - can i get an ERD , UNL Diagrams and User stories and acceptance criteria
+# My question - can i get an ERD , UML Diagrams and User stories and acceptance criteria
 
 
 # Hotel Booking Platform — ERD, UML Diagrams, User Stories & Acceptance Criteria
