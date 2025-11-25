@@ -1,7 +1,7 @@
 {
   "name": "polantyhotels",
   "version": "1.0.0",
-  "description": "* <img width=\"396\" height=\"570\" alt=\"Class Diagram Core Models\" src=\"https://github.com/user-attachments/assets/e4e1c2e8-b71e-4a93-879b-e82dbec4f862\" />",
+  "description": "An Hotel Booking application specifically for Hotels with partnership with Us",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,7 @@
     "url": "https://github.com/polanty/PolantyHotels/issues"
   },
   "homepage": "https://github.com/polanty/PolantyHotels#readme",
+  "type": "module",
   "dependencies": {
     "dotenv": "^17.2.3",
     "mongodb": "^6.21.0"

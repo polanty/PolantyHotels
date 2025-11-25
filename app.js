@@ -1,6 +1,12 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://tijaniabiola1599_db_user:Sf7EVUkyFdXpuy0L@hotelsapplication.gxtcgvv.mongodb.net/?appName=HotelsApplication";
+import { MongoClient, ServerApiVersion } from "mongodb";
+
+//loading environment variables
+import dotenv from "dotenv";
+dotenv.config();
+
+// console.log(process.argv[1]);
+
+const uri = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_PASS}@hotelsapplication.gxtcgvv.mongodb.net/?appName=HotelsApplication`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
