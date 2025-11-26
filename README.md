@@ -1,17 +1,14 @@
 # PolantyHotels
 
-* <img width="396" height="570" alt="Class Diagram Core Models" src="https://github.com/user-attachments/assets/e4e1c2e8-b71e-4a93-879b-e82dbec4f862" />
+- <img width="396" height="570" alt="Class Diagram Core Models" src="https://github.com/user-attachments/assets/e4e1c2e8-b71e-4a93-879b-e82dbec4f862" />
 
-* <img width="1341" height="647" alt="Sequence Diagram — Booking Flow (Guest → Confirmed)" src="https://github.com/user-attachments/assets/abaff4cd-6ea1-4e32-9aec-a4be31d579ff" />
+- <img width="1341" height="647" alt="Sequence Diagram — Booking Flow (Guest → Confirmed)" src="https://github.com/user-attachments/assets/abaff4cd-6ea1-4e32-9aec-a4be31d579ff" />
 
-* <img width="731" height="514" alt="Component Diagram (High-level)" src="https://github.com/user-attachments/assets/239a9e98-07a0-4487-a231-3bc60b641170" />
-
-
+- <img width="731" height="514" alt="Component Diagram (High-level)" src="https://github.com/user-attachments/assets/239a9e98-07a0-4487-a231-3bc60b641170" />
 
 # product owner
 
-
-So my aim is to create an application for the Hotel brands i have partnered with, because I have partnered with these hotels I get a 1% stipend on any bookings from my website. 
+So my aim is to create an application for the Hotel brands i have partnered with, because I have partnered with these hotels I get a 1% stipend on any bookings from my website.
 These hotels in question are multinational hotels, that is they have multiple branches across multiple countries in Europe and americas.
 Being a company registered on my own, I want to have staff members who are able to take up roles as admins on this application, they will manage other staff members who will be working primarily as support staffs or Customer service reps incase a user has a query or cancellation request, the admin will probably be able to manage internal activities from a different platform but should be able to view analytics from my application with regards to bookings made (location, Hotel brands, prices, room types) , my admin will only be able to access these properties from the region they are registered in.
 I also want to secure a domain in the future for this application , If there is a possibility to login to this application directly from AD kindly lay out the steps.
@@ -19,11 +16,11 @@ My tech stack will be the MERN stack and I plan on hosting this application on a
 As the admin I should be able to Manage Hotels (remove authorised hotels, add hotel along with its information( images and reelevant information), Manage reviews (Read, Delete), Manage Users (both admin and Business support ), manage Bookings (view booking information incase its processed but an error occurred from client side).
 
 # User Perspective
-As a user I want to be able to search for available hotels within any region , I want to be able to filter based on roomsize, pricing, location and distance.
-I should be able to perform all of these as a guest user , however I can only book these hotels only when I signUp to the platform, 
-I can Login, Delete my account , Update my Information (password, profile picture, Name, email), I should be able to view details of each hotel,  my bookings, my reviews, settings etc
-And I should get information about important stuff like email update, password update or changes to my Billing Information.
 
+As a user I want to be able to search for available hotels within any region , I want to be able to filter based on roomsize, pricing, location and distance.
+I should be able to perform all of these as a guest user , however I can only book these hotels only when I signUp to the platform,
+I can Login, Delete my account , Update my Information (password, profile picture, Name, email), I should be able to view details of each hotel, my bookings, my reviews, settings etc
+And I should get notification about important stuff like email update, password update or changes to my Billing Information.
 
 # **Hotel Booking Platform — Full Product Model (Product Owner Perspective)**
 
@@ -33,11 +30,11 @@ To build a scalable hotel search and booking web application that aggregates par
 
 The platform includes:
 
-* A **customer-facing booking interface**
-* An **internal admin console** for managing hotels, staff, bookings, and customer issues
-* **Regional access control**, where admins only manage hotels and activity in their assigned region
-* **Future AD login** option
-* **Secure, cloud-hosted MERN application**
+- A **customer-facing booking interface**
+- An **internal admin console** for managing hotels, staff, bookings, and customer issues
+- **Regional access control**, where admins only manage hotels and activity in their assigned region
+- **Future AD login** option
+- **Secure, cloud-hosted MERN application**
 
 ---
 
@@ -45,11 +42,11 @@ The platform includes:
 
 ### **2.1 Guest User**
 
-* Search hotels
-* Apply filters (room size, pricing, location, distance, rating)
-* View hotel details, images, room types, prices, amenities
-* View reviews
-* Cannot book until registered
+- Search hotels
+- Apply filters (room size, pricing, location, distance, rating)
+- View hotel details, images, room types, prices, amenities
+- View reviews
+- Cannot book until registered
 
 ---
 
@@ -57,27 +54,27 @@ The platform includes:
 
 Everything a guest user can do, plus:
 
-* Book hotels (requires account)
-* Manage account (update name, email, password, profile picture)
-* Delete account
-* View past & upcoming bookings
-* Submit reviews
-* Cancel bookings (depending on partner rules)
-* Receive security notifications:
+- Book hotels (requires account)
+- Manage account (update name, email, password, profile picture)
+- Delete account
+- View past & upcoming bookings
+- Submit reviews
+- Cancel bookings (depending on partner rules)
+- Receive security notifications:
 
-  * Email update
-  * Password update
-  * Billing info change
+  - Email update
+  - Password update
+  - Billing info change
 
 ---
 
 ### **2.3 Support Staff / Customer Service Representative (CSR)**
 
-* View user bookings
-* Handle cancellation requests
-* Respond to customer queries
-* Escalate issues to admin
-* Cannot modify system settings or hotel configurations
+- View user bookings
+- Handle cancellation requests
+- Respond to customer queries
+- Escalate issues to admin
+- Cannot modify system settings or hotel configurations
 
 ---
 
@@ -89,40 +86,41 @@ Admin can:
 
 #### **Hotel Management**
 
-* Add new partnered hotels
-* Edit hotel information
-* Upload/delete images
-* Remove authorized hotels
-* Manage room categories, amenities, availability
+- Add new partnered hotels
+- Edit hotel information
+- Upload/delete images
+- Remove authorized hotels
+- Manage room categories, amenities, availability
 
 #### **Booking Management**
 
-* View all bookings
-* Investigate failed or partial bookings
-* View payment detail summaries
-* Fix booking discrepancies
+- View all bookings
+- Investigate failed or partial bookings
+- View payment detail summaries
+- Fix booking discrepancies
 
 #### **User Management**
 
-* Add/remove admins
-* Add/remove support staff
-* Edit staff roles
+- Add/remove admins
+- Add/remove support staff
+- Edit staff roles
 
 #### **Review Management**
 
-* View reviews
-* Delete inappropriate reviews
+- View reviews
+- Delete inappropriate reviews
 
 #### **Analytics Dashboard**
 
-* See bookings by:
+- See bookings by:
 
-  * Region
-  * Hotel brand
-  * Price range
-  * Room type
-* Revenue reports (1% commission)
-* User activity metrics
+  - Region
+  - Hotel brand
+  - Price range
+  - Room type
+
+- Revenue reports (1% commission)
+- User activity metrics
 
 ---
 
@@ -131,12 +129,12 @@ Admin can:
 Has full global access across all regions.
 Can:
 
-* Manage regions
-* Manage all admins
-* Manage all hotels globally
-* Access global booking analytics
-* Configure system-wide settings
-* Approve hotel partnership onboarding
+- Manage regions
+- Manage all admins
+- Manage all hotels globally
+- Access global booking analytics
+- Configure system-wide settings
+- Approve hotel partnership onboarding
 
 ---
 
@@ -144,10 +142,10 @@ Can:
 
 ## **3.1 Frontend (React)**
 
-* Next.js or React 19 SPA
-* Responsive design
-* Accessibility friendly (WCAG 2.2 AA)
-* React Query or Redux Toolkit for state
+- Next.js or React 19 SPA
+- Responsive design
+- Accessibility friendly (WCAG 2.2 AA)
+- React Query or Redux Toolkit for state
 
 ---
 
@@ -155,15 +153,15 @@ Can:
 
 ### API modules:
 
-* Authentication & Authorization (JWT + optional Azure AD)
-* Hotel Management API
-* Booking Engine API
-* Payment Integration (Stripe recommended)
-* Review System
-* User Profile API
-* Admin & Staff Management
-* Analytics & Reporting
-* Global search and filter queries
+- Authentication & Authorization (JWT + optional Azure AD)
+- Hotel Management API
+- Booking Engine API
+- Payment Integration (Stripe recommended)
+- Review System
+- User Profile API
+- Admin & Staff Management
+- Analytics & Reporting
+- Global search and filter queries
 
 ---
 
@@ -171,17 +169,17 @@ Can:
 
 Collections:
 
-* Users
-* Roles
-* Hotels
-* Rooms
-* Amenities
-* Bookings
-* Reviews
-* Staff
-* Regions
-* Audit Logs
-* Notification Logs
+- Users
+- Roles
+- Hotels
+- Rooms
+- Amenities
+- Bookings
+- Reviews
+- Staff
+- Regions
+- Audit Logs
+- Notification Logs
 
 ---
 
@@ -189,26 +187,26 @@ Collections:
 
 Recommended providers:
 
-* **AWS → Elastic Beanstalk or EKS**
-* **Azure → App Services + CosmosDB/Mongo**
-* **GCP → Cloud Run + Mongo Atlas**
+- **AWS → Elastic Beanstalk or EKS**
+- **Azure → App Services + CosmosDB/Mongo**
+- **GCP → Cloud Run + Mongo Atlas**
 
 Architecture:
 
-* Load balancer
-* Auto-scaling containers
-* CDN (CloudFront/Azure CDN)
-* Object storage for images (AWS S3/Azure Blob)
-* Global caching layer (Redis)
+- Load balancer
+- Auto-scaling containers
+- CDN (CloudFront/Azure CDN)
+- Object storage for images (AWS S3/Azure Blob)
+- Global caching layer (Redis)
 
 ---
 
 # **5. Logging, Monitoring & Analytics**
 
-* CloudWatch or Azure Monitor
-* Aggregated logs for bookings
-* Event-driven triggers for booking failures
-* Audit trail (admin actions)
+- CloudWatch or Azure Monitor
+- Aggregated logs for bookings
+- Event-driven triggers for booking failures
+- Audit trail (admin actions)
 
 ---
 
@@ -221,8 +219,9 @@ Architecture:
 3. Enable **OAuth2 / OpenID Connect**
 4. Install MSAL libraries:
 
-   * msal-browser (React)
-   * msal-node (Backend validation)
+   - msal-browser (React)
+   - msal-node (Backend validation)
+
 5. Create user roles mapping in a "claims" token
 6. Assign staff members to your Azure AD directory
 7. Configure tokens so staff auto-login without password
@@ -275,33 +274,33 @@ AD can be used for **staff/admin login only** or for all users, depending on you
 
 ## **7.5 Staff Management**
 
-* Only super admin can create admin accounts
-* Admin can create support staff
-* Role-based access enforced via middleware
+- Only super admin can create admin accounts
+- Admin can create support staff
+- Role-based access enforced via middleware
 
 ---
 
 # **8. Non-Functional Requirements**
 
-* Must comply with GDPR
-* 99.9% uptime (cloud SLA)
-* Scalable to millions of hotel data points
-* Accessible (WCAG 2.2 AA)
-* Secure API (rate limiting, input sanitization)
-* Multi-region data replication
+- Must comply with GDPR
+- 99.9% uptime (cloud SLA)
+- Scalable to millions of hotel data points
+- Accessible (WCAG 2.2 AA)
+- Secure API (rate limiting, input sanitization)
+- Multi-region data replication
 
 ---
 
 If you want, I can also generate:
-* ✅ ERD (database structure)
-* ✅ UML diagrams
-* ✅ Full API documentation
-* ✅ Full project folder structure (React + Node)
-* ✅ User stories + acceptance criteria
-Just tell me which one you want next.
+
+- ✅ ERD (database structure)
+- ✅ UML diagrams
+- ✅ Full API documentation
+- ✅ Full project folder structure (React + Node)
+- ✅ User stories + acceptance criteria
+  Just tell me which one you want next.
 
 # My question - can i get an ERD , UML Diagrams and User stories and acceptance criteria
-
 
 # Hotel Booking Platform — ERD, UML Diagrams, User Stories & Acceptance Criteria
 
@@ -321,137 +320,136 @@ Below is a concise ERD model. You can paste this into tooling (dbdiagram.io or d
 
 **User**
 
-* user_id (PK)
-* email
-* password_hash
-* name
-* role (guest|user|csr|admin|super_admin)
-* profile_picture_url
-* created_at
+- user_id (PK)
+- email
+- password_hash
+- name
+- role (guest|user|csr|admin|super_admin)
+- profile_picture_url
+- created_at
 
 **Region**
 
-* region_id (PK)
-* name
-* code (e.g., EU, US)
+- region_id (PK)
+- name
+- code (e.g., EU, US)
 
 **Brand**
 
-* brand_id (PK)
-* name
-* slug
-* description
+- brand_id (PK)
+- name
+- slug
+- description
 
 **Hotel**
 
-* hotel_id (PK)
-* brand_id (FK -> Brand.brand_id)
-* region_id (FK -> Region.region_id)
-* name
-* code
-* address_line1
-* city
-* postcode
-* country
-* lat
-* lng
-* timezone
-* amenities (json/array)
+- hotel_id (PK)
+- brand_id (FK -> Brand.brand_id)
+- region_id (FK -> Region.region_id)
+- name
+- code
+- address_line1
+- city
+- postcode
+- country
+- lat
+- lng
+- timezone
+- amenities (json/array)
 
 **Building** (optional)
 
-* building_id (PK)
-* hotel_id (FK -> Hotel.hotel_id)
-* name
-* floors
+- building_id (PK)
+- hotel_id (FK -> Hotel.hotel_id)
+- name
+- floors
 
 **RoomType**
 
-* room_type_id (PK)
-* hotel_id (FK -> Hotel.hotel_id)
-* code
-* name
-* capacity
-* base_price
-* amenities
+- room_type_id (PK)
+- hotel_id (FK -> Hotel.hotel_id)
+- code
+- name
+- capacity
+- base_price
+- amenities
 
 **Room**
 
-* room_id (PK)
-* hotel_id (FK -> Hotel.hotel_id)
-* building_id (FK -> Building.building_id)
-* room_number
-* room_type_id (FK -> RoomType.room_type_id)
-* status (active|out_of_service)
+- room_id (PK)
+- hotel_id (FK -> Hotel.hotel_id)
+- building_id (FK -> Building.building_id)
+- room_number
+- room_type_id (FK -> RoomType.room_type_id)
+- status (active|out_of_service)
 
 **Rate** (inventory & pricing per date)
 
-* rate_id (PK)
-* hotel_id (FK -> Hotel.hotel_id)
-* room_type_id (FK -> RoomType.room_type_id)
-* date
-* price
-* available_count
-* min_stay
+- rate_id (PK)
+- hotel_id (FK -> Hotel.hotel_id)
+- room_type_id (FK -> RoomType.room_type_id)
+- date
+- price
+- available_count
+- min_stay
 
 **Booking**
 
-* booking_id (PK)
-* user_id (FK -> User.user_id)
-* hotel_id (FK -> Hotel.hotel_id)
-* room_type_id (FK -> RoomType.room_type_id)
-* room_id (FK -> Room.room_id) nullable
-* check_in_date
-* check_out_date
-* nights
-* total_price
-* currency
-* status (pending|confirmed|cancelled|checked_in|checked_out)
-* payment_provider_id
-* created_at
+- booking_id (PK)
+- user_id (FK -> User.user_id)
+- hotel_id (FK -> Hotel.hotel_id)
+- room_type_id (FK -> RoomType.room_type_id)
+- room_id (FK -> Room.room_id) nullable
+- check_in_date
+- check_out_date
+- nights
+- total_price
+- currency
+- status (pending|confirmed|cancelled|checked_in|checked_out)
+- payment_provider_id
+- created_at
 
 **Review**
 
-* review_id (PK)
-* user_id (FK -> User.user_id)
-* hotel_id (FK -> Hotel.hotel_id)
-* rating
-* comment
-* created_at
-* moderated (boolean)
+- review_id (PK)
+- user_id (FK -> User.user_id)
+- hotel_id (FK -> Hotel.hotel_id)
+- rating
+- comment
+- created_at
+- moderated (boolean)
 
 **StaffAssignment**
 
-* staff_id (FK -> User.user_id)
-* hotel_id (FK -> Hotel.hotel_id) nullable
-* region_id (FK -> Region.region_id)
-* role (csr|admin)
+- staff_id (FK -> User.user_id)
+- hotel_id (FK -> Hotel.hotel_id) nullable
+- region_id (FK -> Region.region_id)
+- role (csr|admin)
 
 **AuditLog**
 
-* audit_id (PK)
-* actor_user_id
-* action
-* target_type
-* target_id
-* metadata (json)
-* timestamp
+- audit_id (PK)
+- actor_user_id
+- action
+- target_type
+- target_id
+- metadata (json)
+- timestamp
 
 ### Relationships (summary)
 
-* Brand 1..* Hotel
-* Region 1..* Hotel
-* Hotel 1..* RoomType
-* Hotel 1..* Room
-* RoomType 1..* Rate (per date)
-* RoomType 1..* Booking
-* User 1..* Booking
-* Hotel 1..* Review
-* User 1..* Review
-* User (staff) assigned to Region or Hotel via StaffAssignment
+- Brand 1..\* Hotel
+- Region 1..\* Hotel
+- Hotel 1..\* RoomType
+- Hotel 1..\* Room
+- RoomType 1..\* Rate (per date)
+- RoomType 1..\* Booking
+- User 1..\* Booking
+- Hotel 1..\* Review
+- User 1..\* Review
+- User (staff) assigned to Region or Hotel via StaffAssignment
 
 ---
-
 
 ## 3) User Stories & Acceptance Criteria
 
@@ -461,121 +459,121 @@ Below are prioritized user stories grouped by persona. Each story is small and t
 
 **User Story A1 — Search hotels (Guest)**
 
-* *As a* guest user
-* *I want to* search hotels by location and date range
-* *So that* I can view available hotel branches and their prices
+- _As a_ guest user
+- _I want to_ search hotels by location and date range
+- _So that_ I can view available hotel branches and their prices
 
 Acceptance Criteria:
 
-* Search endpoint returns hotels within the selected area and date range.
-* Response includes hotel name, brand, city, price range, rating, and available room types.
-* Search supports filters for room size, price min/max, distance (km), and brand.
-* Results are paginated and respond within 1 second under normal load.
+- Search endpoint returns hotels within the selected area and date range.
+- Response includes hotel name, brand, city, price range, rating, and available room types.
+- Search supports filters for room size, price min/max, distance (km), and brand.
+- Results are paginated and respond within 1 second under normal load.
 
 **User Story A2 — Book a room (Registered User)**
 
-* *As a* registered user
-* *I want to* book a specific room type for chosen dates
-* *So that* I can reserve the room and receive confirmation
+- _As a_ registered user
+- _I want to_ book a specific room type for chosen dates
+- _So that_ I can reserve the room and receive confirmation
 
 Acceptance Criteria:
 
-* Booking flow checks availability atomically before creating a pending booking.
-* Payment intent is created and client receives a client secret.
-* Upon successful payment, booking status becomes `confirmed` and rates inventory decremented.
-* Confirmation email sent to user with booking details and commission logged.
+- Booking flow checks availability atomically before creating a pending booking.
+- Payment intent is created and client receives a client secret.
+- Upon successful payment, booking status becomes `confirmed` and rates inventory decremented.
+- Confirmation email sent to user with booking details and commission logged.
 
 ### EPIC B — User Account
 
 **User Story B1 — Sign up & login**
 
-* *As a* guest
-* *I want to* create an account and log in
-* *So that* I can book rooms
+- _As a_ guest
+- _I want to_ create an account and log in
+- _So that_ I can book rooms
 
 Acceptance Criteria:
 
-* User can sign up with email and password, receiving verification email.
-* Login returns a JWT session token valid for configured time.
-* Users can reset password via email link.
+- User can sign up with email and password, receiving verification email.
+- Login returns a JWT session token valid for configured time.
+- Users can reset password via email link.
 
 **User Story B2 — Manage profile**
 
-* *As a* registered user
-* *I want to* update name, email, password, and profile picture
-* *So that* my account information is accurate
+- _As a_ registered user
+- _I want to_ update name, email, password, and profile picture
+- _So that_ my account information is accurate
 
 Acceptance Criteria:
 
-* Changes persist to DB and trigger verification for email changes.
-* Profile picture accepts images under 5MB and returns CDN URL.
-* Notifications sent on email/password change.
+- Changes persist to DB and trigger verification for email changes.
+- Profile picture accepts images under 5MB and returns CDN URL.
+- Notifications sent on email/password change.
 
 ### EPIC C — Admin & Staff
 
 **User Story C1 — Admin region limitation**
 
-* *As an* admin
-* *I want to* only view/manage hotels in my assigned region
-* *So that* I cannot modify hotels outside my responsibility
+- _As an_ admin
+- _I want to_ only view/manage hotels in my assigned region
+- _So that_ I cannot modify hotels outside my responsibility
 
 Acceptance Criteria:
 
-* Admin's JWT contains `region_id` claim.
-* All admin APIs filter results by `region_id` for non-super-admin accounts.
-* Attempts to access out-of-region resources return 403.
+- Admin's JWT contains `region_id` claim.
+- All admin APIs filter results by `region_id` for non-super-admin accounts.
+- Attempts to access out-of-region resources return 403.
 
 **User Story C2 — Hotel CRUD (Admin)**
 
-* *As an* admin
-* *I want to* create, update, and remove hotels in my region
-* *So that* the platform reflects partnership changes
+- _As an_ admin
+- _I want to_ create, update, and remove hotels in my region
+- _So that_ the platform reflects partnership changes
 
 Acceptance Criteria:
 
-* Create returns new hotel_id and validates required fields.
-* Update applies changes and writes audit log with actor & timestamp.
-* Delete flags hotel as inactive (soft delete) and prevents new bookings.
+- Create returns new hotel_id and validates required fields.
+- Update applies changes and writes audit log with actor & timestamp.
+- Delete flags hotel as inactive (soft delete) and prevents new bookings.
 
 **User Story C3 — Review moderation**
 
-* *As an* admin
-* *I want to* view and delete inappropriate reviews
-* *So that* content remains appropriate
+- _As an_ admin
+- _I want to_ view and delete inappropriate reviews
+- _So that_ content remains appropriate
 
 Acceptance Criteria:
 
-* Reviews list shows flagged and recent reviews.
-* Delete sets `moderated=true` and removes review from public queries.
-* Action recorded in AuditLog.
+- Reviews list shows flagged and recent reviews.
+- Delete sets `moderated=true` and removes review from public queries.
+- Action recorded in AuditLog.
 
 ### EPIC D — Support Staff
 
 **User Story D1 — CSR handle cancellation**
 
-* *As a* CSR
-* *I want to* view user booking and process cancellation requests
-* *So that* I can help users who face issues
+- _As a_ CSR
+- _I want to_ view user booking and process cancellation requests
+- _So that_ I can help users who face issues
 
 Acceptance Criteria:
 
-* CSR can search bookings by booking number or email.
-* CSR can trigger cancellation flow; system follows hotel-specific cancellation rules.
-* Cancellation updates inventory and issues refunds via PaymentService when required.
+- CSR can search bookings by booking number or email.
+- CSR can trigger cancellation flow; system follows hotel-specific cancellation rules.
+- Cancellation updates inventory and issues refunds via PaymentService when required.
 
 ### EPIC E — Analytics & Reporting
 
 **User Story E1 — Admin analytics**
 
-* *As an* admin
-* *I want to* view booking analytics filtered by brand, region, room type, and date range
-* *So that* I can monitor performance and revenue (including commission)
+- _As an_ admin
+- _I want to_ view booking analytics filtered by brand, region, room type, and date range
+- _So that_ I can monitor performance and revenue (including commission)
 
 Acceptance Criteria:
 
-* Dashboard shows total bookings, revenue, occupancy %, and commission (1%).
-* Filters update charts and tables live.
-* Exports available as CSV for the date range.
+- Dashboard shows total bookings, revenue, occupancy %, and commission (1%).
+- Filters update charts and tables live.
+- Exports available as CSV for the date range.
 
 ---
 
@@ -583,9 +581,9 @@ Acceptance Criteria:
 
 If you want, I can now produce directly:
 
-* A draw.io (XML) export of the ERD ready to import
-* Mongoose model files for each schema
-* Express route skeletons and example request/response JSON
-* PlantUML images exported as PNG/SVG
+- A draw.io (XML) export of the ERD ready to import
+- Mongoose model files for each schema
+- Express route skeletons and example request/response JSON
+- PlantUML images exported as PNG/SVG
 
 Tell me which artifact you want next and I will generate it.
