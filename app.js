@@ -1,6 +1,4 @@
-// import { MongoClient, ServerApiVersion } from "mongodb";
 import express from "express";
-// import mongoose from "mongoose";
 
 //loading environment variables
 import dotenv from "dotenv";
@@ -9,39 +7,34 @@ dotenv.config();
 // console.log(process.env);
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Welcome to Polanty Hotels Application!");
-});
-
-// const uri = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_PASS}@hotelsapplication.gxtcgvv.mongodb.net/?appName=HotelsApplication`;
-
-// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   },
+// app.use((req, res, next) => {
+//   console.log(req.headers.cookie);
+//   next();
 // });
 
-// async function run() {
-//   try {
-//     // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
-//     // Send a ping to confirm a successful connection
-//     await client.db("admin").command({ ping: 1 });
-//     console.log(
-//       "Pinged your deployment. You successfully connected to MongoDB!"
-//     );
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.get("/api/v1/hotels", async (req, res) => {
+  try {
+    res.status(200).json({
+      status: "success",
+      data: {
+        hotels: ["Hotel One", "Hotel Two", "Hotel Three"],
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching hotels.",
+    });
+  }
 });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+export default app;
