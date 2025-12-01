@@ -1,0 +1,192 @@
+[
+  {
+    "id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "brand_id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Presidential Suite",
+    "description": "Ultimate luxury with panoramic views",
+    "max_occupancy": 4,
+    "bed_configuration": "1 King + 2 Single",
+    "size_sqm": 85.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "brand_id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Executive Suite",
+    "description": "Spacious suite with separate living area",
+    "max_occupancy": 3,
+    "bed_configuration": "1 King",
+    "size_sqm": 65.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "brand_id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Deluxe Room",
+    "description": "Premium room with luxury amenities",
+    "max_occupancy": 2,
+    "bed_configuration": "1 King",
+    "size_sqm": 45.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "brand_id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Superior Room",
+    "description": "Comfortable room with enhanced features",
+    "max_occupancy": 2,
+    "bed_configuration": "1 Queen",
+    "size_sqm": 35.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "brand_id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Standard Room",
+    "description": "Cozy and comfortable accommodation",
+    "max_occupancy": 2,
+    "bed_configuration": "2 Single",
+    "size_sqm": 28.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "brand_id": "c739695f-cde1-4a1a-94ab-02fd5d15f75d",
+    "name": "Family Room",
+    "description": "Ideal for families with children",
+    "max_occupancy": 4,
+    "bed_configuration": "1 Double + 2 Single",
+    "size_sqm": 38.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "brand_id": "c739695f-cde1-4a1a-94ab-02fd5d15f75d",
+    "name": "Double Room",
+    "description": "Comfortable double accommodation",
+    "max_occupancy": 2,
+    "bed_configuration": "1 Double",
+    "size_sqm": 25.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "brand_id": "c739695f-cde1-4a1a-94ab-02fd5d15f75d",
+    "name": "Twin Room",
+    "description": "Two comfortable single beds",
+    "max_occupancy": 2,
+    "bed_configuration": "2 Single",
+    "size_sqm": 25.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "brand_id": "4946c788-159e-4247-8542-911d354946be",
+    "name": "Junior Suite",
+    "description": "Stylish suite with modern amenities",
+    "max_occupancy": 3,
+    "bed_configuration": "1 King",
+    "size_sqm": 55.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "brand_id": "4946c788-159e-4247-8542-911d354946be",
+    "name": "Deluxe Room",
+    "description": "Spacious room with premium comfort",
+    "max_occupancy": 2,
+    "bed_configuration": "1 King",
+    "size_sqm": 40.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "brand_id": "4946c788-159e-4247-8542-911d354946be",
+    "name": "Standard Room",
+    "description": "Comfortable and well-appointed",
+    "max_occupancy": 2,
+    "bed_configuration": "1 Queen",
+    "size_sqm": 30.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "brand_id": "4946c788-159e-4247-8542-911d354946be",
+    "name": "Twin Room",
+    "description": "Perfect for friends or colleagues",
+    "max_occupancy": 2,
+    "bed_configuration": "2 Single",
+    "size_sqm": 30.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "brand_id": "e0d4a0d4-8421-4e5a-a16f-eeea23a72a4a",
+    "name": "Family Room",
+    "description": "Ideal for families with children",
+    "max_occupancy": 4,
+    "bed_configuration": "1 Double + 2 Single",
+    "size_sqm": 38.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "brand_id": "e0d4a0d4-8421-4e5a-a16f-eeea23a72a4a",
+    "name": "Double Room",
+    "description": "Comfortable double accommodation",
+    "max_occupancy": 2,
+    "bed_configuration": "1 Double",
+    "size_sqm": 25.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "brand_id": "e0d4a0d4-8421-4e5a-a16f-eeea23a72a4a",
+    "name": "Twin Room",
+    "description": "Two comfortable single beds",
+    "max_occupancy": 2,
+    "bed_configuration": "2 Single",
+    "size_sqm": 25.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "brand_id": "2e1a92f2-8486-4451-a85d-25a44d7ed8cd",
+    "name": "Junior Suite",
+    "description": "Stylish suite with modern amenities",
+    "max_occupancy": 3,
+    "bed_configuration": "1 King",
+    "size_sqm": 55.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "brand_id": "2e1a92f2-8486-4451-a85d-25a44d7ed8cd",
+    "name": "Deluxe Room",
+    "description": "Spacious room with premium comfort",
+    "max_occupancy": 2,
+    "bed_configuration": "1 King",
+    "size_sqm": 40.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "brand_id": "2e1a92f2-8486-4451-a85d-25a44d7ed8cd",
+    "name": "Standard Room",
+    "description": "Comfortable and well-appointed",
+    "max_occupancy": 2,
+    "bed_configuration": "1 Queen",
+    "size_sqm": 30.0,
+    "created_at": "2020-03-01 10:00:00"
+  },
+  {
+    "id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "brand_id": "2e1a92f2-8486-4451-a85d-25a44d7ed8cd",
+    "name": "Twin Room",
+    "description": "Perfect for friends or colleagues",
+    "max_occupancy": 2,
+    "bed_configuration": "2 Single",
+    "size_sqm": 30.0,
+    "created_at": "2020-03-01 10:00:00"
+  }
+]

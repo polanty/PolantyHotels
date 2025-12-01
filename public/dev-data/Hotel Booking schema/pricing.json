@@ -1,0 +1,135 @@
+[
+  {
+    "id": "9bd9aae6-3757-4151-bba4-f8b783d0b98b",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "base_price_per_night": 450.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "caafb890-c471-4d23-a09a-50b285bf78e4",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "base_price_per_night": 320.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "07741396-ba7f-4a40-b932-0992f6be3e00",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "base_price_per_night": 220.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "92f734e2-1480-4e1d-a935-63744c811774",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "base_price_per_night": 180.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "71f7f61f-7626-472b-b70e-42fe9011fc29",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "base_price_per_night": 150.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "06a34b48-a1d9-479e-ad93-387f902ff2f7",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "base_price_per_night": 90.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "8075f107-91a4-4bd9-86a6-19f3f87fbfad",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "base_price_per_night": 65.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "1a88d18f-6a17-45a9-b91c-49d23a8a6b30",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "base_price_per_night": 65.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "31806db2-3d63-4477-a688-5573e0c5069b",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "base_price_per_night": 180.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "5008a318-d049-4838-bc7e-3f875b51e315",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "base_price_per_night": 140.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "502e89f5-042c-4c3f-a6a6-61ec3f95aea5",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "base_price_per_night": 100.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "4f27abf0-96cd-40ec-92c6-f6defdd90d68",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "base_price_per_night": 100.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "0d64ce8e-e271-4332-a655-4cf8bae70aee",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "base_price_per_night": 90.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "b1a406a2-5888-4368-b79e-ddee783feef0",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "base_price_per_night": 65.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "b6974c4d-76f4-4c20-9328-d7e8d4d38585",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "base_price_per_night": 65.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "51e4d73b-c69d-4e58-b7ce-d940a18e00cd",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "base_price_per_night": 180.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "1a6c7a1e-9ed8-46af-b91c-116846236e1b",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "base_price_per_night": 140.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "79453738-774f-41c7-99f6-1ab782ba8942",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "base_price_per_night": 100.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  },
+  {
+    "id": "3603388c-f855-43dd-ae88-ceb4de693a5f",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "base_price_per_night": 100.0,
+    "currency": "EUR",
+    "created_at": "2020-05-01 09:00:00"
+  }
+]

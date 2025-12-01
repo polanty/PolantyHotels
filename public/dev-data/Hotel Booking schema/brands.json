@@ -1,0 +1,42 @@
+[
+  {
+    "id": "a14c9ad1-3534-4c8a-9c08-ae399cfa0544",
+    "name": "Europa Grand Hotels",
+    "description": "Luxury accommodations with world-class amenities",
+    "star_rating": 5,
+    "total_rooms_per_location": 60,
+    "created_at": "2020-01-15 10:00:00"
+  },
+  {
+    "id": "c739695f-cde1-4a1a-94ab-02fd5d15f75d",
+    "name": "Comfort Stay",
+    "description": "Affordable comfort for the modern traveler",
+    "star_rating": 3,
+    "total_rooms_per_location": 45,
+    "created_at": "2020-01-15 10:00:00"
+  },
+  {
+    "id": "4946c788-159e-4247-8542-911d354946be",
+    "name": "Royal Suites International",
+    "description": "Premium business and leisure hotels",
+    "star_rating": 4,
+    "total_rooms_per_location": 55,
+    "created_at": "2020-01-15 10:00:00"
+  },
+  {
+    "id": "e0d4a0d4-8421-4e5a-a16f-eeea23a72a4a",
+    "name": "City Express Hotels",
+    "description": "Convenient city-center locations for busy travelers",
+    "star_rating": 3,
+    "total_rooms_per_location": 40,
+    "created_at": "2020-01-15 10:00:00"
+  },
+  {
+    "id": "2e1a92f2-8486-4451-a85d-25a44d7ed8cd",
+    "name": "Heritage Collection",
+    "description": "Boutique hotels in historic buildings",
+    "star_rating": 4,
+    "total_rooms_per_location": 50,
+    "created_at": "2020-01-15 10:00:00"
+  }
+]

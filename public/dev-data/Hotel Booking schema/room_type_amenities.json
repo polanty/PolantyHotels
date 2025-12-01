@@ -1,0 +1,818 @@
+[
+  {
+    "id": "abdf84ff-7573-42fb-a21b-88bc90d4409f",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "2053d357-4c46-4bf3-a945-dece30b5b000",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "0636a3de-c999-4f69-99dd-96cebe37fd36",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "acf7b30a-e639-4de6-a906-3193b5c61463",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "7a5f95da-e786-484a-be92-bbe7922ec612",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d6d97526-62ca-4237-a6d1-d055a7ad12d5",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b57854f9-4590-4e50-884a-fb6aea9b4822",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "7fd099d5-7503-4253-b370-833574b2a28e",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "a6363c30-fcc6-4024-b015-c6c3208ce166",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d4f148ce-2311-4061-a43b-7738a325d256",
+    "room_type_id": "7d5969ff-7388-4b2e-8f1f-dd00e6aff840",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cc882aa2-f25f-41e2-89eb-a5987f8f414a",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5ecef52f-c179-4eea-b0c3-55268ab5a90b",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b9bbd6d3-27e9-4adf-8a36-4a96563ea089",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "f061cbb4-90a7-4b84-ac09-6cf9bc33cb2e",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4c3c98f1-c962-436a-8d4c-3cc733c2b4c7",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "233fe3d6-fda8-4db8-b3a8-9449576c1b72",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "183cdb90-b24e-4d15-bf8e-91aebf61d99c",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "0366eafb-55e9-45a3-bdd4-ebf06e27d6bd",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "545b99ca-a8f7-41f3-96a6-ca7d29d61345",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b5a85c02-9aba-4f3a-ad1c-562c3ee095c2",
+    "room_type_id": "f767c34f-4023-44ea-a3fa-2b1dd5b83d1a",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "127cb027-0c50-4a9a-bed7-c124f1cbb048",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "fe7e820a-aeb5-4948-a869-f939574c4ff8",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5e04fe78-c532-4575-a400-f29b33b92900",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "fc05a93c-a9c3-42d0-9bbe-48a4fc6f02f4",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "f4494a11-0196-45c6-a17f-09962b9e513a",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d1993211-c485-42e7-a055-8fdf9442b26b",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ba90c4ec-bacd-49dd-9d2d-d9f8a2788eb9",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "91267b70-f0f6-422d-a93c-05cc92a13fa8",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5bd459cc-0785-4e80-83f2-a51dcb9eb969",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "bd13658e-6c1f-49b6-9e95-e79d5c329a6a",
+    "room_type_id": "82ef4e2d-a39e-4ee7-88b0-aa7f3741c755",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "70b1a507-bd29-4a7d-a97d-5f18690b406b",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "6f94bebb-31dc-4dee-95c2-8a634ac7ccb3",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "2e8e05db-2e82-4745-b484-095e8d197eeb",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "52647494-2e57-4779-8af0-37f7f486b778",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "8e20881b-27d9-433c-99fa-1ea3c7585f4b",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3a98ed38-72a4-4e30-b293-8329f6bcc384",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3221c13e-74bf-45b3-ad66-41ef712ff88b",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "31442a30-f94d-4f7b-95dc-3734b907be92",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3688416c-052a-4153-bf7f-06e03ee1dffe",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "9315133d-4c1a-4efd-a2c4-50b5e48da651",
+    "room_type_id": "d1368e92-e2e9-43df-87a4-5c6a9f83dd24",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3e0dbfcb-8c85-49b8-9a26-c1f307840f8e",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "df317c83-45fa-4138-bd1c-51b693c330f4",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "499fc5e9-c6f4-4a5f-a528-f45290ade645",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "7e02f1c3-b55b-4c2a-99c2-9340031089b6",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ca0a2aef-fdbd-4bce-ad33-690cfb560cdf",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "699d5b05-08f7-4bdf-97d5-e7ebe619548f",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b3c8f959-5b93-440f-b35e-39ba6e999ae4",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ec6b0e40-125e-4d9e-a101-affabc9f2090",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b8c2c237-fce3-417f-8bca-48ecfb520f34",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "24962f6c-68dd-4018-8d52-7106c324715a",
+    "room_type_id": "ca210482-fe3f-4f67-9f1d-b033f64ed3dd",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "0fe5d1b0-d092-4c0c-a01a-aa4d14403343",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ad8c8516-8de4-4732-92e5-bb91724a2fc3",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "16e23ff1-ea2d-4dba-b553-83db666e773a",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "15435fe1-b738-4c42-bd84-c965b6feaa83",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e3eacde2-ba87-4c88-a791-23a42d98ec17",
+    "room_type_id": "ae9ff053-0b58-43a3-bc59-deab5aaa9896",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "33d54c26-b27a-421e-ad92-12187fd09565",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "550f3dea-816a-4efa-9ae2-170ba6484d23",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "1ec1eb42-3d59-4a8a-9c14-64b761a3ba9d",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "956c61e1-8b5f-4651-8e46-71ebf5a1566d",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "458c87ec-cbb7-40f3-97a8-f67daacb3aa6",
+    "room_type_id": "f7e8790b-187d-49c0-a514-cf640a8fd1ce",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5c351f4e-0a6c-40ab-837e-fc7c622c5315",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4a84df0a-9741-414e-882b-b90dae279ae7",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4096a2ec-afc2-4016-9b8f-79ca7ba79abf",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e845b783-89e0-48d0-8e63-e0b46842c2af",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "6a9bdaa2-9665-424e-abe0-21785329ff06",
+    "room_type_id": "29d19914-9eb2-47c4-8042-ae1853b28b39",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "dfc8653a-8fc9-4873-bdbb-7936a5016442",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4b540114-ee68-4f17-9ccd-5f6418910d02",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "c41c016f-75fb-443c-97df-44cc6aaeef35",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "a6635574-3140-4529-a105-1afbfb4e3ca9",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "1b68a0cc-86a9-45fc-828b-a58990965195",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e12a3a92-e8a6-4f36-9a6a-fb33a87c37b1",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cd01eac9-837d-4729-9ead-50db6122ba53",
+    "room_type_id": "2d67cacb-13d7-4e7c-8589-f82e1fc1ae08",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "a33e96c1-7411-4d21-a186-a01954976708",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d0c8b5c1-702a-4fa2-b19c-1a55f5b0073e",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "605fa5cd-6090-424d-bf30-5be952fb18a6",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b5656355-33d2-495b-a8d1-6bb961bdef51",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d8b4a93e-4e2b-46a7-af6c-0dbd329b8ea2",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "879142d9-5e98-4df5-bf0e-8f67ea187819",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d6dfda23-5985-4fd2-8a3e-75bf6177b84e",
+    "room_type_id": "426b3766-7b2a-4fe8-a8df-dd94b807d68c",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "37b2a585-f32c-4296-8738-db1d315a38ac",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5e836545-0d54-49f3-8653-1ea6e68ae7fb",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "28315b6a-35e5-41e4-a732-d7aa5bdb4fc0",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b602e03a-23d9-4977-a9ab-a613d75d6b73",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "9ecf0624-a13b-4a0e-97a7-7a788d0357f7",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "d7be2b04-9df6-4cca-8ac9-654fe8c3fbea",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "98a2e6f8-0ce7-4b72-a35f-f2a1730a4981",
+    "room_type_id": "59a4db7e-e87c-4fd4-9b51-f477287670d9",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "f1ca563f-a72c-4049-b79a-a0571fd7406d",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b9df3d5b-8026-48ba-961e-aa622a562f7e",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "102b2665-dc13-40df-a418-c93010df0787",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cae59b76-17eb-488d-b10e-2cb3a96ebeea",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ca048e7b-c883-4b63-8824-f9d10366bf80",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "14463e94-d97c-469b-a622-38299dbc9ab2",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "9d3eadc8-dc8b-4b82-9247-1ac5c2940122",
+    "room_type_id": "d772bc98-0a8a-4ef2-bd27-867005eacdfc",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "f7b3e1d3-171d-4771-8c8a-07f418582501",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cc0d7360-3b62-4a27-a0c7-0ea64bd222c4",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "806df39b-7bcc-4f06-9ebb-17e1b580b193",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "823679a0-482b-4815-98ed-c437e8835b34",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "12059386-3f95-471e-a77c-eabd76572e2e",
+    "room_type_id": "bb7860ad-f80b-407e-bb56-92c36ca1d69d",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5d9bc084-785c-457b-87d5-837c31531d5b",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "c8ea3411-bdfe-4ebc-8add-fc03b0738976",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b373c95e-8134-4c58-af9d-b884fe2b1346",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "82477b0b-fae1-4ee7-99b0-1582a1d6353e",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "6a3c4ce4-d8b9-4e16-a549-2fcbfdfb3981",
+    "room_type_id": "e27a2992-6282-4a91-bef6-ca39062e8be4",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b40947fa-56ed-4168-8583-9420ddffc9dd",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "a02e06da-5bab-4ee7-a2eb-3335a4e56e0d",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "06564e04-297b-4cf6-b7ac-b0382017dad0",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3702a28d-de58-4312-9bf6-4006a9de2ed8",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "5528879c-4aeb-4081-a31b-55bed648a0b6",
+    "room_type_id": "ab0b3990-5bfb-4c6a-a136-6503a4dd17bf",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "50a1b800-2bd5-49b5-b248-bce6ccb94dcc",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "312a8e62-bb95-4a3b-b1ef-920114762942",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "f37f8fd7-676b-4ffa-a40c-74488e8d6f3b",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e2d750b7-116e-482e-a5a4-4af9a20c4e31",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cc78e7a0-5e78-4d66-a1d2-321732247573",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "1166ea8a-fce7-44ca-af15-3be0d8f39308",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "612e465a-17ae-49b9-8b84-bf3b788dc223",
+    "room_type_id": "86b46c9e-3818-48a7-abc2-23311eee15a7",
+    "amenity_id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "6c3a18be-fc2b-475c-a8e2-627d7fc9a7bd",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4ab6509b-c7b1-4829-ba38-16d213ef0ce3",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "15f2bc81-6157-4759-9c89-3e6842425783",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4806fe93-0cbd-4cb6-98a0-5643d0579a54",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "981ab221-d2ea-4f3b-93c9-8b1c1607e0e2",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "64f42d50-0733-46b8-a0ad-7027ed0d5d89",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "b91317bc-24ab-4d5b-bdbc-fc8593092c6c",
+    "room_type_id": "e3cbed9a-1f25-4edd-98e3-bba042c3d374",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "46636bc4-65a9-42ad-8683-6eafc4c32234",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "59dee542-8e19-47c1-9874-e3e1cb4b0cd3",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e1b83f77-6298-4f30-bd7b-26c93d4e0f3a",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3357a59b-1500-4d0d-be0b-10463c8a8a65",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "4f1aac1b-b997-4597-a765-be930074ec7a",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "e40b9735-6577-4e57-8f09-2bde172d0695",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cff8d64b-6b82-48a2-a705-3d02bbdb77d2",
+    "room_type_id": "c0b3dba7-9068-42b0-91c5-c28b7479a7ce",
+    "amenity_id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "3c3513b9-85c1-406a-bf2b-1799aff64f14",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "eaff10ff-8432-432d-84c2-237893310be9",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "bb92ec5a-45c3-43f4-9f5a-6128fb0b0783",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "1460afae-a75d-4c8d-b00e-55a3bc65fdcf",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "444fa58d-1634-4a8b-b8ef-4cdc62a3c7a3",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "cf4ef9ef-03cf-4439-aa4f-2edd9c90487f",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "created_at": "2020-04-15 11:00:00"
+  },
+  {
+    "id": "ae68dcb9-e1f3-47a0-8991-f8e68c9133fb",
+    "room_type_id": "23d38576-855d-4b15-88c2-d4747dace1da",
+    "amenity_id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "created_at": "2020-04-15 11:00:00"
+  }
+]

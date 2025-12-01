@@ -1,0 +1,184 @@
+[
+  {
+    "id": "221f02ed-be80-4f78-995c-15e72ad83a42",
+    "name": "WiFi",
+    "category": "connectivity",
+    "description": "High-speed wireless internet",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "f26ed9b9-88cf-47c6-a784-b6d88c09b273",
+    "name": "Air Conditioning",
+    "category": "comfort",
+    "description": "Climate control system",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "b038872b-b42a-4ed1-80fd-c5584afdbd04",
+    "name": "Flat Screen TV",
+    "category": "entertainment",
+    "description": "HD television with cable channels",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "55b16ea9-dc86-4086-8489-250256b3ff0b",
+    "name": "Minibar",
+    "category": "food_beverage",
+    "description": "Stocked minibar with beverages and snacks",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "211eb853-5adb-4329-9a29-ac9052f64daa",
+    "name": "Coffee Maker",
+    "category": "food_beverage",
+    "description": "In-room coffee and tea facilities",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "44dc379e-ede8-4ce2-a465-f927808e8ed9",
+    "name": "Safe",
+    "category": "security",
+    "description": "Electronic in-room safe",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "11146210-cd4f-4385-83ca-0fef0dfd4578",
+    "name": "Hair Dryer",
+    "category": "bathroom",
+    "description": "Professional hair dryer",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "d9b76797-2e18-4ac3-83a7-e6b2ccc82085",
+    "name": "Bathrobes",
+    "category": "bathroom",
+    "description": "Luxury bathrobes and slippers",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "2630246c-2d64-4dcb-a444-9c035d3c87ae",
+    "name": "Work Desk",
+    "category": "business",
+    "description": "Spacious work desk with lamp",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "18e8224a-4c50-4c23-8849-a85863b6d854",
+    "name": "Balcony",
+    "category": "comfort",
+    "description": "Private balcony with seating",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "0c15ad1b-ccc1-4cff-8917-b147dc040a2d",
+    "name": "Smart TV",
+    "category": "entertainment",
+    "description": "Smart TV with streaming services",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "e83c12c1-ff58-4bac-8a27-e4927de5022c",
+    "name": "Espresso Machine",
+    "category": "food_beverage",
+    "description": "Nespresso coffee machine",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "dd2d7886-d486-4ec1-8534-43c0daaf0ad1",
+    "name": "Restaurant",
+    "category": "dining",
+    "description": "On-site restaurant",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "a796335b-19e9-40b9-80e0-5ca3d04d1127",
+    "name": "Bar",
+    "category": "dining",
+    "description": "Hotel bar and lounge",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "a0d51c04-8df6-45ce-b603-6d54121d675e",
+    "name": "Gym",
+    "category": "fitness",
+    "description": "Fitness center with modern equipment",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "8e04ca1f-265a-4479-8c4f-ef22c317a25f",
+    "name": "Swimming Pool",
+    "category": "recreation",
+    "description": "Indoor or outdoor swimming pool",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "fb491b4a-1d28-4760-ac87-4beec4831aed",
+    "name": "Spa",
+    "category": "wellness",
+    "description": "Full-service spa and wellness center",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "8e6a2f0a-553d-48c2-add4-f52afede8a53",
+    "name": "Business Center",
+    "category": "business",
+    "description": "24-hour business center",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "f0f60e90-4820-4e07-bb7b-a2951d02e369",
+    "name": "Meeting Rooms",
+    "category": "business",
+    "description": "Conference and meeting facilities",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "fb86bea2-2ca7-4a79-8de3-dd8ccd52b135",
+    "name": "Parking",
+    "category": "convenience",
+    "description": "On-site parking facilities",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "638c359b-824f-4dfc-bc08-6a4256c76b00",
+    "name": "Room Service",
+    "category": "service",
+    "description": "24-hour room service",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "14a5d65e-adb5-484e-97fe-00db6f89a964",
+    "name": "Concierge",
+    "category": "service",
+    "description": "Concierge service",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "daad8dd2-0a4e-40a5-841b-8e6f7fa17450",
+    "name": "Airport Shuttle",
+    "category": "transport",
+    "description": "Airport shuttle service",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "38e859cf-c03f-45fb-ad66-25f313e4bd99",
+    "name": "Laundry Service",
+    "category": "service",
+    "description": "Laundry and dry cleaning",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "e9ca0bce-642f-479c-b46a-cf9e3e0dc905",
+    "name": "Pet Friendly",
+    "category": "policy",
+    "description": "Pets allowed",
+    "created_at": "2020-04-01 10:00:00"
+  },
+  {
+    "id": "19a0cba4-884d-4dd7-89cc-cbcbf0aa7744",
+    "name": "Sauna",
+    "category": "wellness",
+    "description": "Sauna facilities",
+    "created_at": "2020-04-01 10:00:00"
+  }
+]
