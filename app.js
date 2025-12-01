@@ -1,4 +1,5 @@
 import express from "express";
+import hotelRouter from "./src/Routes/HotelsRoutes/HotelRoute.js";
 
 //loading environment variables
 import dotenv from "dotenv";
@@ -16,25 +17,11 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.get("/api/v1/hotels", async (req, res) => {
-  try {
-    res.status(200).json({
-      status: "success",
-      data: {
-        hotels: ["Hotel One", "Hotel Two", "Hotel Three"],
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while fetching hotels.",
-    });
-  }
-});
+app.use("/api/v1/hotels", hotelRouter);
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send("Something broke!");
+// });
 
 export default app;
