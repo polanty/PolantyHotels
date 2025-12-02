@@ -1,5 +1,6 @@
 import express from "express";
 import Brands from "../../Models/BrandsModel.js";
+import { getAllBrands } from "../../Controller/HotelController/HotelController.js";
 
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
@@ -16,25 +17,7 @@ const hotelRouter = express.Router();
 
 hotelRouter
   .route("/")
-  .get(async (req, res) => {
-    try {
-      const brands = await Brands.find();
-
-      //start working on the filtering, sorting, field limiting, and pagination
-
-      res.status(200).json({
-        status: "success",
-        data: {
-          brands,
-        },
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "An error occurred while fetching hotels.",
-      });
-    }
-  })
+  .get(getAllBrands)
   .post(async (req, res) => {
     try {
       const newHotel = await Brands.create(req.body);
