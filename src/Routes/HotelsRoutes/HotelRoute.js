@@ -1,4 +1,6 @@
 import express from "express";
+import Brands from "../../Models/BrandsModel.js";
+
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
 
@@ -16,11 +18,14 @@ hotelRouter
   .route("/")
   .get(async (req, res) => {
     try {
-      // throw new Error("Database connection failed"); //
+      const brands = await Brands.find();
+
+      //start working on the filtering, sorting, field limiting, and pagination
+
       res.status(200).json({
         status: "success",
         data: {
-          hotels: ["Hotel One", "Hotel Two", "Hotel Three"],
+          brands,
         },
       });
     } catch (error) {
@@ -32,7 +37,8 @@ hotelRouter
   })
   .post(async (req, res) => {
     try {
-      const newHotel = req.body;
+      const newHotel = await Brands.create(req.body);
+
       res.status(201).json({
         status: "success",
         data: {
@@ -42,7 +48,7 @@ hotelRouter
     } catch (error) {
       res.status(500).json({
         status: "error",
-        message: "An error occurred while creating the hotel.",
+        message: error.message,
       });
     }
   });
@@ -51,22 +57,28 @@ hotelRouter
   .route("/:id")
   .get(async (req, res) => {
     const hotelId = req.params.id;
-    console.log("Fetching details for hotel ID:", req.params);
+
     try {
+      const hotel = await Brands.findById(hotelId);
+
+      if (!hotel) {
+        throw new Error("Hotel not found");
+      }
+
       res.status(200).json({
         status: "success",
         data: {
-          hotel: `Details of Hotel with ID: ${hotelId}`,
+          hotel,
         },
       });
     } catch (error) {
       res.status(500).json({
         status: "error",
-        message: "An error occurred while fetching the hotel details.",
+        message: error.message,
       });
     }
   })
-  .post(async (req, res) => {
+  .patch(async (req, res) => {
     try {
       const newHotel = req.body;
 
