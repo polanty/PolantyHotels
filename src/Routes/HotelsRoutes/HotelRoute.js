@@ -1,6 +1,11 @@
 import express from "express";
 import Brands from "../../Models/BrandsModel.js";
-import { getAllBrands } from "../../Controller/HotelController/HotelController.js";
+import {
+  getAllBrands,
+  createBrand,
+  getOneBrand,
+  updateBrand,
+} from "../../Controller/HotelController/HotelController.js";
 
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
@@ -15,69 +20,12 @@ const hotelRouter = express.Router();
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 
-hotelRouter
-  .route("/")
-  .get(getAllBrands)
-  .post(async (req, res) => {
-    try {
-      const newHotel = await Brands.create(req.body);
-
-      res.status(201).json({
-        status: "success",
-        data: {
-          hotel: newHotel,
-        },
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: error.message,
-      });
-    }
-  });
+hotelRouter.route("/").get(getAllBrands).post(createBrand);
 
 hotelRouter
   .route("/:id")
-  .get(async (req, res) => {
-    const hotelId = req.params.id;
-
-    try {
-      const hotel = await Brands.findById(hotelId);
-
-      if (!hotel) {
-        throw new Error("Hotel not found");
-      }
-
-      res.status(200).json({
-        status: "success",
-        data: {
-          hotel,
-        },
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: error.message,
-      });
-    }
-  })
-  .patch(async (req, res) => {
-    try {
-      const newHotel = req.body;
-
-      res.status(201).json({
-        status: "success",
-        data: {
-          hotel: newHotel,
-        },
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "An error occurred while creating the hotel.",
-      });
-    }
-  })
+  .get(getOneBrand)
+  .patch(updateBrand)
   .delete(async (req, res) => {
     const hotelId = req.params.id;
     try {

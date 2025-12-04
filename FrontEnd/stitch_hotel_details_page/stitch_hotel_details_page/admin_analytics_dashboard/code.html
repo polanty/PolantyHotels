@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#1d2939] dark:text-[#f0f3f6]">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col border-r border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-4">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white leading-tight tracking-[-0.015em]">Hotel Admin</h2>
+</div>
+<div class="mt-8 flex flex-1 flex-col justify-between">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-primary/10 px-3 py-2 text-primary dark:bg-primary/20" href="#">
+<span class="material-symbols-outlined fill">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-[#9dabb9] dark:hover:bg-[#283039]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Bookings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-[#9dabb9] dark:hover:bg-[#283039]" href="#">
+<span class="material-symbols-outlined">apartment</span>
+<p class="text-sm font-medium leading-normal">Hotels</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-[#9dabb9] dark:hover:bg-[#283039]" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-[#9dabb9] dark:hover:bg-[#283039]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-[#9dabb9] dark:hover:bg-[#283039]" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Log out</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<!-- TopNavBar + Breadcrumbs + PageHeading -->
+<header class="sticky top-0 z-10 border-b border-slate-200 dark:border-[#283039] bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center justify-between whitespace-nowrap px-8 py-4">
+<div class="flex items-center gap-4">
+<div class="flex flex-wrap items-center gap-2">
+<a class="text-base font-medium text-slate-500 dark:text-[#9dabb9]" href="#">Home</a>
+<span class="text-base font-medium text-slate-500 dark:text-[#9dabb9]">/</span>
+<span class="text-base font-medium text-slate-800 dark:text-white">Analytics Dashboard</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-white dark:bg-[#283039] text-slate-600 dark:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="R. Admin avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCztSh5FtYBxLGpJOPy1aTvbT_UFVb7aK7kXaFunN6TDVUWDZYZF-v6ZnWZJSQfNdRIftZp0N3vc9N_EcnMqIaqCCpJMmrT9MooGowVOWxVWIWpf6OlN3LowL2JMS7CWVpwqx5l7QpTITg9uCKTs4MRtOeHWR8EcXnzY_T1Xl5OLpDwFkATdclWUJuGUOPOY6D9KYod7JQqQjFLKXHezQZmgB4zjcH3PSECZQv7jGprWo6QnRb7p8YoipaEbecoFBOfYMcU9JE-bK0");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-medium leading-normal text-slate-900 dark:text-white">R. Admin</h1>
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-[#9dabb9]">Regional Manager</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="p-8">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">Analytics Dashboard</p>
+<p class="text-base font-normal leading-normal text-slate-500 dark:text-[#9dabb9]">View statistics for bookings, revenue, and occupancy.</p>
+</div>
+<button class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-white px-4 text-sm font-bold leading-normal tracking-[0.015em] text-slate-800 dark:bg-[#283039] dark:text-white">
+<span class="material-symbols-outlined text-xl">download</span>
+<span class="truncate">Export</span>
+</button>
+</div>
+<!-- Chips / Filters -->
+<div class="mt-6 flex flex-wrap gap-3 border-b border-slate-200 dark:border-[#283039] pb-6">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white pl-3 pr-3 hover:bg-slate-100 dark:bg-[#283039] dark:hover:bg-[#3e4854]">
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">calendar_today</span>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-white">Last 30 Days</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white pl-3 pr-3 hover:bg-slate-100 dark:bg-[#283039] dark:hover:bg-[#3e4854]">
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">label</span>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-white">Brand</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white pl-3 pr-3 hover:bg-slate-100 dark:bg-[#283039] dark:hover:bg-[#3e4854]">
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">public</span>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-white">Region</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white pl-3 pr-3 hover:bg-slate-100 dark:bg-[#283039] dark:hover:bg-[#3e4854]">
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">bed</span>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-white">Room Type</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">expand_more</span>
+</button>
+</div>
+<!-- KPI Cards -->
+<div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5">
+<p class="text-sm font-medium text-slate-500 dark:text-[#9dabb9]">Total Revenue</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">$1,250,450</p>
+<p class="mt-1 flex items-center gap-1 text-sm text-green-500">
+<span class="material-symbols-outlined">trending_up</span>
+<span>+12.5%</span>
+<span class="text-slate-400 dark:text-[#9dabb9]">vs last month</span>
+</p>
+</div>
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5">
+<p class="text-sm font-medium text-slate-500 dark:text-[#9dabb9]">Total Bookings</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">8,321</p>
+<p class="mt-1 flex items-center gap-1 text-sm text-green-500">
+<span class="material-symbols-outlined">trending_up</span>
+<span>+8.1%</span>
+<span class="text-slate-400 dark:text-[#9dabb9]">vs last month</span>
+</p>
+</div>
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5">
+<p class="text-sm font-medium text-slate-500 dark:text-[#9dabb9]">Avg. Occupancy Rate</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">82.4%</p>
+<p class="mt-1 flex items-center gap-1 text-sm text-red-500">
+<span class="material-symbols-outlined">trending_down</span>
+<span>-1.2%</span>
+<span class="text-slate-400 dark:text-[#9dabb9]">vs last month</span>
+</p>
+</div>
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5">
+<p class="text-sm font-medium text-slate-500 dark:text-[#9dabb9]">Platform Commission</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">$187,567</p>
+<p class="mt-1 flex items-center gap-1 text-sm text-green-500">
+<span class="material-symbols-outlined">trending_up</span>
+<span>+12.5%</span>
+<span class="text-slate-400 dark:text-[#9dabb9]">vs last month</span>
+</p>
+</div>
+</div>
+<!-- Charts -->
+<div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5">
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5 lg:col-span-3">
+<h3 class="font-bold text-slate-900 dark:text-white">Revenue &amp; Bookings Over Time</h3>
+<div class="mt-4 h-72">
+<img class="h-full w-full object-contain" data-alt="A line chart showing revenue and bookings trends over the selected date range. Revenue is depicted by a blue line and bookings by a purple line, both showing an upward trend." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiqitSYv1KF1U1-CmQSc0kXJw4Jz5T7tfLDF8SBhCslQsZXrbiVCKZo085hGOIVEFKvr7DIkrG2_pm9dwu8500kLMl-FOj6NA_wje_1mqG1use8efx8FP-EZuY7i8ROPVok3DV2wzH6GZJGLornWtNbCiYhIOV8jNE_zzu3tlraN4RmXyh_TAzz0h9j4MTyLo2BWsBx9lbGbumN7opDOJavhXY5p_O8zqFFcjyCZPmkSctjv1LiCUQzM-QTNM36gmrJNt1xdKI3mI"/>
+</div>
+</div>
+<div class="rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418] p-5 lg:col-span-2">
+<h3 class="font-bold text-slate-900 dark:text-white">Bookings by Room Type</h3>
+<div class="mt-4 h-72">
+<img class="h-full w-full object-contain" data-alt="A donut chart visualizing the distribution of bookings by room type. Categories include Standard, Deluxe, Suite, and Penthouse, with Standard rooms making up the largest portion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMQzm7W9q_-UiCmM9I0hpoLvtu07QhZ2uo1m2XjTSAMFel3dqw1I1cCrH41t54oFwY-lvy10lq34KqFIf7V4ZnAPE6S8Fn-NLy9UfjmtwW2Tia3cRECKAPuH0tiMEEI3G9vwkZ3Y-hXJgWZxyy6ztQbDdoFG6Gmr-5ZV93MSUEgD0W1v6wAk5NQeodwW-AcRXBiuWwTd346CKZT3JgvmXjJPiyFu1cy9jWVApZxpnCn5zdWBDfjNMHXJwQUKnSzH_MmhJ39e4HsVU"/>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="mt-6 rounded-xl border border-slate-200 dark:border-[#283039] bg-white dark:bg-[#111418]">
+<div class="p-5">
+<h3 class="font-bold text-slate-900 dark:text-white">Detailed Booking Data</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="border-b border-slate-200 bg-slate-50 dark:border-[#283039] dark:bg-[#283039]/50 text-xs uppercase text-slate-500 dark:text-[#9dabb9]">
+<tr>
+<th class="px-6 py-3" scope="col">Hotel Name</th>
+<th class="px-6 py-3" scope="col">Brand</th>
+<th class="px-6 py-3" scope="col">Region</th>
+<th class="px-6 py-3" scope="col">Date</th>
+<th class="px-6 py-3" scope="col">Room Type</th>
+<th class="px-6 py-3 text-right" scope="col">Revenue</th>
+<th class="px-6 py-3 text-right" scope="col">Commission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 dark:border-[#283039]">
+<td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900 dark:text-white">Grand Hyatt Metropolis</td>
+<td class="px-6 py-4">Hyatt</td>
+<td class="px-6 py-4">North America</td>
+<td class="px-6 py-4">2023-10-26</td>
+<td class="px-6 py-4">King Suite</td>
+<td class="px-6 py-4 text-right">$540.00</td>
+<td class="px-6 py-4 text-right">$81.00</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-[#283039]">
+<td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900 dark:text-white">Marriott Downtown</td>
+<td class="px-6 py-4">Marriott</td>
+<td class="px-6 py-4">Europe</td>
+<td class="px-6 py-4">2023-10-25</td>
+<td class="px-6 py-4">Standard Queen</td>
+<td class="px-6 py-4 text-right">$230.00</td>
+<td class="px-6 py-4 text-right">$34.50</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-[#283039]">
+<td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900 dark:text-white">Hilton Garden Inn</td>
+<td class="px-6 py-4">Hilton</td>
+<td class="px-6 py-4">Asia-Pacific</td>
+<td class="px-6 py-4">2023-10-25</td>
+<td class="px-6 py-4">Double Room</td>
+<td class="px-6 py-4 text-right">$180.00</td>
+<td class="px-6 py-4 text-right">$27.00</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-[#283039]">
+<td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900 dark:text-white">InterContinental Paris</td>
+<td class="px-6 py-4">IHG</td>
+<td class="px-6 py-4">Europe</td>
+<td class="px-6 py-4">2023-10-24</td>
+<td class="px-6 py-4">Deluxe King</td>
+<td class="px-6 py-4 text-right">$750.00</td>
+<td class="px-6 py-4 text-right">$112.50</td>
+</tr>
+<tr>
+<td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900 dark:text-white">Four Seasons Resort</td>
+<td class="px-6 py-4">Four Seasons</td>
+<td class="px-6 py-4">North America</td>
+<td class="px-6 py-4">2023-10-23</td>
+<td class="px-6 py-4">Ocean View Villa</td>
+<td class="px-6 py-4 text-right">$1200.00</td>
+<td class="px-6 py-4 text-right">$180.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

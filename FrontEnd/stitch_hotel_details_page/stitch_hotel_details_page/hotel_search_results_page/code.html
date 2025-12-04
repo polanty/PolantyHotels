@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hotel Search Results Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-feature-settings: "liga";
+            -webkit-font-feature-settings: "liga";
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-gray-200 dark:border-white/10 px-6 sm:px-10 py-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined !text-3xl">king_bed</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">StayScout</h2>
+</div>
+</div>
+<div class="hidden md:flex items-center justify-center flex-1 max-w-2xl">
+<label class="flex w-full min-w-40 !h-10 max-w-lg">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-400 dark:text-gray-500 flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pl-3 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="New York, NY | 2 Guests | Oct 26 - Oct 28" value="New York, NY | 2 Guests | Oct 26 - Oct 28"/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-2">
+<div class="hidden lg:flex items-center gap-6 mr-4">
+<a class="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary" href="#">Stays</a>
+<a class="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary" href="#">Flights</a>
+<a class="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary" href="#">Car Rentals</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-white text-sm font-bold leading-normal tracking-wide hover:bg-gray-300 dark:hover:bg-white/20">
+<span class="truncate">Log In</span>
+</button>
+<button class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide hover:opacity-90">
+<span class="truncate">Sign Up</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ml-2 border-2 border-primary/50" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBA7ynmCb7bUpPpEyE0XA8DRLGV4tAObYvOgXrF2zq0WFyqfwpxA46OTyhQF5jDkut7yH5PHXRzh72qnnyVFey_Ls_ar8xeKCj_4VJ9NnXlHTr_GGqESyVoThY-s93jXIs-w347zfxrAQZLuVtKO5zKQNPVhGfNeCYkBM1SPgXtElSTx5aGrBWe3kHAqGbVIqtSmnZMQy2s6bgSfpHw2uGZBFpsfop2Lwh7tMwDB8Db6lRs1uN_R2tQjAjJKUZ04njo2xiGUu0_Srs");'></div>
+</div>
+</header>
+<main class="layout-container flex h-full grow flex-col px-4 sm:px-6 lg:px-10 py-8">
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Left Column: Filters -->
+<aside class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 flex-shrink-0">
+<div class="sticky top-24 space-y-6">
+<!-- Map -->
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-xl object-cover border border-gray-200 dark:border-gray-800" data-alt="Map of New York City showing hotel locations" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDisueaJGCTYnd0SQEF96YUFb6nNZO0YDVGuEEiexlY04ngaa0bTwDOTD_kM6_BiSuqbB4sJoHXQ63CmE2jOhDJE9txhl8PSzEi78LGMLM0kitSDJ0bQAjxu07mMb9wAqJWYtE0Zs3wdQnyrXWEy9BjsOOvl61lhIGua323rnwrfBpwCV1DYS3eoPLQRLdknvGREmZJzg_Gm9Sowc-76lWgiusTWUzigd7FEctr3suYuX2sAz9KSXGrVsM79x0vYNAnpHAK5kapeog");'></div>
+<!-- Filters Panel -->
+<div class="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-tight mb-5">Filter By</h2>
+<!-- Price Range -->
+<div class="space-y-3 pb-5 border-b border-gray-200 dark:border-gray-700">
+<label class="text-gray-800 dark:text-gray-200 font-semibold text-sm" for="price-range">Price Range</label>
+<input class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" id="price-range" max="1000" min="50" type="range" value="350"/>
+<div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+<span>$50</span>
+<span>$1000+</span>
+</div>
+</div>
+<!-- Star Rating -->
+<div class="space-y-3 py-5 border-b border-gray-200 dark:border-gray-700">
+<h3 class="text-gray-800 dark:text-gray-200 font-semibold text-sm">Star Rating</h3>
+<div class="flex justify-between">
+<button class="flex items-center justify-center size-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold hover:bg-primary/20">1</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold hover:bg-primary/20">2</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold hover:bg-primary/20">3</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary font-bold">4</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold hover:bg-primary/20">5</button>
+</div>
+</div>
+<!-- Amenities -->
+<div class="space-y-4 pt-5">
+<h3 class="text-gray-800 dark:text-gray-200 font-semibold text-sm">Amenities</h3>
+<div class="space-y-3 text-sm">
+<label class="flex items-center gap-3"><input checked="" class="form-checkbox rounded bg-gray-200 dark:bg-gray-700 border-transparent focus:ring-primary text-primary" type="checkbox"/> <span class="text-gray-600 dark:text-gray-300">Free Wi-Fi</span></label>
+<label class="flex items-center gap-3"><input class="form-checkbox rounded bg-gray-200 dark:bg-gray-700 border-transparent focus:ring-primary text-primary" type="checkbox"/> <span class="text-gray-600 dark:text-gray-300">Swimming Pool</span></label>
+<label class="flex items-center gap-3"><input checked="" class="form-checkbox rounded bg-gray-200 dark:bg-gray-700 border-transparent focus:ring-primary text-primary" type="checkbox"/> <span class="text-gray-600 dark:text-gray-300">Parking</span></label>
+<label class="flex items-center gap-3"><input class="form-checkbox rounded bg-gray-200 dark:bg-gray-700 border-transparent focus:ring-primary text-primary" type="checkbox"/> <span class="text-gray-600 dark:text-gray-300">Pet Friendly</span></label>
+</div>
+</div>
+<button class="w-full mt-6 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-4 bg-primary text-white text-base font-bold leading-normal tracking-wide hover:opacity-90">
+<span class="truncate">Apply Filters</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Right Column: Results -->
+<div class="w-full md:w-2/3 lg:w-3/4 xl:w-4/5">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 mb-4">
+<a class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary" href="#">Home</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<a class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary" href="#">USA</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<span class="text-gray-800 dark:text-white text-sm font-medium leading-normal">New York</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+<div class="flex flex-col gap-1">
+<p class="text-gray-900 dark:text-white text-3xl font-black leading-tight tracking-tight">New York: 150+ hotels found</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Showing results for 2 guests, from Oct 26 to Oct 28</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-gray-600 dark:text-gray-400">Sort by:</span>
+<select class="form-select rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 text-gray-800 dark:text-gray-200 text-sm focus:border-primary focus:ring-primary/50">
+<option>Popularity</option>
+<option>Price (Low to High)</option>
+<option>Rating (High to Low)</option>
+</select>
+</div>
+</div>
+<!-- Hotel Cards Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Hotel Card 1 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="Exterior view of The Modernist Hotel with a pool" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD0B5aK8pw3KZDx5JFoTF7LJCnMfCc0gvYrZidYYp7JQZTyUFlioLYIKdL7raVdH6elLyT_oTYRqKDWEXL4YJ67IaJF6eeChkjCyokYnuiOs_CVnag3PtjXNbbtIotI6LqMTGSUA26d-X_ZXFjcXzWCqtUQFxL8Y8u6kLYA_PcQ_boV7bPi9mTe2ojq9gKog8EmvitnverchqFMyOhQ78j7gvso3Mhm5rwaF0N4alv-NqEhMHufEWAeCcH9IDOn5JSvFjr3DIMBPE"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-white hover:bg-primary">
+<span class="material-symbols-outlined !text-xl">favorite_border</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">The Modernist Hotel</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">4.7</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Midtown Manhattan, 0.5 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Pool">pool</span>
+<span class="material-symbols-outlined !text-lg" title="Parking">local_parking</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$349 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+<!-- Hotel Card 2 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="View of a luxurious resort pool area at The Urban Oasis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbjA-Cb5gJRq2ASQU2IPSMLNeET2Fxc8hVDH7ZTmg4uYIaXSC8eYfVkxF765sQr3gQaTZtGXPBlr_3gOZJmXi6lU9AwCfXVvLkBOKvU6W6XpgIdfRe17Khr-P0I4Q7wOUWiHTbCCtI1fOLQexNMTwnM3gBdnjZpDu8w0WL2X1AeQeF9a87suNLv0QBidIdAZrFfk2beHQzMS0OU2zCNj_rYvWCzP10_yPx7STYizXtJ1iNlyARgD28TFyoQHZYjOXtJwPri-BD-qA"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-white hover:bg-primary">
+<span class="material-symbols-outlined !text-xl">favorite_border</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">The Urban Oasis</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">4.5</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Brooklyn, 2.1 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Spa">spa</span>
+<span class="material-symbols-outlined !text-lg" title="Restaurant">restaurant</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$280 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+<!-- Hotel Card 3 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="Grand facade of the Grand Central Palace hotel at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrK5VOIkt0P3PyxWdM0mjN7mKEUnXG04_OtJsjkbl8EThwZvvXMJLNtAAWf3MfWDKfHg29gp_fLJV8UVDziUzPejbJywawCzuQcXpBSnou78qB-sl9IFyQzTJzLtG0m3LNmPe9rgpd_rVXXnosqTFLT_1cx-yMA6DabHvz54bvSPJZK3poZ2hoEmFqTxIlx6mNDlMDtWQOakBv3keNhOKMrCHoMZaeXuYYxOmYf1iDEfyh7AcGNV13Xpf9AieHUCbW3oR0shiKdrk"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-primary hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Grand Central Palace</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">4.9</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Near Grand Central, 0.2 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Fitness Center">fitness_center</span>
+<span class="material-symbols-outlined !text-lg" title="Pet Friendly">pets</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$450 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+<!-- Hotel Card 4 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="A modern hotel room with a large bed at Cityscape Inn" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_gZQjJ2WtuzwL7T3lsBmuScca8OQ3sWzEopDWhpsy7KwNd8vVHiaiuRJYKTElxQr8b83TxCPOuLpeUFKNFijIAvpqFjkSDcxQBNExc8a6B86IB46NMTCxRD0e9kT0dN5LI62L_cUGmuzHn8JW_lVchp2K1VQqiAUGeZ9u5TG2S_3s8yLkfcjpZsy7XEsv3Y7jHqMQDUMs9eYZwZT7Nf4jbV1rO_zh0aZJp8PmJVoTRH_uhzNvV4t4-tnuy-YDOwN3xTmy4khAzkI"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-white hover:bg-primary">
+<span class="material-symbols-outlined !text-xl">favorite_border</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Cityscape Inn</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">4.2</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Financial District, 1.5 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Fitness Center">fitness_center</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$210 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+<!-- Hotel Card 5 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="A clean and cozy hotel room at The Budget Stay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDACKzpBnRO0R6xOSmUq7d2zvD0z30LHXwHlHlHUPCq9ER1Wdqby7ixxRxg59r3xP_f6iLkV87eua7iHEY1lFjq0QkgdHftYRMs-6AAtK124tvS57gNOsDvuThOW7lWpwPnZdoAEvDnMer_VhnxPJvNEq-GEjB504ydV94TFe1pBpKJy2X6O4wlKY3tWO_twq2G-og99xwYfzNUkn6hTFDAY2nq_hq9h8a3NSdU0UCrKhiHGh7XxD_oJZrJatrJ38WuQmilpkjT_io"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-white hover:bg-primary">
+<span class="material-symbols-outlined !text-xl">favorite_border</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">The Budget Stay</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">3.8</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Queens, 5.0 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Parking">local_parking</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$159 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+<!-- Hotel Card 6 -->
+<div class="flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="relative">
+<img class="w-full h-48 object-cover" data-alt="A luxurious hotel bedroom with a view of the city at Riverside Luxury Suites" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrCwfB_AgbfJPOiS-G8wgIiYm5rVyhQnF5PuQPhTM1Qm8j6yrdFi3Iy8zXB_TpO0JxQFUbVB5JeDbN2ckQwIrC_kWafLFEdJaXBu3hv5IVsUgvXXZlgaStynwhYCj1CYja-eXwCCHVkpt_j5jssG3xjbaaJhXTSBeOBtVK_P3ojcjdnFu0G3c_3gKaStHBuOuCFQMmf__Xe5VO1ajx_mbrlxyzd1x0s5A-5c66syfvmYMPrIKtvtmV5SLwa5vVrBIkPqUfIMfIyI4"/>
+<button class="absolute top-3 right-3 flex items-center justify-center size-8 rounded-full bg-black/40 text-white hover:bg-primary">
+<span class="material-symbols-outlined !text-xl">favorite_border</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Riverside Luxury Suites</h3>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined !text-xl" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-sm text-gray-800 dark:text-gray-200">4.8</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Upper West Side, 2.8 miles from center</p>
+<div class="flex items-center gap-3 mt-3 text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined !text-lg" title="Free Wi-Fi">wifi</span>
+<span class="material-symbols-outlined !text-lg" title="Spa">spa</span>
+<span class="material-symbols-outlined !text-lg" title="Fitness Center">fitness_center</span>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<p class="text-xl font-black text-gray-900 dark:text-white">$520 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90">View Deal</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-10">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<a class="flex items-center justify-center size-10 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary" href="#">
+<span class="material-symbols-outlined">chevron_left</span>
+</a>
+<a class="flex items-center justify-center size-10 rounded-lg text-sm font-bold bg-primary text-white" href="#">1</a>
+<a class="flex items-center justify-center size-10 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary" href="#">2</a>
+<a class="flex items-center justify-center size-10 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary" href="#">3</a>
+<span class="text-gray-600 dark:text-gray-300">...</span>
+<a class="flex items-center justify-center size-10 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary" href="#">12</a>
+<a class="flex items-center justify-center size-10 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary" href="#">
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

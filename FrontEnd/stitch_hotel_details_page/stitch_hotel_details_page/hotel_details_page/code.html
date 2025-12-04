@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hotel Details Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<main class="layout-content-container flex w-full max-w-6xl flex-col flex-1 px-4 md:px-8">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row flex-wrap justify-between gap-3 p-4 items-start">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Grand Hyatt Palace</p>
+<div class="flex items-center gap-4 text-gray-500 dark:text-[#9dabb9]">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xl text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-base font-normal leading-normal">5-Star Hotel in New York, USA</p>
+</div>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-[#283039] text-gray-800 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="material-symbols-outlined text-lg">bookmark</span>
+<span class="truncate">Save</span>
+</button>
+</div>
+<!-- Image Gallery -->
+<div class="@container mt-4">
+<div class="@[480px]:px-4 @[480px]:py-3">
+<div class="bg-cover bg-center flex flex-col justify-end overflow-hidden @[480px]:rounded-lg min-h-[400px]" data-alt="Luxurious hotel lobby with a grand staircase and modern lighting" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 25%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBoekXd4g8eMN_dKw9ClpABgEHIRMdbXXeZB9yNNW7iO_bCj8622LMdEAGqDzyAozmD9HBBylFEWVVTTiBrCT2pB6qeigRm9yi3C9s3aTOgx575rwAxorvniuSbwGcLB09GE0TVZiPgj1JvfMkDfg4WDG7gmsETI9pjBeFKd2r0cevfGfoDDjSUvqL-6GF_ZiZBTQh83VqUsf68BltbeLnl4N81lpgpciEAwtx9MunlCgGeDrjNDzN9qNDYhv3jRhkTYZGx8E-hXJ0");'>
+<div class="flex justify-center gap-2 p-5">
+<div class="size-2 rounded-full bg-white"></div>
+<div class="size-2 rounded-full bg-white opacity-50"></div>
+<div class="size-2 rounded-full bg-white opacity-50"></div>
+<div class="size-2 rounded-full bg-white opacity-50"></div>
+<div class="size-2 rounded-full bg-white opacity-50"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="flex flex-col lg:flex-row gap-8 mt-6">
+<!-- Left Column -->
+<div class="w-full lg:w-2/3 flex flex-col">
+<!-- Tabs -->
+<div class="pb-3">
+<div class="flex border-b border-gray-200 dark:border-[#3b4754] px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#9dabb9] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Rooms</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#9dabb9] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Reviews</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#9dabb9] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Location</p>
+</a>
+</div>
+</div>
+<!-- Overview Section -->
+<section id="overview">
+<h2 class="text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Overview</h2>
+<p class="text-gray-800 dark:text-gray-300 text-base font-normal leading-relaxed pb-3 pt-1 px-4"> Experience unparalleled luxury and comfort at the Grand Hyatt Palace. Located in the heart of the city, our hotel offers breathtaking views, world-class amenities, and impeccable service. Perfect for both business and leisure travelers, we provide an unforgettable stay with our elegant rooms, gourmet dining options, and a state-of-the-art wellness center. </p>
+<!-- Amenities -->
+<h3 class="text-lg md:text-xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Amenities</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">wifi</span>
+<span class="text-sm">Free Wi-Fi</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">pool</span>
+<span class="text-sm">Pool</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">local_parking</span>
+<span class="text-sm">Parking</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">fitness_center</span>
+<span class="text-sm">Gym</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">restaurant</span>
+<span class="text-sm">Restaurant</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">room_service</span>
+<span class="text-sm">Room Service</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">spa</span>
+<span class="text-sm">Spa</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">pets</span>
+<span class="text-sm">Pet Friendly</span>
+</div>
+</div>
+</section>
+<!-- Room Type Cards Section -->
+<section class="mt-8" id="rooms">
+<h2 class="text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Available Rooms</h2>
+<div class="flex flex-col gap-4 p-4">
+<!-- Room Card 1 -->
+<div class="border border-gray-200 dark:border-[#283039] rounded-xl p-4 flex flex-col md:flex-row gap-4">
+<img class="w-full md:w-1/3 h-48 md:h-auto object-cover rounded-lg" data-alt="A deluxe king room with a large bed and city view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD9oHJtJSIaW6S-om5CyO0ABPHvMYzi22SAmkyYOIc4Xs9iKKNKo165_2uKWFbHWl9Qe1nVQLISXZO_iKreuZ25UjtmCLn2U1sAtJfdOd9AIopSCzlydOjp3v54F98Q300qtg0DN9UyVBUPmBABBvvH5Z0cxW_h7Rn2sdqNbbUg18zlcFKkF4zvLvABkmDrVQYej5JobpfTAYQ71VG3s3V2gvMJ4zwYpoUnSNdsIagtIYTccwbZKVlrMNn0FdS-sFIE4lhp9s5oUQ"/>
+<div class="flex-grow flex flex-col">
+<h4 class="text-lg font-bold">Deluxe King Room</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">1 King Bed • City View • 35m²</p>
+<div class="flex items-center gap-2 mt-4">
+<span class="material-symbols-outlined text-base">group</span>
+<span class="text-sm">2 Guests</span>
+</div>
+<div class="mt-auto pt-4 flex items-end justify-between">
+<div>
+<p class="text-xl font-bold">$250 <span class="text-sm font-normal text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal tracking-[0.015em]">Select Room</button>
+</div>
+</div>
+</div>
+<!-- Room Card 2 -->
+<div class="border border-gray-200 dark:border-[#283039] rounded-xl p-4 flex flex-col md:flex-row gap-4">
+<img class="w-full md:w-1/3 h-48 md:h-auto object-cover rounded-lg" data-alt="A family suite with two double beds and a seating area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDajbgfqIAqtNIR2FXansjhOO1nF7dc6H3jfwi3h_67PoRCpmOJg5qnuvj1SGSVDQA8T5XTjQZEzXfQ5U_rIzuC5TGgLP2N6lRd0s818irCFvuI8iSN6ysemYPAtrgHePX0vjeVle7OF7H_ouC7E6tLG8NNMeL2zIVC0OrTYxeDpbg72bfuHcmOHVYewE1SbOYSnLj0wVI8K50ubupSNmA_GINqNBzU_MeY1BSSFQReq1t1UKOn_p5i4sebGd-Y02J3fvLdNvwwyAo"/>
+<div class="flex-grow flex flex-col">
+<h4 class="text-lg font-bold">Family Suite</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">2 Double Beds • Ocean View • 50m²</p>
+<div class="flex items-center gap-2 mt-4">
+<span class="material-symbols-outlined text-base">group</span>
+<span class="text-sm">4 Guests</span>
+</div>
+<div class="mt-auto pt-4 flex items-end justify-between">
+<div>
+<p class="text-xl font-bold">$420 <span class="text-sm font-normal text-gray-500 dark:text-gray-400">/ night</span></p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal tracking-[0.015em]">Select Room</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Sticky Booking Widget) -->
+<div class="w-full lg:w-1/3 relative">
+<div class="sticky top-8">
+<div class="bg-white dark:bg-[#1C252E] rounded-xl border border-gray-200 dark:border-[#283039] p-6 flex flex-col gap-4 shadow-lg">
+<p class="text-xl font-bold">Starts from <span class="text-primary">$250/night</span></p>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="check-in">Check-in</label>
+<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-[#283039] p-2 text-sm" id="check-in" type="date" value="2023-10-27"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="check-out">Check-out</label>
+<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-[#283039] p-2 text-sm" id="check-out" type="date" value="2023-10-29"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="guests">Guests</label>
+<select class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-[#283039] p-2 text-sm" id="guests">
+<option>2 Adults, 0 Children</option>
+<option>2 Adults, 1 Child</option>
+<option>1 Adult, 0 Children</option>
+</select>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em]"> Book Now </button>
+<p class="text-xs text-center text-gray-500 dark:text-gray-400">You won't be charged yet</p>
+</div>
+<!-- Map -->
+<div class="mt-6 rounded-xl overflow-hidden border border-gray-200 dark:border-[#283039]">
+<img class="w-full h-48 object-cover" data-alt="A map showing the location of the hotel in a city" data-location="New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbOtO9qgO6mTqun5-aH5atKH2PrdnJzJQPjPzraFdxkxmYkKXMIXNTxK2LWWK0ZNNBeYfMYHNtruXVpho5fVp6iOBcz-cM8wwKNy8eTk-q6uDnSLJoc7Q24vUVrcMXwn38vZVqXUo07JmkPleuSfItrm8Y-zpgI9ixBjoKPC7B5j8RUn66PCT_CgmkVZUa_DJqaWj_WkwEf3xF6rvxkYe2KY80dJEom-T1iLz9HMLk4-0Asco_HbiBHBFpTYT1LbvluFSxcp2iE_s"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</body></html>

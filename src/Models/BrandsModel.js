@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const brandSchema = new mongoose.Schema({
   name: {
@@ -20,7 +21,15 @@ const brandSchema = new mongoose.Schema({
   created_at: {
     type: Date,
     default: Date.now,
+    select: false,
   },
+
+  formattedName: String,
+});
+
+brandSchema.pre("save", function (next) {
+  this.formattedName = slugify(this.name, { lower: true });
+  next();
 });
 
 const Brands = mongoose.model("Brands", brandSchema);
