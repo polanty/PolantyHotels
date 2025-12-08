@@ -14,15 +14,15 @@ import {
 import dotenv from "dotenv";
 dotenv.config();
 
-const hotelRouter = express.Router();
+const router = express.Router();
 
 // Recreate __filename and __dirname
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 
-hotelRouter.route("/").get(getAllBrands).post(createBrand);
+router.route("/").get(getAllBrands).post(createBrand);
 
-hotelRouter
+router
   .route("/:id")
   .get(getOneBrand)
   .patch(updateBrand)
@@ -41,4 +41,4 @@ hotelRouter
     }
   });
 
-export default hotelRouter;
+export default router;

@@ -3,17 +3,34 @@ import Brands from "../../Models/BrandsModel.js";
 // get Hotels functionality
 export const getAllBrands = async (req, res) => {
   try {
-    let brands;
+    //BUILD THE QUERY
+    //1A) Filtering to remove special query parameters
+    let queryObj = { ...req.query };
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((el) => delete queryObj[el]);
 
-    brands = await Brands.find();
+    //Advanced Filtering
+    const queryStr = JSON.stringify(queryObj);
+    const modifiedQueryStr = queryStr.replace(
+      /\b(gte|gt|lte|lt)\b/g,
+      (match) => `$${match}`
+    );
+
+    console.log(JSON.parse(modifiedQueryStr));
+
+    const query = Brands.find(JSON.parse(modifiedQueryStr));
 
     //start working on the filtering, sorting, field limiting, and pagination
-    console.log(req.query);
+    if (req.query.sort) {
+      console.log("I can now use sorting");
+    }
+
+    const filteredBrands = await query;
 
     res.status(200).json({
       status: "success",
       data: {
-        brands,
+        filteredBrands,
       },
     });
   } catch (error) {
