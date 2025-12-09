@@ -25,6 +25,11 @@ const brandSchema = new mongoose.Schema({
   },
 
   formattedName: String,
+
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 brandSchema.pre("save", function (next) {

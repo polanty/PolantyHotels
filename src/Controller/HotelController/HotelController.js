@@ -1,4 +1,5 @@
 import Brands from "../../Models/BrandsModel.js";
+import qs from "qs"; // Import the qs library for query string parsing
 
 // get Hotels functionality
 export const getAllBrands = async (req, res) => {
@@ -6,17 +7,19 @@ export const getAllBrands = async (req, res) => {
     //BUILD THE QUERY
     //1A) Filtering to remove special query parameters
     let queryObj = { ...req.query };
+
+    queryObj = qs.parse(queryObj);
+
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    //Advanced Filtering
     const queryStr = JSON.stringify(queryObj);
+
+    //Advanced Filtering
     const modifiedQueryStr = queryStr.replace(
       /\b(gte|gt|lte|lt)\b/g,
       (match) => `$${match}`
     );
-
-    console.log(JSON.parse(modifiedQueryStr));
 
     const query = Brands.find(JSON.parse(modifiedQueryStr));
 
@@ -30,7 +33,7 @@ export const getAllBrands = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        filteredBrands,
+        data: { filteredBrands },
       },
     });
   } catch (error) {

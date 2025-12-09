@@ -28,6 +28,8 @@ router
   .patch(updateBrand)
   .delete(async (req, res) => {
     const hotelId = req.params.id;
+
+    //So the assumption is simple , we should set every hotel as inactive and this includes all subsidiary hotels
     try {
       res.status(204).json({
         status: "success",
