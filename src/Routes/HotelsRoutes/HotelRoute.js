@@ -5,6 +5,7 @@ import {
   createBrand,
   getOneBrand,
   updateBrand,
+  deleteBrand,
 } from "../../Controller/HotelController/HotelController.js";
 
 // import { fileURLToPath } from "url";
@@ -22,25 +23,6 @@ const router = express.Router();
 
 router.route("/").get(getAllBrands).post(createBrand);
 
-router
-  .route("/:id")
-  .get(getOneBrand)
-  .patch(updateBrand)
-  .delete(async (req, res) => {
-    const hotelId = req.params.id;
-
-    //So the assumption is simple , we should set every hotel as inactive and this includes all subsidiary hotels
-    try {
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "An error occurred while deleting the hotel.",
-      });
-    }
-  });
+router.route("/:id").get(getOneBrand).patch(updateBrand).delete(deleteBrand);
 
 export default router;

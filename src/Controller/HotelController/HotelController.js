@@ -114,7 +114,7 @@ export const updateBrand = async (req, res) => {
     //persit the User who Updated the hotel - future feature
     //persist the time of update - future feature
 
-    res.status(201).json({
+    res.status(204).json({
       status: "success",
       data: {
         hotel: newHotel,
@@ -124,6 +124,33 @@ export const updateBrand = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "An error occurred while creating the hotel.",
+    });
+  }
+};
+
+export const deleteBrand = async (req, res) => {
+  const hotelId = req.params.id;
+
+  //So the assumption is simple , we should set hotel as inactive and this includes all subsidiary hotels
+  try {
+    const brand = await Brands.findByIdAndUpdate(hotelId, {
+      isActive: false,
+    });
+
+    if (!brand) {
+      throw new Error("Hotel not found");
+    }
+
+    res.status(204).json({
+      status: "success",
+      data: {
+        brand,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while deleting the hotel.",
     });
   }
 };

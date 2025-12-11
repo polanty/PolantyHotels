@@ -32,6 +32,11 @@ const brandSchema = new mongoose.Schema({
   },
 });
 
+brandSchema.pre(/find/, function (next) {
+  this.find({ isActive: { $ne: false } });
+  next();
+});
+
 brandSchema.pre("save", function (next) {
   this.formattedName = slugify(this.name, { lower: true });
   next();
