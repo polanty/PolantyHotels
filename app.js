@@ -1,5 +1,6 @@
 import express from "express";
-import hotelRouter from "./src/Routes/HotelsRoutes/HotelRoute.js";
+import brandRouter from "./src/Routes/BrandRoutes/BrandRoute.js";
+import hotelRouter from "./src/Routes/BrandRoutes/HotelRoute.js";
 import morgan from "morgan";
 
 //loading environment variables
@@ -23,6 +24,8 @@ app.use(express.json());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+app.use("/api/v1/brands", brandRouter);
 
 app.use("/api/v1/hotels", hotelRouter);
 

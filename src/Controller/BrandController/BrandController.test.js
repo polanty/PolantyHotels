@@ -4,7 +4,7 @@ import {
   deleteBrand,
   getOneBrand,
   createBrand,
-} from "../../Controller/HotelController/HotelController.js";
+} from "./BrandController.js";
 import Brands from "../../Models/BrandsModel.js";
 
 // Mock the Brands model
@@ -33,9 +33,12 @@ describe("HotelController", () => {
   describe("getAllBrands", () => {
     it("should return filtered brands successfully", async () => {
       const mockBrands = [{ name: "Brand1" }];
-      Brands.find.mockReturnValue({
-        exec: jest.fn().mockResolvedValue(mockBrands),
-      });
+
+      Brands.find = jest.fn().mockResolvedValue(mockBrands);
+
+      //   Brands.find.mockReturnValue({
+      //     exec: jest.fn().mockResolvedValue(mockBrands),
+      //   });
 
       await getAllBrands(req, res);
 
@@ -50,9 +53,11 @@ describe("HotelController", () => {
     });
 
     it("should handle errors", async () => {
-      Brands.find.mockReturnValue({
-        exec: jest.fn().mockRejectedValue(new Error("DB Error")),
-      });
+      Brands.find = jest.fn().mockRejectedValue(new Error("DB error"));
+
+      //   Brands.find.mockReturnValue({
+      //     exec: jest.fn().mockRejectedValue(new Error("DB Error")),
+      //   });
 
       await getAllBrands(req, res);
 

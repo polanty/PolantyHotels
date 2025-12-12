@@ -1,12 +1,11 @@
 import express from "express";
-import Brands from "../../Models/BrandsModel.js";
 import {
   getAllBrands,
   createBrand,
   getOneBrand,
   updateBrand,
   deleteBrand,
-} from "../../Controller/HotelController/HotelController.js";
+} from "../../Controller/BrandController/BrandController.js";
 
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";

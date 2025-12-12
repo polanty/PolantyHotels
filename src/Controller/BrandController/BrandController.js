@@ -138,7 +138,10 @@ export const deleteBrand = async (req, res) => {
     });
 
     if (!brand) {
-      throw new Error("Hotel not found");
+      return res.status(500).json({
+        status: "error",
+        message: "Hotel not found",
+      });
     }
 
     res.status(204).json({
