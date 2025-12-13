@@ -1,9 +1,12 @@
 import Brands from "../../Models/BrandsModel.js";
 import qs from "qs"; // Import the qs library for query string parsing
+import catchAsync from "../../Utilities/catchAsync.js";
+import AppError from "../../Utilities/globalErrorCatcher.js";
 
 // get Hotels functionality
 export const getAllBrands = async (req, res) => {
   try {
+    let query;
     //BUILD THE QUERY
     //1A) Filtering to remove special query parameters
     let queryObj = { ...req.query };
@@ -21,11 +24,17 @@ export const getAllBrands = async (req, res) => {
       (match) => `$${match}`
     );
 
-    const query = Brands.find(JSON.parse(modifiedQueryStr));
+    query = Brands.find(JSON.parse(modifiedQueryStr));
 
     //start working on the filtering, sorting, field limiting, and pagination
     if (req.query.sort) {
-      console.log("I can now use sorting");
+      console.log(req.query.sort.split(",").join(" "));
+      let sortBy = req.query.sort.split(",").join(" ");
+      query = Brands.find().sort(`${sortBy}`);
+      //
+      // query = Brands.find().sort(`${req.query.sort}`);
+    } else {
+      query = Brands.find().sort("-created_at");
     }
 
     const filteredBrands = await query;
@@ -44,48 +53,33 @@ export const getAllBrands = async (req, res) => {
   }
 };
 
-export const createBrand = async (req, res) => {
-  try {
-    const newHotel = await Brands.create(req.body);
+export const createBrand = catchAsync(async (req, res) => {
+  const newHotel = await Brands.create(req.body);
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        hotel: newHotel,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-};
+  res.status(201).json({
+    status: "success",
+    data: {
+      hotel: newHotel,
+    },
+  });
+});
 
-export const getOneBrand = async (req, res) => {
+export const getOneBrand = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
 
-  try {
-    const hotel = await Brands.findById(hotelId);
+  const hotel = await Brands.findById(hotelId);
 
-    if (!hotel) {
-      throw new Error("Hotel not found");
-    }
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        hotel,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      // error,
-      status: "error",
-      message: error.message,
-    });
+  if (!hotel) {
+    return next(new AppError("Hotel not found 💥", 404));
   }
-};
+
+  return res.status(200).json({
+    status: "success",
+    data: {
+      hotel,
+    },
+  });
+});
 
 export const updateBrand = async (req, res) => {
   try {
