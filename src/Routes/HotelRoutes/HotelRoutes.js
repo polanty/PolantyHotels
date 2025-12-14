@@ -1,4 +1,8 @@
 import express from "express";
+import Brands from "../../Models/BrandsModel.js";
+import RoomTypes from "../../Models/room_typesModel.js";
+import Locations from "../../Models/locationModel.js";
+import qs from "qs"; // Import the qs library for query string parsing
 
 const router = express.Router();
 
@@ -13,27 +17,20 @@ router.route("/").get(async (req, res) => {
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    const queryStr = JSON.stringify(queryObj);
+    let updatedQuery = JSON.stringify(queryObj);
 
-    //Advanced Filtering
-    const modifiedQueryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
-    );
+    const regex = /\b(lt|lte|gt|gte)\b/g;
+    // const str = "apple banana cherry grape";
+    const result = updatedQuery.replace(regex, "$$$1");
 
-    const query = Brands.find(JSON.parse(modifiedQueryStr));
+    updatedQuery = JSON.parse(result);
 
-    //start working on the filtering, sorting, field limiting, and pagination
-    if (req.query.sort) {
-      console.log("I can now use sorting");
-    }
-
-    const filteredBrands = await query;
+    console.log(updatedQuery);
 
     res.status(200).json({
       status: "success",
       data: {
-        data: { filteredBrands },
+        data: { queryObj },
       },
     });
   } catch (error) {

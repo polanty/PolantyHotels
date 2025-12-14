@@ -6,10 +6,11 @@ const locationSchema = new mongoose.Schema({
     ref: "Brands",
   },
   name: {
-    type: String,
+    type: mongoose.Schema.Types.String,
     required: [true, "Location name must be provided"],
     trim: true,
     unique: [true, "Location name must be unique"],
+    ref: "Brands",
   },
   address: {
     type: String,
