@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 const locationSchema = new mongoose.Schema({
   brand_id: {
@@ -49,9 +50,20 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email must be provided"],
     unique: [true, "Email must be unique"],
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email address",
+    },
   },
 });
 
 const Location = mongoose.model("Location", locationSchema);
+
+locationSchema.pre("save", function (next) {
+  if (!validator.isEmail(this.email)) {
+    return next(new Error("Invalid email format"));
+  }
+  next();
+});
 
 export default Location;
