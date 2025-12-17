@@ -23,7 +23,7 @@ const roomTypeSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Capacity must be provided"],
     min: [1, "Capacity must be at least 1"],
-    max: [5, "Capacity cannot exceed 10"],
+    max: [3, "Capacity cannot exceed 10"],
   },
 });
 
