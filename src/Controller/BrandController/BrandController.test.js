@@ -6,6 +6,7 @@ import {
   createBrand,
 } from "./BrandController.js";
 import Brands from "../../Models/BrandsModel.js";
+import AppError from "../../Utilities/globalErrorCatcher.js";
 
 // Mock the Brands model
 jest.mock("../../Models/BrandsModel.js");
@@ -34,11 +35,9 @@ describe("HotelController", () => {
     it("should return filtered brands successfully", async () => {
       const mockBrands = [{ name: "Brand1" }];
 
-      Brands.find = jest.fn().mockResolvedValue(mockBrands);
-
-      //   Brands.find.mockReturnValue({
-      //     exec: jest.fn().mockResolvedValue(mockBrands),
-      //   });
+      Brands.find = jest.fn(() => ({
+        sort: jest.fn().mockResolvedValue(mockBrands),
+      }));
 
       await getAllBrands(req, res);
 
@@ -53,11 +52,9 @@ describe("HotelController", () => {
     });
 
     it("should handle errors", async () => {
-      Brands.find = jest.fn().mockRejectedValue(new Error("DB error"));
-
-      //   Brands.find.mockReturnValue({
-      //     exec: jest.fn().mockRejectedValue(new Error("DB Error")),
-      //   });
+      Brands.find = jest.fn(() => ({
+        sort: jest.fn(() => Promise.reject(new Error("DB error"))),
+      }));
 
       await getAllBrands(req, res);
 
@@ -89,15 +86,11 @@ describe("HotelController", () => {
 
     it("should handle creation errors", async () => {
       req.body = { name: "New Brand" };
-      Brands.create.mockRejectedValue(new Error("Creation failed"));
+      Brands.create.mockImplementation(() => Promise.reject(new Error("Creation failed")));
 
-      await createBrand(req, res);
+      await createBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "Creation failed",
-      });
+      expect(next).toHaveBeenCalledWith(new Error("Creation failed"));
     });
   });
 
@@ -107,7 +100,7 @@ describe("HotelController", () => {
       req.params.id = "123";
       Brands.findById.mockResolvedValue(mockBrand);
 
-      await getOneBrand(req, res);
+      await getOneBrand(req, res, next);
 
       expect(Brands.findById).toHaveBeenCalledWith("123");
       expect(res.status).toHaveBeenCalledWith(200);
@@ -123,26 +116,22 @@ describe("HotelController", () => {
       req.params.id = "123";
       Brands.findById.mockResolvedValue(null);
 
-      await getOneBrand(req, res);
+      await getOneBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "Hotel not found",
-      });
+      expect(next).toHaveBeenCalledWith(
+        new AppError("Hotel not found 💥", 404)
+      );
     });
 
     it("should handle errors", async () => {
       req.params.id = "123";
-      Brands.findById.mockRejectedValue(new Error("DB Error"));
+      Brands.findById.mockImplementation(() =>
+        Promise.reject(new Error("DB Error"))
+      );
 
-      await getOneBrand(req, res);
+      await getOneBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "DB Error",
-      });
+      expect(next).toHaveBeenCalledWith(new Error("DB Error"));
     });
   });
 
@@ -184,7 +173,9 @@ describe("HotelController", () => {
     it("should handle update errors", async () => {
       req.params.id = "123";
       req.body = { name: "Updated" };
-      Brands.findByIdAndUpdate.mockRejectedValue(new Error("Update failed"));
+      Brands.findByIdAndUpdate.mockImplementation(() =>
+        Promise.reject(new Error("Update failed"))
+      );
 
       await updateBrand(req, res);
 
@@ -231,7 +222,9 @@ describe("HotelController", () => {
 
     it("should handle delete errors", async () => {
       req.params.id = "123";
-      Brands.findByIdAndUpdate.mockRejectedValue(new Error("Delete failed"));
+      Brands.findByIdAndUpdate.mockImplementation(() =>
+        Promise.reject(new Error("Delete failed"))
+      );
 
       await deleteBrand(req, res);
 
