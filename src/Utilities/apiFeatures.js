@@ -27,24 +27,39 @@ class APIFeatures {
 
     updatedQuery = JSON.parse(regexResult);
 
-    let returnedQuery = this.query.find(updatedQuery);
+    this.query = this.query.find(updatedQuery);
 
     // Save filter for later use in count
     this.filter = updatedQuery;
 
-    return returnedQuery;
+    return this;
   }
 
   sort() {
     if (this.queryString.sort) {
       console.log(this.queryString.sort.split(",").join(" "));
 
-      let sortBy = this.queryString.sort.split(",").join(" ");
+      const sortBy = this.queryString.sort.split(",").join(" ");
       this.query = this.query.find().sort(`${sortBy}`);
     } else {
       this.query = this.query.find().sort("-created_at");
     }
 
+    return this;
+  }
+
+  pagination() {
+    const page = parseInt(this.queryString.page) || 1;
+    const limit = parseInt(this.queryString.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    //Pagination on the routes below
+    //skip function provided by MongoDb
+    this.query = this.query.skip(skip).limit(limit);
+    this.limit = limit; // save limit for later use
+    this.page = page;
+
+    console.log("Got here");
     return this;
   }
 }

@@ -1,57 +1,40 @@
 import Brands from "../../Models/BrandsModel.js";
-import qs from "qs"; // Import the qs library for query string parsing
 import catchAsync from "../../Utilities/catchAsync.js";
+import APIFeatures from "../../Utilities/apiFeatures.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 
 // get Hotels functionality
-export const getAllBrands = async (req, res) => {
-  try {
-    let query;
-    //BUILD THE QUERY
-    //1A) Filtering to remove special query parameters
-    let queryObj = { ...req.query };
+export const getAllBrands = catchAsync(async (req, res) => {
+  //BUILD THE QUERY
 
-    queryObj = qs.parse(queryObj);
+  //1A) Filtering to remove special query parameters
 
-    const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach((el) => delete queryObj[el]);
+  //Object to handle all the API function
+  //Filtering
+  //sorting
+  //pagination
+  //limiting
+  const apiFeatures = new APIFeatures(Brands.find(), req.query)
+    .defaultyQueryWithFilter()
+    .sort()
+    .pagination();
 
-    const queryStr = JSON.stringify(queryObj);
+  //whatever the requeste is we must limit the return data for performance
+  const allHotels = await apiFeatures.query;
 
-    //Advanced Filtering
-    const modifiedQueryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
-    );
+  const total = await Brands.countDocuments(apiFeatures.filter);
+  const totalPages = Math.ceil(total / apiFeatures.limit);
 
-    query = Brands.find(JSON.parse(modifiedQueryStr));
-
-    //start working on the filtering, sorting, field limiting, and pagination
-    if (req.query.sort) {
-      console.log(req.query.sort.split(",").join(" "));
-      let sortBy = req.query.sort.split(",").join(" ");
-      query = Brands.find().sort(`${sortBy}`);
-      //
-      // query = Brands.find().sort(`${req.query.sort}`);
-    } else {
-      query = Brands.find().sort("-created_at");
-    }
-
-    const filteredBrands = await query;
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        data: { filteredBrands },
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while fetching hotels.",
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    results: total,
+    totalPages,
+    currentPage: apiFeatures.page,
+    data: {
+      data: { allHotels },
+    },
+  });
+});
 
 export const createBrand = catchAsync(async (req, res) => {
   const newHotel = await Brands.create(req.body);
@@ -81,73 +64,58 @@ export const getOneBrand = catchAsync(async (req, res, next) => {
   });
 });
 
-export const updateBrand = async (req, res) => {
-  try {
-    const upDatedHotels = req.body;
+export const updateBrand = catchAsync(async (req, res, next) => {
+  const upDatedHotels = req.body;
 
-    //You can change the name and description but not ratingss
-    const allowedUpdates = ["name", "description"];
-    const attemptedUpdates = Object.keys(upDatedHotels);
-    const isValidOperation = attemptedUpdates.every((update) =>
-      allowedUpdates.includes(update)
+  //You can change the name and description but not ratingss
+  const allowedUpdates = ["name", "description"];
+  const attemptedUpdates = Object.keys(upDatedHotels);
+  const isValidOperation = attemptedUpdates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    return next(
+      new AppError(
+        `Invalid updates! You can only update name and description.`,
+        400
+      )
     );
-
-    if (!isValidOperation) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Invalid updates! You can only update name and description.",
-      });
-    }
-
-    const newHotel = await Brands.findByIdAndUpdate(
-      req.params.id,
-      upDatedHotels,
-      { new: true, runValidators: true }
-    );
-
-    //persit the User who Updated the hotel - future feature
-    //persist the time of update - future feature
-
-    res.status(204).json({
-      status: "success",
-      data: {
-        hotel: newHotel,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while creating the hotel.",
-    });
   }
-};
 
-export const deleteBrand = async (req, res) => {
+  const newHotel = await Brands.findByIdAndUpdate(
+    req.params.id,
+    upDatedHotels,
+    { new: true, runValidators: true }
+  );
+
+  //persit the User who Updated the hotel - future feature
+  //persist the time of update - future feature
+
+  res.status(204).json({
+    status: "success",
+    data: {
+      hotel: newHotel,
+    },
+  });
+});
+
+export const deleteBrand = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
 
   //So the assumption is simple , we should set hotel as inactive and this includes all subsidiary hotels
-  try {
-    const brand = await Brands.findByIdAndUpdate(hotelId, {
-      isActive: false,
-    });
+  const brand = await Brands.findByIdAndUpdate(hotelId, {
+    isActive: false,
+  });
 
-    if (!brand) {
-      return res.status(500).json({
-        status: "error",
-        message: "Hotel not found",
-      });
-    }
-
-    res.status(204).json({
-      status: "success",
-      data: {
-        brand,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while deleting the hotel.",
-    });
+  if (!brand) {
+    return next(new AppError(`Hotel not found.`, 500));
   }
-};
+
+  res.status(204).json({
+    status: "success",
+    data: {
+      brand,
+    },
+  });
+});
