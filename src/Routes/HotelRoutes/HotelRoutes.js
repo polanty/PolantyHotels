@@ -1,8 +1,7 @@
 import express from "express";
-import Brands from "../../Models/BrandsModel.js";
-import RoomTypes from "../../Models/room_typesModel.js";
 import Location from "../../Models/locationModel.js";
 import qs from "qs"; // Import the qs library for query string parsing
+import APIFeatures from "../../Utilities/apiFeatures.js";
 
 const router = express.Router();
 
@@ -17,29 +16,21 @@ router
       //1A) Filtering to remove special query parameters
       let queryObj = { ...req.query };
 
-      queryObj = qs.parse(queryObj);
+      let query;
+      const apiFeatures = new APIFeatures(Location, queryObj);
 
-      const excludedFields = ["page", "sort", "limit", "fields"];
-      excludedFields.forEach((el) => delete queryObj[el]);
+      query = apiFeatures.defaultyQueryWithFilter().sort();
 
-      let updatedQuery = JSON.stringify(queryObj);
+      //whatever the requeste is we must limit the return data for performance
+      const allHotels = await query.skip(skip).limit(limit);
 
-      const regex = /\b(lt|lte|gt|gte)\b/g;
-      const result = updatedQuery.replace(regex, "$$$1");
-
-      updatedQuery = JSON.parse(result);
-
-      const allHotels = await Location.find(updatedQuery)
-        .skip(skip)
-        .limit(limit);
-
-      // Total count of documents
-      const total = allHotels.length;
+      const total = await Location.countDocuments(apiFeatures.filter);
+      const totalPages = Math.ceil(total / limit);
 
       res.status(200).json({
         status: "success",
         results: total,
-        totalPages: Math.ceil(total / limit),
+        totalPages,
         data: {
           data: { allHotels },
         },
@@ -60,6 +51,66 @@ router
         Hotel: [newHotel],
       },
     });
+  });
+
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    try {
+      const hotelId = req.params.id;
+
+      const hotel = await Location.findById(hotelId);
+
+      if (!hotel) {
+        return next(new AppError("Hotel not found 💥", 404));
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: {
+          hotel,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  })
+  .patch(async (req, res) => {
+    try {
+      const hotelId = req.params.id;
+
+      res.status(200).json({
+        status: "sucess",
+        data: {
+          hotel: `This Hotel has id ${hotelId}`,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      const hotelId = req.params.id;
+
+      res.status(200).json({
+        status: "sucess",
+        data: {
+          hotel: `This Hotel has id ${hotelId}`,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
   });
 
 export default router;

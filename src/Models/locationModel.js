@@ -4,7 +4,8 @@ import validator from "validator";
 const locationSchema = new mongoose.Schema({
   brand_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Brands",
+    ref: "Brands", // must match the model name you exported
+    required: true,
   },
   name: {
     type: mongoose.Schema.Types.String,
@@ -57,7 +58,11 @@ const locationSchema = new mongoose.Schema({
   },
 });
 
-const Location = mongoose.model("Location", locationSchema);
+// Attach middleware BEFORE compiling model
+locationSchema.pre(/^find/, function (next) {
+  this.populate("brand_id", "name -_id"); // only include brand name
+  next();
+});
 
 locationSchema.pre("save", function (next) {
   if (!validator.isEmail(this.email)) {
@@ -66,4 +71,5 @@ locationSchema.pre("save", function (next) {
   next();
 });
 
+const Location = mongoose.model("Location", locationSchema);
 export default Location;
