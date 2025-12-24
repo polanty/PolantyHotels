@@ -19,7 +19,7 @@ export const getAllHotels = catchAsync(async (req, res) => {
     .pagination();
 
   //whatever the requeste is we must limit the return data for performance
-  const allHotels = await apiFeatures.query;
+  const allHotels = await apiFeatures.query.explain();
 
   const total = await Location.countDocuments(apiFeatures.filter);
   const totalPages = Math.ceil(total / apiFeatures.limit);
@@ -64,12 +64,37 @@ export const getOneHotel = catchAsync(async (req, res) => {
 });
 
 export const updateHotel = catchAsync(async (req, res) => {
-  const hotelId = req.params.id;
+  const upDatedHotels = req.body;
 
-  res.status(200).json({
-    status: "sucess",
+  //You can change the name and description but not ratingss
+  const allowedUpdates = ["name", "address"];
+  const attemptedUpdates = Object.keys(upDatedHotels);
+  const isValidOperation = attemptedUpdates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    return next(
+      new AppError(
+        `Invalid updates! You can only update name and address.`,
+        400
+      )
+    );
+  }
+
+  const newHotel = await Location.findByIdAndUpdate(
+    req.params.id,
+    upDatedHotels,
+    { new: true, runValidators: true }
+  );
+
+  //persit the User who Updated the hotel - future feature
+  //persist the time of update - future feature
+
+  res.status(204).json({
+    status: "success",
     data: {
-      hotel: `This Hotel has id ${hotelId}`,
+      hotel: newHotel,
     },
   });
 });
@@ -77,10 +102,19 @@ export const updateHotel = catchAsync(async (req, res) => {
 export const deleteHotel = catchAsync(async (req, res) => {
   const hotelId = req.params.id;
 
-  res.status(200).json({
-    status: "sucess",
+  //So the assumption is simple , we should set hotel as inactive and this includes all subsidiary hotels
+  const hotel = await Location.findByIdAndUpdate(hotelId, {
+    isActive: false,
+  });
+
+  if (!hotel) {
+    return next(new AppError(`Hotel not found.`, 500));
+  }
+
+  res.status(204).json({
+    status: "success",
     data: {
-      hotel: `This Hotel has id ${hotelId}`,
+      hotel,
     },
   });
 });
