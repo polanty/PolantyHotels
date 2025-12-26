@@ -1,6 +1,8 @@
 import express from "express";
 import brandRoutes from "./src/Routes/BrandRoutes/BrandRoute.js";
 import hotelRoutes from "./src/Routes/HotelRoutes/HotelRoutes.js";
+import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
+import authRoutes from "./src/Routes/Authentication/authRoutes.js";
 import morgan from "morgan";
 
 import AppError from "./src/Utilities/globalErrorCatcher.js";
@@ -27,9 +29,17 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+//Authentication Routes (login, sign up, password change, passwordUpdate);
+app.use("/api/v1/auth", authRoutes);
+
+//Brands route
 app.use("/api/v1/brands", brandRoutes);
 
+//Location routes
 app.use("/api/v1/hotels", hotelRoutes);
+
+//User profile  routes (primarily for admin)
+app.use("/api/v1/profile", userRoutes);
 
 //Global Non-existing route error handling middleware
 app.use((req, res, next) => {

@@ -3,7 +3,7 @@ import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 import APIFeatures from "../../Utilities/apiFeatures.js";
 
-export const getAllHotels = catchAsync(async (req, res) => {
+export const getAllHotels = catchAsync(async (req, res, next) => {
   //BUILD THE QUERY
 
   //1A) Filtering to remove special query parameters
@@ -19,7 +19,9 @@ export const getAllHotels = catchAsync(async (req, res) => {
     .pagination();
 
   //whatever the requeste is we must limit the return data for performance
-  const allHotels = await apiFeatures.query.explain();
+  //i can use the .explain method to measure statistics
+  // expecially when i need to index my model for optimized query
+  const allHotels = await apiFeatures.query;
 
   const total = await Location.countDocuments(apiFeatures.filter);
   const totalPages = Math.ceil(total / apiFeatures.limit);
@@ -35,7 +37,7 @@ export const getAllHotels = catchAsync(async (req, res) => {
   });
 });
 
-export const createHotel = catchAsync(async (req, res) => {
+export const createHotel = catchAsync(async (req, res, next) => {
   const newHotel = await Location.create({ ...req.body });
 
   res.status(201).json({
@@ -46,7 +48,7 @@ export const createHotel = catchAsync(async (req, res) => {
   });
 });
 
-export const getOneHotel = catchAsync(async (req, res) => {
+export const getOneHotel = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
 
   const hotel = await Location.findById(hotelId);
@@ -63,7 +65,7 @@ export const getOneHotel = catchAsync(async (req, res) => {
   });
 });
 
-export const updateHotel = catchAsync(async (req, res) => {
+export const updateHotel = catchAsync(async (req, res, next) => {
   const upDatedHotels = req.body;
 
   //You can change the name and description but not ratingss
@@ -99,7 +101,7 @@ export const updateHotel = catchAsync(async (req, res) => {
   });
 });
 
-export const deleteHotel = catchAsync(async (req, res) => {
+export const deleteHotel = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
 
   //So the assumption is simple , we should set hotel as inactive and this includes all subsidiary hotels

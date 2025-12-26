@@ -1,17 +1,29 @@
+// src/Controller/BrandController/BrandController.test.js
+
 import {
   getAllBrands,
+  createBrand,
+  getOneBrand,
   updateBrand,
   deleteBrand,
-  getOneBrand,
-  createBrand,
 } from "./BrandController.js";
+
 import Brands from "../../Models/BrandsModel.js";
+import APIFeatures from "../../Utilities/apiFeatures.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 
-// Mock the Brands model
+// Mock dependencies
 jest.mock("../../Models/BrandsModel.js");
+jest.mock("../../Utilities/apiFeatures.js");
 
-describe("HotelController", () => {
+const createMockRes = () => {
+  const res = {};
+  res.status = jest.fn().mockReturnValue(res);
+  res.json = jest.fn().mockReturnValue(res);
+  return res;
+};
+
+describe("BrandController", () => {
   let req, res, next;
 
   beforeEach(() => {
@@ -20,61 +32,97 @@ describe("HotelController", () => {
       params: {},
       body: {},
     };
-    res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
+    res = createMockRes();
     next = jest.fn();
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
   });
 
+  // ---------- getAllBrands ----------
+
   describe("getAllBrands", () => {
-    it("should return filtered brands successfully", async () => {
-      const mockBrands = [{ name: "Brand1" }];
+    it("should return brands with pagination metadata", async () => {
+      req.query = { page: "2", limit: "10" };
 
-      Brands.find = jest.fn(() => ({
-        sort: jest.fn().mockResolvedValue(mockBrands),
-      }));
+      const mockBrands = [{ name: "Brand1" }, { name: "Brand2" }];
 
-      await getAllBrands(req, res);
+      // mock Brands.find() to return a "query" placeholder
+      const mockQuery = { some: "query" };
+      Brands.find = jest.fn().mockReturnValue(mockQuery);
+
+      // fake APIFeatures instance
+      const apiFeaturesInstance = {
+        defaultyQueryWithFilter: jest.fn().mockReturnThis(),
+        sort: jest.fn().mockReturnThis(),
+        pagination: jest.fn().mockReturnThis(),
+        query: Promise.resolve(mockBrands),
+        filter: { isActive: true },
+        limit: 10,
+        page: 2,
+      };
+
+      APIFeatures.mockImplementation(() => apiFeaturesInstance);
+
+      Brands.countDocuments.mockResolvedValue(25);
+
+      await getAllBrands(req, res, next);
 
       expect(Brands.find).toHaveBeenCalled();
+      expect(APIFeatures).toHaveBeenCalledWith(mockQuery, req.query);
+      expect(apiFeaturesInstance.defaultyQueryWithFilter).toHaveBeenCalled();
+      expect(apiFeaturesInstance.sort).toHaveBeenCalled();
+      expect(apiFeaturesInstance.pagination).toHaveBeenCalled();
+      expect(Brands.countDocuments).toHaveBeenCalledWith(
+        apiFeaturesInstance.filter
+      );
+
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         status: "success",
+        results: 25,
+        totalPages: Math.ceil(25 / apiFeaturesInstance.limit),
+        currentPage: apiFeaturesInstance.page,
         data: {
-          data: { filteredBrands: mockBrands },
+          data: { allHotels: mockBrands },
         },
       });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should handle errors", async () => {
-      Brands.find = jest.fn(() => ({
-        sort: jest.fn(() => Promise.reject(new Error("DB error"))),
-      }));
+    it("should call next on query error", async () => {
+      const mockQuery = { some: "query" };
+      Brands.find = jest.fn().mockReturnValue(mockQuery);
 
-      await getAllBrands(req, res);
+      const apiFeaturesInstance = {
+        defaultyQueryWithFilter: jest.fn().mockReturnThis(),
+        sort: jest.fn().mockReturnThis(),
+        pagination: jest.fn().mockReturnThis(),
+        query: Promise.reject(new Error("DB error")),
+        filter: {},
+        limit: 10,
+        page: 1,
+      };
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "An error occurred while fetching hotels.",
-      });
+      APIFeatures.mockImplementation(() => apiFeaturesInstance);
+
+      await getAllBrands(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+      expect(res.status).not.toHaveBeenCalled();
     });
   });
+
+  // ---------- createBrand ----------
 
   describe("createBrand", () => {
     it("should create a brand successfully", async () => {
       const mockBrand = { name: "New Brand" };
       req.body = mockBrand;
+
       Brands.create.mockResolvedValue(mockBrand);
 
-      await createBrand(req, res);
+      await createBrand(req, res, next);
 
-      expect(Brands.create).toHaveBeenCalledWith(mockBrand);
+      expect(Brands.create).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
         status: "success",
@@ -82,22 +130,27 @@ describe("HotelController", () => {
           hotel: mockBrand,
         },
       });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should handle creation errors", async () => {
+    it("should call next on creation error", async () => {
       req.body = { name: "New Brand" };
-      Brands.create.mockImplementation(() => Promise.reject(new Error("Creation failed")));
+      Brands.create.mockRejectedValue(new Error("Creation failed"));
 
       await createBrand(req, res, next);
 
-      expect(next).toHaveBeenCalledWith(new Error("Creation failed"));
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+      expect(res.status).not.toHaveBeenCalled();
     });
   });
+
+  // ---------- getOneBrand ----------
 
   describe("getOneBrand", () => {
     it("should return a brand successfully", async () => {
       const mockBrand = { _id: "123", name: "Brand1" };
       req.params.id = "123";
+
       Brands.findById.mockResolvedValue(mockBrand);
 
       await getOneBrand(req, res, next);
@@ -110,39 +163,49 @@ describe("HotelController", () => {
           hotel: mockBrand,
         },
       });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return error if brand not found", async () => {
+    it("should call next with AppError when brand not found", async () => {
       req.params.id = "123";
       Brands.findById.mockResolvedValue(null);
 
       await getOneBrand(req, res, next);
 
+      expect(Brands.findById).toHaveBeenCalledWith("123");
       expect(next).toHaveBeenCalledWith(
         new AppError("Hotel not found 💥", 404)
       );
+      expect(res.status).not.toHaveBeenCalled();
     });
 
-    it("should handle errors", async () => {
+    it("should call next on DB error", async () => {
       req.params.id = "123";
-      Brands.findById.mockImplementation(() =>
-        Promise.reject(new Error("DB Error"))
-      );
+      Brands.findById.mockRejectedValue(new Error("DB error"));
 
       await getOneBrand(req, res, next);
 
-      expect(next).toHaveBeenCalledWith(new Error("DB Error"));
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+      expect(res.status).not.toHaveBeenCalled();
     });
   });
 
+  // ---------- updateBrand ----------
+
   describe("updateBrand", () => {
-    it("should update a brand successfully", async () => {
-      const mockUpdatedBrand = { _id: "123", name: "Updated Brand" };
+    it("should update a brand successfully for allowed fields", async () => {
+      const mockUpdatedBrand = {
+        _id: "123",
+        name: "Updated",
+        description: "Desc",
+      };
+
       req.params.id = "123";
-      req.body = { name: "Updated Brand" };
+      req.body = { name: "Updated", description: "Desc" };
+
       Brands.findByIdAndUpdate.mockResolvedValue(mockUpdatedBrand);
 
-      await updateBrand(req, res);
+      await updateBrand(req, res, next);
 
       expect(Brands.findByIdAndUpdate).toHaveBeenCalledWith("123", req.body, {
         new: true,
@@ -155,45 +218,48 @@ describe("HotelController", () => {
           hotel: mockUpdatedBrand,
         },
       });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return error for invalid updates", async () => {
+    it("should call next with AppError for invalid updates", async () => {
       req.params.id = "123";
-      req.body = { invalidField: "value" };
+      req.body = { invalidField: "value" }; // not in ["name", "description"]
 
-      await updateBrand(req, res);
+      await updateBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "fail",
-        message: "Invalid updates! You can only update name and description.",
-      });
+      expect(Brands.findByIdAndUpdate).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(
+        new AppError(
+          "Invalid updates! You can only update name and description.",
+          400
+        )
+      );
+      expect(res.status).not.toHaveBeenCalled();
     });
 
-    it("should handle update errors", async () => {
+    it("should call next on DB error during update", async () => {
       req.params.id = "123";
       req.body = { name: "Updated" };
-      Brands.findByIdAndUpdate.mockImplementation(() =>
-        Promise.reject(new Error("Update failed"))
-      );
 
-      await updateBrand(req, res);
+      Brands.findByIdAndUpdate.mockRejectedValue(new Error("Update failed"));
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "An error occurred while creating the hotel.",
-      });
+      await updateBrand(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+      expect(res.status).not.toHaveBeenCalled();
     });
   });
 
+  // ---------- deleteBrand ----------
+
   describe("deleteBrand", () => {
-    it("should delete a brand successfully", async () => {
-      const mockBrand = { _id: "123", name: "Brand1" };
+    it("should soft-delete a brand successfully", async () => {
+      const mockBrand = { _id: "123", name: "Brand1", isActive: false };
+
       req.params.id = "123";
       Brands.findByIdAndUpdate.mockResolvedValue(mockBrand);
 
-      await deleteBrand(req, res);
+      await deleteBrand(req, res, next);
 
       expect(Brands.findByIdAndUpdate).toHaveBeenCalledWith("123", {
         isActive: false,
@@ -205,34 +271,30 @@ describe("HotelController", () => {
           brand: mockBrand,
         },
       });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return error if brand not found", async () => {
+    it("should call next with AppError if brand not found", async () => {
       req.params.id = "123";
       Brands.findByIdAndUpdate.mockResolvedValue(null);
 
-      await deleteBrand(req, res);
+      await deleteBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "Hotel not found",
+      expect(Brands.findByIdAndUpdate).toHaveBeenCalledWith("123", {
+        isActive: false,
       });
+      expect(next).toHaveBeenCalledWith(new AppError("Hotel not found.", 500));
+      expect(res.status).not.toHaveBeenCalled();
     });
 
-    it("should handle delete errors", async () => {
+    it("should call next on DB error during delete", async () => {
       req.params.id = "123";
-      Brands.findByIdAndUpdate.mockImplementation(() =>
-        Promise.reject(new Error("Delete failed"))
-      );
+      Brands.findByIdAndUpdate.mockRejectedValue(new Error("Delete failed"));
 
-      await deleteBrand(req, res);
+      await deleteBrand(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        status: "error",
-        message: "An error occurred while deleting the hotel.",
-      });
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+      expect(res.status).not.toHaveBeenCalled();
     });
   });
 });
