@@ -52,6 +52,12 @@ app.use((err, req, res, next) => {
   if (err.message.startsWith("Cast to ObjectId failed")) {
     err = new AppError("Invalid ID format", 400);
   }
+  if (err.name === "JsonWebTokenError") {
+    err = new AppError("Invalid token. Please log in again", 400);
+  }
+  if (err.name === "TokenExpiredError") {
+    err = new AppError("Your Token has expired! Please log in again!", 400);
+  }
   res.status(err.statusCode || 500).send(err.message);
 });
 
