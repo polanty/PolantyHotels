@@ -1,3 +1,4 @@
+import { promisify } from "util";
 import jwt from "jsonwebtoken";
 import User from "../../Models/userModel.js";
 import catchAsync from "../../Utilities/catchAsync.js";
@@ -29,7 +30,10 @@ export const protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  let confirmedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+  let confirmedToken = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_TOKEN
+  );
 
   console.log(confirmedToken);
 
