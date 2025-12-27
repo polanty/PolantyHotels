@@ -58,6 +58,10 @@ app.use((err, req, res, next) => {
   if (err.name === "TokenExpiredError") {
     err = new AppError("Your Token has expired! Please log in again!", 400);
   }
+  //strictly to test my github configuration 
+   if (err.name === "TestExpiredError") {
+    err = new AppError("Your Token has expired! Please log in again!", 400);
+  }
   res.status(err.statusCode || 500).send(err.message);
 });
 
