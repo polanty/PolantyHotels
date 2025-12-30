@@ -30,13 +30,35 @@ export const protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  let confirmedToken = await promisify(jwt.verify)(
+  const confirmedToken = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_TOKEN
   );
 
-  console.log(confirmedToken);
+  //if user has been decativated but token still exist then we want to stop the user from logging in
+  const confirmedUser = await User.findById(confirmedToken.id);
 
+  if (!confirmedUser) {
+    return next(
+      new AppError("The User belonging to the Token no Longer exist", 401)
+    );
+  }
+
+  console.log(confirmedUser.changePasswordAfter(confirmedToken.iat));
+
+  //check if the user changed password after the tokenwas issued
+  //console.log(confirmedToken);
+  if (confirmedUser.changePasswordAfter(confirmedToken.iat)) {
+    return next(
+      new AppError(
+        "User recently changed password and should Log In again ",
+        401
+      )
+    );
+  }
+
+  //console.log(confirmedUser);
+  req.user = confirmedUser;
   next();
 });
 
@@ -63,9 +85,13 @@ export const Login = catchAsync(async (req, res, next) => {
     return next(new AppError("User does Not found💥", 404));
   }
 
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_TOKEN, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  const token = jwt.sign(
+    { id: currentUser._id },
+    process.env.JWT_SECRET_TOKEN,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 
   res.status(201).json({
     token,
@@ -101,3 +127,6 @@ export const signUp = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+//Create forgot password
+//create change password
