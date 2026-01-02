@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../../Models/userModel.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
+import crypto from "crypto";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -93,6 +94,10 @@ export const Login = catchAsync(async (req, res, next) => {
     }
   );
 
+  //Update last login date
+  currentUser.last_login = Date.now(); // update the login date to current login as soon as user is confirmed
+  await currentUser.save({ validateBeforeSave: false });
+
   res.status(201).json({
     token,
     status: "success",
@@ -129,4 +134,44 @@ export const signUp = catchAsync(async (req, res, next) => {
 });
 
 //Create forgot password
+export const forgotPassword = catchAsync(async (req, res, next) => {
+  //Forgotpassword function happens when you do not have access to your account
+  //so the user is expected to provide an email to receive a link that reset their password
+  //we search for that email and if it exists we send them a password reset link
+  // this link should ideally have an expiring time
+  //however, if they make use of the link then they should be able to change the password
+  //so far it meets the validator model
+
+  const { email } = req.body;
+
+  if (!email) {
+    return next(new AppError("User must provide an Email", 404));
+  }
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return next(new AppError("Email not found", 404));
+  }
+
+  const resetToken = user.createPasswordResetToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  // 3)  send password reset token
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a Patch request with your new password and passwordConfirm to: ${resetURL}. \n If you didn't forget your password, please ignore this email!`;
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
+
 //create change password
+export const resetPassword = catchAsync(async (req, res, next) => {});
