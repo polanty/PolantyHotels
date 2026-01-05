@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../../Models/userModel.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
-import crypto from "crypto";
+import { sendEmail } from "../../Utilities/email.js";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -161,9 +161,17 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   // 3)  send password reset token
   const resetURL = `${req.protocol}://${req.get(
     "host"
-  )}/api/v1/users/resetPassword/${resetToken}`;
+  )}/api/v1/users/reset-password/${resetToken}`;
 
   const message = `Forgot your password? Submit a Patch request with your new password and passwordConfirm to: ${resetURL}. \n If you didn't forget your password, please ignore this email!`;
+
+  console.log("Got here finally");
+
+  await sendEmail({
+    email: user.email,
+    subject: "Your password reset token (valid for 10 minutes)",
+    message,
+  });
 
   res.status(200).json({
     status: "success",
@@ -174,4 +182,14 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 //create change password
-export const resetPassword = catchAsync(async (req, res, next) => {});
+export const resetPassword = catchAsync(async (req, res, next) => {
+  const { token } = req.params;
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: "User now found 😍",
+      token,
+    },
+  });
+});

@@ -308,3 +308,5 @@ describe("Login controller", () => {
     expect(res.status).not.toHaveBeenCalled();
   });
 });
+
+describe("forgot password", () => {});
