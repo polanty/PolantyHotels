@@ -309,4 +309,29 @@ describe("Login controller", () => {
   });
 });
 
-describe("forgot password", () => {});
+describe("forgot password", () => {
+  //test email to check if it's included in body
+  //check if the model contains the email
+  let req, res, next;
+
+  beforeEach(() => {
+    req = {
+      body: {},
+    };
+    res = {
+      status:
+        jest.fn().mockReturnValueThis?.() ||
+        jest.fn(function () {
+          return this;
+        }),
+      json: jest.fn(),
+    };
+
+    // if the above looks weird, just do this instead if needed:
+    res.status = jest.fn().mockReturnValue(res);
+
+    next = jest.fn();
+
+    jest.clearAllMocks();
+  });
+});

@@ -183,12 +183,16 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
 //create change password
 export const resetPassword = catchAsync(async (req, res, next) => {
+  //get the token and encrpt the token
+  //use the encrypted token to search the database
+  //if there is a difference return an error
+  // else use the provided password to update the user password in the database
+
   const { token } = req.params;
 
   res.status(200).json({
     status: "success",
     data: {
-      user: "User now found 😍",
       token,
     },
   });

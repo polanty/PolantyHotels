@@ -17,6 +17,7 @@ router.route("/").get(
       status: "success",
       data: {
         users: ["User1", "User2", "User3"],
+        secondUser: req.user,
       },
     });
   })
