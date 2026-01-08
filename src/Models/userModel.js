@@ -93,6 +93,16 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.pre("save", async function (next) {
+  // Only hash if the field was modified or is new
+  if (!this.isModified("password") || this.isNew()) return next();
+
+  // change the password change At property
+  this.passwordChangedAt = Date.now() - 1000;
+
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   hashedPassword
@@ -123,7 +133,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest("hex");
 
-  //   console.log({ resetToken }, this.passwordResetToken);
+  console.log({ resetToken }, this.passwordResetToken);
 
   this.passwordExpireTime = Date.now() + 10 * 60 * 1000;
 

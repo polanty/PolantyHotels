@@ -28,3 +28,9 @@ export const sendEmail = async (options) => {
   // 3. Send email
   await transporter.sendMail(mailOptions);
 };
+
+//Create an Object to return a method to send a welcome email
+//send a password reset email
+//password succefully updated email
+//booking confirmation email
+// and later on Booking cancellation and other functionality

@@ -1,6 +1,7 @@
 import { promisify } from "util";
 import jwt from "jsonwebtoken";
 import User from "../../Models/userModel.js";
+import crypto from "crypto";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 import { sendEmail } from "../../Utilities/email.js";
@@ -83,7 +84,7 @@ export const Login = catchAsync(async (req, res, next) => {
     !currentUser ||
     !(await currentUser.correctPassword(password, currentUser.password))
   ) {
-    return next(new AppError("User does Not found💥", 404));
+    return next(new AppError("Incorrect Email or Password💥", 404));
   }
 
   const token = jwt.sign(
@@ -167,18 +168,40 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
   console.log("Got here finally");
 
-  await sendEmail({
-    email: user.email,
-    subject: "Your password reset token (valid for 10 minutes)",
-    message,
-  });
+  //Because we need to handle the error but do more than just send the error to the global error handler
+  // wedefine a local trycatch block to unset the passwordResetToken and passwordExpiredTime
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 minutes)",
+      message,
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordExpireTime = undefined;
+    await user.save({ validateBeforeSave: false });
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      user,
-    },
-  });
+    return next(
+      new AppError("There was an error sending the email. Try again later"),
+      500
+    );
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    return res.status(200).json({
+      status: "success",
+      token: resetToken,
+      message: message,
+      data: {
+        user,
+      },
+    });
+  } else {
+    return res.status(200).json({
+      status: "success",
+      message: message,
+    });
+  }
 });
 
 //create change password
@@ -188,12 +211,46 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   //if there is a difference return an error
   // else use the provided password to update the user password in the database
 
-  const { token } = req.params;
+  const derivedToken = req.params.token;
+
+  const encrytedToken = crypto
+    .createHash("sha256")
+    .update(derivedToken)
+    .digest("hex");
+
+  const existingUser = await User.findOne({
+    passwordResetToken: encrytedToken,
+    passwordExpireTime: { $gt: Date.now() },
+  });
+
+  if (!existingUser) {
+    return next(new AppError("This Link has expired ! Try again"), 404);
+  }
+
+  console.log(existingUser);
+
+  existingUser.password = req.body.password;
+  existingUser.passwordConfirm = req.body.passwordConfirm;
+  existingUser.passwordResetToken = undefined;
+  existingUser.passwordExpireTime = undefined;
+
+  await existingUser.save();
+
+  //Create a new Token to log user in, I might decide to not implement this function
+  const newToken = jwt.sign(
+    { id: existingUser._id },
+    process.env.JWT_SECRET_TOKEN,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 
   res.status(200).json({
     status: "success",
     data: {
-      token,
+      token: newToken,
+      //
+      existingUser,
     },
   });
 });
