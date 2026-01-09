@@ -99,7 +99,7 @@ export const Login = catchAsync(async (req, res, next) => {
   currentUser.last_login = Date.now(); // update the login date to current login as soon as user is confirmed
   await currentUser.save({ validateBeforeSave: false });
 
-  res.status(201).json({
+  res.status(200).json({
     token,
     status: "success",
     data: {

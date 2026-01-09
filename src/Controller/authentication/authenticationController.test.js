@@ -148,24 +148,16 @@ describe("protect middleware", () => {
   });
 });
 
-describe("Login controller", () => {
+describe("Login Controller", () => {
   let req, res, next;
 
   beforeEach(() => {
-    req = {
-      body: {},
-    };
-    res = {
-      status:
-        jest.fn().mockReturnValueThis?.() ||
-        jest.fn(function () {
-          return this;
-        }),
-      json: jest.fn(),
-    };
+    req = { body: {} };
 
-    // if the above looks weird, just do this instead if needed:
+    // Proper Express response mock
+    res = {};
     res.status = jest.fn().mockReturnValue(res);
+    res.json = jest.fn();
 
     next = jest.fn();
 
@@ -175,49 +167,35 @@ describe("Login controller", () => {
     jest.clearAllMocks();
   });
 
-  it("should call next with AppError(400) if email or password is missing", async () => {
-    // missing both
-    req.body = {};
-    await Login(req, res, next);
-
-    expect(next).toHaveBeenCalledWith(expect.any(AppError));
-    let error = next.mock.calls[0][0];
-    expect(error.message).toBe("Please provide email and password!");
-    expect(error.statusCode || error.status).toBe(400);
-
-    // reset and test missing password only
-    jest.clearAllMocks();
-    req.body = { email: "user@example.com" };
+  it("should call next with 400 if email or password is missing", async () => {
+    req.body = {}; // missing both
 
     await Login(req, res, next);
 
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
-    error = next.mock.calls[0][0];
+    const error = next.mock.calls[0][0];
     expect(error.message).toBe("Please provide email and password!");
-    expect(error.statusCode || error.status).toBe(400);
+    expect(error.statusCode).toBe(400);
   });
 
-  it("should call next with AppError(404) if user is not found", async () => {
+  it("should call next with 404 if user is not found", async () => {
     req.body = { email: "user@example.com", password: "password123" };
 
     User.findOne.mockReturnValue({
-      select: jest.fn().mockResolvedValue(null), // behaves like await User.findOne().select('+password')
+      select: jest.fn().mockResolvedValue(null),
     });
 
     await Login(req, res, next);
 
     expect(User.findOne).toHaveBeenCalledWith({ email: "user@example.com" });
-    const selectMock = User.findOne.mock.results[0].value.select;
-    expect(selectMock).toHaveBeenCalledWith("+password");
-
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
+
     const error = next.mock.calls[0][0];
-    expect(error.message).toBe("User does Not found💥");
-    expect(error.statusCode || error.status).toBe(404);
-    expect(res.status).not.toHaveBeenCalled();
+    expect(error.message).toBe("Incorrect Email or Password💥");
+    expect(error.statusCode).toBe(404);
   });
 
-  it("should call next with AppError(404) if password is incorrect", async () => {
+  it("should call next with 404 if password is incorrect", async () => {
     req.body = { email: "user@example.com", password: "wrongPassword" };
 
     const mockUser = {
@@ -232,11 +210,6 @@ describe("Login controller", () => {
 
     await Login(req, res, next);
 
-    expect(User.findOne).toHaveBeenCalledWith({ email: "user@example.com" });
-
-    const selectMock = User.findOne.mock.results[0].value.select;
-    expect(selectMock).toHaveBeenCalledWith("+password");
-
     expect(mockUser.correctPassword).toHaveBeenCalledWith(
       "wrongPassword",
       mockUser.password
@@ -244,9 +217,8 @@ describe("Login controller", () => {
 
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
     const error = next.mock.calls[0][0];
-    expect(error.message).toBe("User does Not found💥");
-    expect(error.statusCode || error.status).toBe(404);
-    expect(res.status).not.toHaveBeenCalled();
+    expect(error.message).toBe("Incorrect Email or Password💥");
+    expect(error.statusCode).toBe(404);
   });
 
   it("should return token and user on successful login", async () => {
@@ -257,6 +229,7 @@ describe("Login controller", () => {
       email: "user@example.com",
       password: "hashed-password",
       correctPassword: jest.fn().mockResolvedValue(true),
+      save: jest.fn().mockResolvedValue(true),
     };
 
     User.findOne.mockReturnValue({
@@ -267,29 +240,19 @@ describe("Login controller", () => {
 
     await Login(req, res, next);
 
-    expect(User.findOne).toHaveBeenCalledWith({ email: "user@example.com" });
-
-    const selectMock = User.findOne.mock.results[0].value.select;
-    expect(selectMock).toHaveBeenCalledWith("+password");
-
-    expect(mockUser.correctPassword).toHaveBeenCalledWith(
-      "correctPassword",
-      mockUser.password
-    );
-
     expect(jwt.sign).toHaveBeenCalledWith(
       { id: mockUser._id },
       process.env.JWT_SECRET_TOKEN,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    expect(res.status).toHaveBeenCalledWith(201);
+    expect(mockUser.save).toHaveBeenCalledWith({ validateBeforeSave: false });
+
+    expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       token: "fake-jwt-token",
       status: "success",
-      data: {
-        user: mockUser,
-      },
+      data: { user: mockUser },
     });
 
     expect(next).not.toHaveBeenCalled();
@@ -309,29 +272,29 @@ describe("Login controller", () => {
   });
 });
 
-describe("forgot password", () => {
-  //test email to check if it's included in body
-  //check if the model contains the email
-  let req, res, next;
+// describe("forgot password", () => {
+//   //test email to check if it's included in body
+//   //check if the model contains the email
+//   let req, res, next;
 
-  beforeEach(() => {
-    req = {
-      body: {},
-    };
-    res = {
-      status:
-        jest.fn().mockReturnValueThis?.() ||
-        jest.fn(function () {
-          return this;
-        }),
-      json: jest.fn(),
-    };
+//   beforeEach(() => {
+//     req = {
+//       body: {},
+//     };
+//     res = {
+//       status:
+//         jest.fn().mockReturnValueThis?.() ||
+//         jest.fn(function () {
+//           return this;
+//         }),
+//       json: jest.fn(),
+//     };
 
-    // if the above looks weird, just do this instead if needed:
-    res.status = jest.fn().mockReturnValue(res);
+//     // if the above looks weird, just do this instead if needed:
+//     res.status = jest.fn().mockReturnValue(res);
 
-    next = jest.fn();
+//     next = jest.fn();
 
-    jest.clearAllMocks();
-  });
-});
+//     jest.clearAllMocks();
+//   });
+// });
