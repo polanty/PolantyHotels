@@ -99,6 +99,8 @@ export const Login = catchAsync(async (req, res, next) => {
   currentUser.last_login = Date.now(); // update the login date to current login as soon as user is confirmed
   await currentUser.save({ validateBeforeSave: false });
 
+  // Input statistics for admin analytics later on
+
   res.status(200).json({
     token,
     status: "success",
@@ -125,6 +127,7 @@ export const signUp = catchAsync(async (req, res, next) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
+  // Input statistics for admin analytics later on
   res.status(201).json({
     token,
     status: "success",

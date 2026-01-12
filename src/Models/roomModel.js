@@ -15,6 +15,11 @@ const roomSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  images: [String],
+  // is_available: {
+  //   type: Number,
+  //   required: [true, "Number of available rooms must be provided"],
+  // },
 });
 
 const Room = mongoose.model("Room", roomSchema);
