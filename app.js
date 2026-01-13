@@ -3,6 +3,10 @@ import brandRoutes from "./src/Routes/BrandRoutes/BrandRoute.js";
 import hotelRoutes from "./src/Routes/HotelRoutes/HotelRoutes.js";
 import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
 import authRoutes from "./src/Routes/Authentication/authRoutes.js";
+
+// Test routes -> Only for testing for now
+import roomRouter from "./src/Routes/RoomRoutes(test)/roomRoutes.js";
+//
 import morgan from "morgan";
 
 import AppError from "./src/Utilities/globalErrorCatcher.js";
@@ -40,6 +44,9 @@ app.use("/api/v1/hotels", hotelRoutes);
 
 //User profile  routes (primarily for admin)
 app.use("/api/v1/profile", userRoutes);
+
+//Room routes (primarily for admin)
+app.use("/api/v1/rooms", roomRouter);
 
 //Global Non-existing route error handling middleware
 app.use((req, res, next) => {
