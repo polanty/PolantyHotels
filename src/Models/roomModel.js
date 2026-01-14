@@ -1,27 +1,33 @@
 import mongoose from "mongoose";
 
-const roomSchema = new mongoose.Schema({
-  location_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
-    required: [true, "Location ID must be provided"],
+const roomSchema = new mongoose.Schema(
+  {
+    location_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Location",
+      required: [true, "Location ID must be provided"],
+    },
+    room_type_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "RoomTypes",
+      required: [true, "Room Type ID must be provided"],
+    },
+    isAvailable: {
+      type: Number,
+      required: [true, "Available Numbers must be provided"],
+    },
+    images: [String],
+    created_at: {
+      type: Date,
+      default: Date.now,
+      select: false,
+    },
   },
-  room_type_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "RoomTypes",
-    required: [true, "Room Type ID must be provided"],
-  },
-  isAvailable: {
-    type: Number,
-    required: [true, "Available Numbers must be provided"],
-  },
-  images: [String],
-  created_at: {
-    type: Date,
-    default: Date.now,
-    select: false,
-  },
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 const Room = mongoose.model("Room", roomSchema);
 

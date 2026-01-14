@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const amenitiesSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    required: [true, "Amenity name must be provided"],
+    trim: true,
+  },
   name: {
     type: String,
     required: [true, "Amenity name must be provided"],
