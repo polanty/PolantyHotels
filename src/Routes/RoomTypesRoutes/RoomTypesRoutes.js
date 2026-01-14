@@ -1,0 +1,15 @@
+import express from "express";
+import {
+  createRoomTyoes,
+  getAllRoomTypes,
+} from "../../Controller/roomTypesController/roomTypesController.js";
+
+const router = express.Router();
+
+// router.use(protect);
+
+router.route("/").get(getAllRoomTypes).post(createRoomTyoes);
+
+// router.route("/:id").get(getOneHotel).patch(updateHotel).delete(deleteHotel);
+
+export default router;

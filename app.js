@@ -4,8 +4,10 @@ import hotelRoutes from "./src/Routes/HotelRoutes/HotelRoutes.js";
 import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
 import authRoutes from "./src/Routes/Authentication/authRoutes.js";
 
-// Test routes -> Only for testing for now
+// Test routes -> Only for testing for
+// Used to also create data for references by Other models
 import roomRouter from "./src/Routes/RoomRoutes(test)/roomRoutes.js";
+import roomTypesRouter from "./src/Routes/RoomTypesRoutes/RoomTypesRoutes.js";
 //
 import morgan from "morgan";
 
@@ -47,6 +49,9 @@ app.use("/api/v1/profile", userRoutes);
 
 //Room routes (primarily for admin)
 app.use("/api/v1/rooms", roomRouter);
+
+//Room types (Varieties) (primarily for admin)
+app.use("/api/v1/room-types", roomTypesRouter);
 
 //Global Non-existing route error handling middleware
 app.use((req, res, next) => {

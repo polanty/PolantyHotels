@@ -1,21 +1,20 @@
-import Room from "../../Models/roomModel.js";
-import Pricing from "../../Models/pricingModel.js";
 import RoomTypes from "../../Models/room_typesModel.js";
+import Pricing from "../../Models/pricingModel.js";
 import APIFeatures from "../../Utilities/apiFeatures.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 
-export const createHotelRoom = catchAsync(async (req, res, next) => {
-  const newRoom = await Room.create({ ...req.body });
+export const createRoomTyoes = catchAsync(async (req, res, next) => {
+  const newRoomType = await RoomTypes.create({ ...req.body });
 
   res.status(201).json({
     status: "success",
     data: {
-      Rooms: [newRoom],
+      RoomType: [newRoomType],
     },
   });
 });
 
-export const getAllHotelRooms = catchAsync(async (req, res, next) => {
+export const getAllRoomTypes = catchAsync(async (req, res, next) => {
   //BUILD THE QUERY
 
   //1A) Filtering to remove special query parameters
@@ -25,7 +24,7 @@ export const getAllHotelRooms = catchAsync(async (req, res, next) => {
   //sorting
   //pagination
   //limiting
-  const apiFeatures = new APIFeatures(Room.find(), req.query)
+  const apiFeatures = new APIFeatures(RoomTypes.find(), req.query)
     .defaultyQueryWithFilter()
     .sort()
     .pagination();
@@ -33,9 +32,9 @@ export const getAllHotelRooms = catchAsync(async (req, res, next) => {
   //whatever the requeste is we must limit the return data for performance
   //i can use the .explain method to measure statistics
   // expecially when i need to index my model for optimized query
-  const allRooms = await apiFeatures.query;
+  const allRoomTypes = await apiFeatures.query;
 
-  const total = await Room.countDocuments(apiFeatures.filter);
+  const total = await RoomTypes.countDocuments(apiFeatures.filter);
   const totalPages = Math.ceil(total / apiFeatures.limit);
 
   res.status(200).json({
@@ -44,7 +43,7 @@ export const getAllHotelRooms = catchAsync(async (req, res, next) => {
     totalPages,
     currentPage: apiFeatures.page,
     data: {
-      data: { allRooms },
+      data: { allRoomTypes },
     },
   });
 });

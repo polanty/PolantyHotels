@@ -25,6 +25,20 @@ const roomTypeSchema = new mongoose.Schema({
     min: [1, "Capacity must be at least 1"],
     max: [3, "Capacity cannot exceed 10"],
   },
+  bed_configuration: {
+    type: String,
+    required: [true, "Bed Configuration must be provided"],
+  },
+  size_sqm: {
+    type: Number,
+    required: [true, "Square meter must be provided"],
+    default: 21,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+    select: false,
+  },
 });
 
 const RoomTypes = mongoose.model("RoomTypes", roomTypeSchema);
