@@ -68,7 +68,7 @@ const locationSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // Attach middleware BEFORE compiling model
@@ -81,7 +81,14 @@ locationSchema.pre(/^find/, function (next) {
 locationSchema.pre(/^findOne$/, function (next) {
   this.populate({
     path: "RoomRef",
-    populate: { path: "room_type_id", model: "RoomTypes" },
+    populate: {
+      path: "room_type_id",
+      model: "RoomTypes",
+      populate: {
+        path: "pricing", // virtual on RoomTypes
+        select: "base_price_per_night currency -_id -room_type_id",
+      },
+    },
   });
 
   next();

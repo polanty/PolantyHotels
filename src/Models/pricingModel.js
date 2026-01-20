@@ -6,11 +6,6 @@ const pricingSchema = new mongoose.Schema({
     ref: "RoomTypes",
     required: [true, "Room Type ID must be provided"],
   },
-  location_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
-    required: [true, "Location ID must be provided"],
-  },
   base_price_per_night: {
     type: Number,
     required: [true, "Price per night must be provided"],
@@ -28,6 +23,7 @@ const pricingSchema = new mongoose.Schema({
   },
   effective_date: {
     type: Date,
+    default: Date.now,
     required: [true, "Effective date must be provided"],
   },
   created_at: {

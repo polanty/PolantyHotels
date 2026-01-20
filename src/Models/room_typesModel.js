@@ -45,8 +45,15 @@ const roomTypeSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
+
+// Virtual populate
+roomTypeSchema.virtual("pricing", {
+  ref: "Pricing",
+  localField: "_id",
+  foreignField: "room_type_id",
+});
 
 const RoomTypes = mongoose.model("RoomTypes", roomTypeSchema);
 

@@ -26,7 +26,7 @@ const roomSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 const Room = mongoose.model("Room", roomSchema);

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Confirmation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center px-4 py-8 sm:px-6 md:px-8 lg:px-10">
+<div class="layout-content-container flex max-w-4xl flex-1 flex-col gap-8">
+<header class="flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-4 text-slate-800 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">HotelBook</h2>
+</div>
+<div class="flex flex-1 items-center justify-end gap-6">
+<nav class="hidden items-center gap-8 md:flex">
+<a class="text-sm font-medium leading-normal text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Home</a>
+<a class="text-sm font-medium leading-normal text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">My Bookings</a>
+<a class="text-sm font-medium leading-normal text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Support</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkXzHVLTH85kZonfZJrpT4QFGkBj86o3I8TP24wLLc2ZtCuJqYmk5JLauVukE4Voa8reOhKfcT92FWdpwKS5qS6eGLlWaPD_eYVYBY-ADozPXELo3R9mjMZSsXpCgDQfkyuG2CSJnZWx9nO9QXa0iBpc6Vsu-e07AwkGvczOYCcc2nboAQZpDD5UDQx5_3rS5GVI0YpSxZ1zeTXDcNyEO6fyjOHpXzQo00-CFKv5WUAiKQEavwC6bttuvpvcooFRm1SB0MSQyRNwY');"></div>
+</div>
+</header>
+<main class="flex flex-col gap-8">
+<div class="flex flex-col items-center justify-center gap-4 rounded-xl bg-white p-6 text-center shadow-sm dark:bg-[#1C252E]">
+<span class="material-symbols-outlined text-5xl text-green-500"> check_circle </span>
+<div class="flex flex-col gap-2">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">Your Booking is Confirmed!</h1>
+<p class="text-base font-normal leading-normal text-slate-500 dark:text-slate-400">Thank you for booking with us. A confirmation email has been sent to your registered address.</p>
+</div>
+</div>
+<div class="flex flex-col gap-6 rounded-xl bg-white p-6 shadow-sm dark:bg-[#1C252E] sm:p-8">
+<div class="flex flex-col items-stretch justify-start gap-4 @container md:flex-row md:items-start">
+<div class="h-48 w-full shrink-0 rounded-lg bg-cover bg-center bg-no-repeat md:h-auto md:w-56 md:self-stretch" data-alt="Exterior view of the Grand Hyatt hotel in New York" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4ZlSpzpqHQqd9TL5AtJKfsVMuy0s85wBrer94j7oFsQM1-k9rBKmyZKP5Q99xEIFjVn973AWKZU1e0LnfTnfPmZ7hf4O970xq8yUly2--j48n5N5OofcYi58fYhjgiuB_C1gvuXe5btenOeMfBv3CmA-UavCnTYZsb19XQAWapUWvsPCCKv1NCijmKHaMUTHmqxQnazPbujxl9l5658SeZdCdmgZGkebGktTbu1wTVUf5H3uRxcPaqaG7yCiWH1n8ShK8YydFHgA');"></div>
+<div class="flex w-full grow flex-col items-stretch justify-center gap-2">
+<p class="text-base font-semibold leading-normal text-primary">Grand Hyatt</p>
+<p class="text-2xl font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">Confirmation Number: HFG582K9</p>
+<div class="flex items-end justify-between gap-3">
+<div class="flex flex-col gap-1">
+<p class="text-base font-normal leading-normal text-slate-500 dark:text-slate-400">PIN: 1234</p>
+<p class="text-base font-normal leading-normal text-slate-500 dark:text-slate-400">123 E 42nd Street, New York, NY 10017</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+<div class="flex flex-col gap-1 border-t border-solid border-slate-200 py-4 pr-2 dark:border-slate-700">
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-slate-400">Check-in</p>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-slate-200">Tue, Oct 22, 2024 (from 3:00 PM)</p>
+</div>
+<div class="flex flex-col gap-1 border-t border-solid border-slate-200 py-4 pl-0 sm:pl-2 dark:border-slate-700">
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-slate-400">Check-out</p>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-slate-200">Fri, Oct 25, 2024 (until 11:00 AM)</p>
+</div>
+<div class="flex flex-col gap-1 border-t border-solid border-slate-200 py-4 pr-2 dark:border-slate-700">
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-slate-400">Guests</p>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-slate-200">2 Adults</p>
+</div>
+<div class="flex flex-col gap-1 border-t border-solid border-slate-200 py-4 pl-0 sm:pl-2 dark:border-slate-700">
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-slate-400">Room Type</p>
+<p class="text-sm font-medium leading-normal text-slate-800 dark:text-slate-200">1 King Bed, Non-Smoking</p>
+</div>
+</div>
+<div class="border-t border-solid border-slate-200 pt-4 dark:border-slate-700">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">Price Breakdown</h3>
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex justify-between text-sm">
+<p class="text-slate-500 dark:text-slate-400">Room Rate (3 nights x $250.00)</p>
+<p class="font-medium text-slate-800 dark:text-slate-200">$750.00</p>
+</div>
+<div class="flex justify-between text-sm">
+<p class="text-slate-500 dark:text-slate-400">Taxes &amp; Fees</p>
+<p class="font-medium text-slate-800 dark:text-slate-200">$112.50</p>
+</div>
+<div class="mt-2 flex justify-between border-t border-dashed border-slate-300 pt-3 dark:border-slate-600">
+<p class="text-base font-bold text-slate-900 dark:text-white">Total Paid</p>
+<p class="text-base font-bold text-slate-900 dark:text-white">$862.50</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="material-symbols-outlined text-xl"> edit_document </span>
+<span class="truncate">Manage Booking</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-6 bg-slate-200 text-slate-800 text-base font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
+<span class="material-symbols-outlined text-xl"> print </span>
+<span class="truncate">Print Confirmation</span>
+</button>
+</div>
+<div class="rounded-xl bg-white p-6 shadow-sm dark:bg-[#1C252E]">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">What's Next?</h3>
+<div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+<div class="flex items-start gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined"> mail </span>
+</div>
+<div class="flex flex-col">
+<p class="font-semibold text-slate-800 dark:text-slate-200">Check your email</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">We've sent a detailed confirmation to your email address.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined"> event </span>
+</div>
+<div class="flex flex-col">
+<p class="font-semibold text-slate-800 dark:text-slate-200">Add to Calendar</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Keep track of your trip dates by adding them to your calendar.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined"> credit_card </span>
+</div>
+<div class="flex flex-col">
+<p class="font-semibold text-slate-800 dark:text-slate-200">Prepare for check-in</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">You'll need a valid ID and the credit card used for booking.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined"> help_center </span>
+</div>
+<div class="flex flex-col">
+<p class="font-semibold text-slate-800 dark:text-slate-200">Need Help?</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Visit our support center for any questions about your booking.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="border-t border-slate-200 py-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+<p>© 2024 HotelBook. All rights reserved.</p>
+<div class="mt-2 flex justify-center gap-4">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Contact Us</a>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

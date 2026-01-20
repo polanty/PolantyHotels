@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Hotel Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#137fec",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101922",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex h-full w-64 flex-col bg-white dark:bg-[#19222c] border-r border-gray-200 dark:border-gray-700/50">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBh6riyWNli1dcB35IuuELdMOgt0k8UB4J7bbfRqZeXGSkr0syE0tOHem5WqfujoJby5vsd09Yi0ceInHZwxEdthd5avyZG2U-hB3TdjI8zIFHKCr4XQsV8lPil0YYR15fI6NRwyEfP0ffpYMZeqhXFVDAV6BpzK3T3unwdhptSZ95F9W0OJbkAOK_XWwAyp73rV1RIkTgRusA0aQwKwRJDwkWZMyZ-THQ46Xb3FcM3QQmlTIRX8KIfKCD3gbsgHYKskFRuC9GNGjw");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-semibold leading-normal">Alex Weber</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Regional Manager</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary/20 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary/20 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Bookings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary dark:text-white dark:bg-primary" href="#">
+<span class="material-symbols-outlined fill text-2xl">apartment</span>
+<p class="text-sm font-medium leading-normal">Hotels</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary/20 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-background-dark text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50 text-sm font-bold leading-normal tracking-[0.015em] transition-colors">
+<span class="truncate">Log Out</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 grid grid-cols-12 overflow-hidden">
+<!-- Left Column: Hotel List -->
+<div class="col-span-4 lg:col-span-3 xl:col-span-3 border-r border-gray-200 dark:border-gray-700/50 flex flex-col h-screen">
+<div class="p-4 border-b border-gray-200 dark:border-gray-700/50">
+<!-- PageHeading & SearchBar -->
+<p class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight">Hotels in North America</p>
+<div class="mt-4">
+<label class="flex flex-col w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-11">
+<div class="text-gray-400 dark:text-gray-500 flex bg-gray-100 dark:bg-background-dark items-center justify-center pl-3.5 rounded-l-lg border border-gray-300 dark:border-gray-700 border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-background-dark h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search hotels..."/>
+</div>
+</label>
+</div>
+</div>
+<div class="p-4">
+<!-- SingleButton -->
+<button class="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+<span class="truncate">Add New Hotel</span>
+</button>
+</div>
+<!-- Scrollable List of Hotels -->
+<div class="flex-1 overflow-y-auto px-2 pb-4">
+<div class="flex flex-col gap-1">
+<!-- ListItem: Active -->
+<div class="flex items-center gap-4 bg-primary/10 dark:bg-primary/20 px-3 py-3 rounded-lg cursor-pointer">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Exterior view of Grand Hyatt" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDltT9yyWpeHdjoVrg_B9c8x2Hpovlvqe1kGbG55NHnXBV5mwUXt7tMRktyNaytPsxy8mJdOLiIYsqFfBgyfrhN3PcSJ1vvkm_VCA82YZ8ULfkyPpwTXR-9FhlFekLcdUzt_udY-fgT7IKL8tiu8qJeD4AjzTG9Xb1iGCGhKCvJDJf3uBSzYMxNhQc_1OBO7Rjerk_Fm0eWXXjjh-0J3YheAOqCbYNSJxnhrwYdjG-V6ZCLMjti9XIj88SNFCok-R0SrG9SrQDMaHw");'></div>
+<div class="flex-1">
+<p class="text-primary dark:text-white text-base font-semibold leading-normal line-clamp-1">Grand Hyatt</p>
+<p class="text-gray-600 dark:text-gray-300 text-sm font-normal leading-normal line-clamp-2">New York, USA</p>
+</div>
+<div class="shrink-0 flex items-center gap-1.5 text-sm text-green-600 dark:text-green-400">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span>Published</span>
+</div>
+</div>
+<!-- ListItem -->
+<div class="flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-white/5 px-3 py-3 rounded-lg cursor-pointer">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Exterior view of The Ritz-Carlton" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCQzwmr3u7S8ZmJFUCD9lxrskDn4ILbksWIBmAIbjHRWnw29OgrAt1xzW_T-tToW5KdVM0NTLLWIQ5sTgexyhjJxRWX3jC-eoPvPnys5tA_Er7mg1wgMZoQDuIL8HKmRKoxlbRNaQ2NVqlBNHrCP3FhybnovIe6C0tAHz0XLOiHZKAF9sm8QuPI6PpgA-cplRKoAURPD_FB1p1dDaPWg_Sh0voHRPyXKc-NhnfKGYMbaACkeVnYl2fDmQZ8WoWKn2G2qaYcwRLPNdk");'></div>
+<div class="flex-1">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal line-clamp-1">The Ritz-Carlton</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Chicago, USA</p>
+</div>
+<div class="shrink-0 flex items-center gap-1.5 text-sm text-green-600 dark:text-green-400">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span>Published</span>
+</div>
+</div>
+<!-- ListItem -->
+<div class="flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-white/5 px-3 py-3 rounded-lg cursor-pointer">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Exterior view of Four Seasons" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKkDdF0ac2PQrrktFSjzfGA_0jaM4CjDBWHhadEDH_0qLyQUQ55SyhCHEy84BUUoccxXLlFnXb9eyM5qUBQLo36NHb4CFigOAlYNumiHGOzSxUG2b1AVM58cT0rP61c9wuUXIL1P4OSXFVYQelmK16NVExbFuIYIvjfrJt0a3UivQ9vkqOkW_WjBjQ7G0CbIKyeEL1PQgtB9QzkQbVHuy45tmPtLDSGx_11Z2jPyWnQpZtJcgHH79JJrTqjEbqJ3J9KrZIJSy0jJI");'></div>
+<div class="flex-1">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal line-clamp-1">Four Seasons</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Toronto, Canada</p>
+</div>
+<div class="shrink-0 flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+<div class="size-2 rounded-full bg-gray-400"></div>
+<span>Draft</span>
+</div>
+</div>
+<!-- ListItem -->
+<div class="flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-white/5 px-3 py-3 rounded-lg cursor-pointer">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Exterior view of Marriott Marquis" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiGcmzajCGMXzBaVWXN3puoIBQb9W4g_fwgMnwwJ7UZ5sc_qILwt9c6JfbYLfCQcYbPPuMCxrAZtB7crkIr6K8BXE8PWl6smidVS0XiNcuPX-iUBcoNyVbCbnXA5dHdJZCj00mKm5NNX-gSCv_jrxvgPtbVbb9c1CN-LF7yIWQwzUYqd8LsaZGytpscK9gkLAq9CEvcmUZzM3WBvHsKGzA8OPLCr5C1nLZDDkIzjJLtHJm3BwX9f71Wdw50l1NS_xhXuPOQAHeuVk");'></div>
+<div class="flex-1">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal line-clamp-1">Marriott Marquis</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">San Francisco, USA</p>
+</div>
+<div class="shrink-0 flex items-center gap-1.5 text-sm text-green-600 dark:text-green-400">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span>Published</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Editor Panel -->
+<div class="col-span-8 lg:col-span-9 xl:col-span-9 flex flex-col h-screen">
+<header class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700/50 h-[89px]">
+<h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Editing: Grand Hyatt</h2>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 text-sm font-bold bg-gray-200/80 dark:bg-gray-700/50 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Cancel</button>
+<button class="flex items-center justify-center rounded-lg h-10 px-5 text-sm font-bold bg-primary text-white hover:bg-primary/90 transition-colors" disabled="">Save Changes</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Tabbed Interface -->
+<div class="border-b border-gray-200 dark:border-gray-700/50">
+<nav aria-label="Tabs" class="-mb-px flex space-x-6">
+<a class="shrink-0 border-b-2 border-primary px-1 pb-3 text-sm font-semibold text-primary" href="#">General Info</a>
+<a class="shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200" href="#">Amenities</a>
+<a class="shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200" href="#">Images</a>
+</nav>
+</div>
+<!-- Form Sections -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<!-- Hotel Name -->
+<div class="md:col-span-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="hotel-name">Hotel Name</label>
+<input class="form-input block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="hotel-name" type="text" value="Grand Hyatt"/>
+</div>
+<!-- Address -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="address">Address</label>
+<input class="form-input block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="address" type="text" value="109 East 42nd Street"/>
+</div>
+<!-- City -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="city">City</label>
+<input class="form-input block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="city" type="text" value="New York"/>
+</div>
+<!-- Country -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="country">Country</label>
+<select class="form-select block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="country">
+<option>Canada</option>
+<option selected="">United States</option>
+<option>Mexico</option>
+</select>
+</div>
+<!-- Star Rating -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="star-rating">Star Rating</label>
+<input class="form-input block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="star-rating" type="number" value="5"/>
+</div>
+<!-- Description -->
+<div class="md:col-span-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="description">Description</label>
+<textarea class="form-textarea block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark shadow-sm focus:border-primary focus:ring-primary focus:ring-opacity-50 text-sm" id="description" rows="4">Located in the heart of Midtown Manhattan, Grand Hyatt New York is the only hotel connected to the majesty and advantages of Grand Central Terminal.</textarea>
+</div>
+</div>
+<!-- Danger Zone -->
+<div class="border-t border-gray-200 dark:border-gray-700/50 pt-6">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Danger Zone</h3>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">These actions are permanent and cannot be undone.</p>
+<div class="mt-4">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 text-sm font-bold bg-transparent border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors">Delete Hotel</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

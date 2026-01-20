@@ -3,6 +3,8 @@ import brandRoutes from "./src/Routes/BrandRoutes/BrandRoute.js";
 import hotelRoutes from "./src/Routes/HotelRoutes/HotelRoutes.js";
 import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
 import authRoutes from "./src/Routes/Authentication/authRoutes.js";
+import amenitiesRoute from "./src/Routes/Amenities/amenitiesRoute.js";
+import pricingRoute from "./src/Routes/Pricing/pricingRoutes.js";
 
 // Test routes -> Only for testing for
 // Used to also create data for references by Other models
@@ -52,6 +54,12 @@ app.use("/api/v1/rooms", roomRouter);
 
 //Room types (Varieties) (primarily for admin)
 app.use("/api/v1/room-types", roomTypesRouter);
+
+//Amenities Route for Admin
+app.use("/api/v1/admin", amenitiesRoute);
+
+//Pricing Routes for Admin
+app.use("/api/v1/admin", pricingRoute);
 
 //Global Non-existing route error handling middleware
 app.use((req, res, next) => {
