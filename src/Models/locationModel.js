@@ -63,6 +63,14 @@ const locationSchema = new mongoose.Schema(
         ref: "Room",
       },
     ],
+
+    amenities: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Amenities", // must match the model name you exported
+        required: true,
+      },
+    ],
   },
 
   {
@@ -73,7 +81,7 @@ const locationSchema = new mongoose.Schema(
 
 // Attach middleware BEFORE compiling model
 locationSchema.pre(/^find/, function (next) {
-  this.populate("brand_id", "name -_id"); // only include brand name
+  this.populate("amenities", "-_id"); // only include brand name
 
   next();
 });
