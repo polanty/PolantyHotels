@@ -1,19 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User Registration/Login</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>User Registration/Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "primary": "#005A9C",
+              primary: "#005A9C",
               "background-light": "#F8F9FA",
               "background-dark": "#101922",
               "text-light": "#212529",
@@ -26,98 +33,209 @@
               "muted-dark": "#9dabb9",
             },
             fontFamily: {
-              "display": ["Manrope", "sans-serif"]
+              display: ["Manrope", "sans-serif"],
             },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
           },
         },
-      }
+      };
     </script>
-<style>
+    <style>
       .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
       }
     </style>
-</head>
-<body class="font-display bg-background-light dark:bg-background-dark">
-<div class="relative flex min-h-screen w-full flex-col group/design-root">
-<div class="layout-container flex h-full grow flex-col">
-<div class="flex flex-1">
-<div class="flex w-full flex-wrap">
-<!-- Left Panel: Image and Branding -->
-<div class="relative hidden w-full basis-full items-center justify-center p-12 lg:flex lg:w-1/2">
-<div class="absolute inset-0 z-0 h-full w-full bg-cover bg-center" data-alt="Luxury hotel infinity pool with a scenic view at dusk" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDX1KBSZjpVZBvnSpUx0krqZTD1g0Sl_BS4j-1MEM4L7tzu2OIgdKc8VBz55MUbBRPbK47twGCyvvLLSdsr4I1gwfJ0UL2UNckGK3lyKoa-eMxujOYmkn_XDwdVX4nT8ORrVNv_9Y-AfUHy0lQmZrQiFTYpI8ELnd7P1rPXHy9cfbodDUNkeAL8Yu6xKZtAhZWKL8p_n0eq-5ECUeJ91nkvorsVcwM87zUnni4x9oaMfJEIJez2vYSAK7dxFqx2TY8BlBYBPlm2zzc");'></div>
-<div class="relative z-10 flex flex-col items-start text-white">
-<div class="flex items-center gap-3 mb-6">
-<span class="material-symbols-outlined text-4xl">travel_explore</span>
-<p class="text-2xl font-bold">Voyage</p>
-</div>
-<h1 class="text-5xl font-bold leading-tight tracking-tight">Your next journey starts here.</h1>
-<p class="mt-4 max-w-md text-lg text-white/80">Book your stay, your way. Discover hotels that are more than just a place to sleep.</p>
-</div>
-</div>
-<!-- Right Panel: Form -->
-<div class="flex w-full basis-full items-center justify-center bg-background-light dark:bg-background-dark p-6 sm:p-8 lg:w-1/2">
-<div class="layout-content-container flex w-full max-w-md flex-col">
-<div class="flex flex-col gap-8">
-<!-- Segmented Buttons for Login/Register -->
-<div class="flex px-0 py-3">
-<div class="flex h-12 flex-1 items-center justify-center rounded-lg bg-gray-200 dark:bg-[#283039] p-1">
-<label class="flex h-full cursor-pointer grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark has-[:checked]:bg-white has-[:checked]:text-text-light dark:has-[:checked]:bg-[#111418] dark:has-[:checked]:text-text-dark has-[:checked]:shadow-sm text-sm font-medium leading-normal transition-colors">
-<span class="truncate">Login</span>
-<input checked="" class="invisible w-0" name="auth-toggle" type="radio" value="Login"/>
-</label>
-<label class="flex h-full cursor-pointer grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark has-[:checked]:bg-white has-[:checked]:text-text-light dark:has-[:checked]:bg-[#111418] dark:has-[:checked]:text-text-dark has-[:checked]:shadow-sm text-sm font-medium leading-normal transition-colors">
-<span class="truncate">Register</span>
-<input class="invisible w-0" name="auth-toggle" type="radio" value="Register"/>
-</label>
-</div>
-</div>
-<!-- Page Heading -->
-<div class="flex flex-wrap justify-between gap-3 px-0">
-<div class="flex min-w-72 flex-col gap-2">
-<p class="text-text-light dark:text-text-dark text-3xl font-bold leading-tight">Welcome Back</p>
-<p class="text-muted-light dark:text-muted-dark text-base font-normal leading-normal">Login to continue your journey.</p>
-</div>
-</div>
-<!-- Form Fields -->
-<div class="flex flex-col gap-4">
-<label class="flex flex-col">
-<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Email Address</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-input-bg-light p-3 text-base font-normal leading-normal text-text-light placeholder:text-muted-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:placeholder:text-muted-dark dark:focus:border-primary" placeholder="Enter your email" value=""/>
-</label>
-<label class="flex flex-col">
-<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Password</p>
-<div class="relative">
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-input-bg-light p-3 pr-10 text-base font-normal leading-normal text-text-light placeholder:text-muted-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:placeholder:text-muted-dark dark:focus:border-primary" placeholder="Enter your password" type="password" value=""/>
-<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-light dark:text-muted-dark">
-<span class="material-symbols-outlined text-xl">visibility_off</span>
-</button>
-</div>
-</label>
-</div>
-<a class="text-right text-sm font-medium text-primary hover:underline" href="#">Forgot Password?</a>
-<!-- CTA Button -->
-<button class="flex h-12 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-semibold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">Login</button>
-<div class="relative my-4 flex items-center">
-<div class="flex-grow border-t border-border-light dark:border-border-dark"></div>
-<span class="mx-4 flex-shrink text-sm text-muted-light dark:text-muted-dark">OR</span>
-<div class="flex-grow border-t border-border-light dark:border-border-dark"></div>
-</div>
-<!-- Social Logins -->
-<div class="flex flex-col gap-3 sm:flex-row">
-<button class="flex h-12 flex-1 items-center justify-center gap-3 rounded-lg border border-border-light bg-input-bg-light text-text-light transition-colors hover:bg-gray-100 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:hover:bg-white/5">
-<svg class="h-5 w-5" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" fill="#FFC107"></path><path d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" fill="#FF3D00"></path><path d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.223,0-9.657-3.356-11.303-7.962l-6.571,4.819C9.656,39.663,16.318,44,24,44z" fill="#4CAF50"></path><path d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C43.021,36.688,44,34.008,44,24C44,22.659,43.862,21.35,43.611,20.083z" fill="#1976D2"></path>
-</svg>
-<span>Continue with Google</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body></html>
+  </head>
+  <body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex min-h-screen w-full flex-col group/design-root">
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="flex flex-1">
+          <div class="flex w-full flex-wrap">
+            <!-- Left Panel: Image and Branding -->
+            <div
+              class="relative hidden w-full basis-full items-center justify-center p-12 lg:flex lg:w-1/2"
+            >
+              <div
+                class="absolute inset-0 z-0 h-full w-full bg-cover bg-center"
+                data-alt="Luxury hotel infinity pool with a scenic view at dusk"
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDX1KBSZjpVZBvnSpUx0krqZTD1g0Sl_BS4j-1MEM4L7tzu2OIgdKc8VBz55MUbBRPbK47twGCyvvLLSdsr4I1gwfJ0UL2UNckGK3lyKoa-eMxujOYmkn_XDwdVX4nT8ORrVNv_9Y-AfUHy0lQmZrQiFTYpI8ELnd7P1rPXHy9cfbodDUNkeAL8Yu6xKZtAhZWKL8p_n0eq-5ECUeJ91nkvorsVcwM87zUnni4x9oaMfJEIJez2vYSAK7dxFqx2TY8BlBYBPlm2zzc&quot;);
+                "
+              ></div>
+              <div class="relative z-10 flex flex-col items-start text-white">
+                <div class="flex items-center gap-3 mb-6">
+                  <span class="material-symbols-outlined text-4xl"
+                    >travel_explore</span
+                  >
+                  <p class="text-2xl font-bold">Voyage</p>
+                </div>
+                <h1 class="text-5xl font-bold leading-tight tracking-tight">
+                  Your next journey starts here.
+                </h1>
+                <p class="mt-4 max-w-md text-lg text-white/80">
+                  Book your stay, your way. Discover hotels that are more than
+                  just a place to sleep.
+                </p>
+              </div>
+            </div>
+            <!-- Right Panel: Form -->
+            <div
+              class="flex w-full basis-full items-center justify-center bg-background-light dark:bg-background-dark p-6 sm:p-8 lg:w-1/2"
+            >
+              <div
+                class="layout-content-container flex w-full max-w-md flex-col"
+              >
+                <div class="flex flex-col gap-8">
+                  <!-- Segmented Buttons for Login/Register -->
+                  <div class="flex px-0 py-3">
+                    <div
+                      class="flex h-12 flex-1 items-center justify-center rounded-lg bg-gray-200 dark:bg-[#283039] p-1"
+                    >
+                      <label
+                        class="flex h-full cursor-pointer grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark has-[:checked]:bg-white has-[:checked]:text-text-light dark:has-[:checked]:bg-[#111418] dark:has-[:checked]:text-text-dark has-[:checked]:shadow-sm text-sm font-medium leading-normal transition-colors"
+                      >
+                        <span class="truncate">Login</span>
+                        <input
+                          checked=""
+                          class="invisible w-0"
+                          name="auth-toggle"
+                          type="radio"
+                          value="Login"
+                        />
+                      </label>
+                      <label
+                        class="flex h-full cursor-pointer grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark has-[:checked]:bg-white has-[:checked]:text-text-light dark:has-[:checked]:bg-[#111418] dark:has-[:checked]:text-text-dark has-[:checked]:shadow-sm text-sm font-medium leading-normal transition-colors"
+                      >
+                        <span class="truncate">Register</span>
+                        <input
+                          class="invisible w-0"
+                          name="auth-toggle"
+                          type="radio"
+                          value="Register"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Page Heading -->
+                  <div class="flex flex-wrap justify-between gap-3 px-0">
+                    <div class="flex min-w-72 flex-col gap-2">
+                      <p
+                        class="text-text-light dark:text-text-dark text-3xl font-bold leading-tight"
+                      >
+                        Welcome Back
+                      </p>
+                      <p
+                        class="text-muted-light dark:text-muted-dark text-base font-normal leading-normal"
+                      >
+                        Login to continue your journey.
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Form Fields -->
+                  <div class="flex flex-col gap-4">
+                    <label class="flex flex-col">
+                      <p
+                        class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2"
+                      >
+                        Email Address
+                      </p>
+                      <input
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-input-bg-light p-3 text-base font-normal leading-normal text-text-light placeholder:text-muted-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:placeholder:text-muted-dark dark:focus:border-primary"
+                        placeholder="Enter your email"
+                        value=""
+                      />
+                    </label>
+                    <label class="flex flex-col">
+                      <p
+                        class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2"
+                      >
+                        Password
+                      </p>
+                      <div class="relative">
+                        <input
+                          class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-input-bg-light p-3 pr-10 text-base font-normal leading-normal text-text-light placeholder:text-muted-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:placeholder:text-muted-dark dark:focus:border-primary"
+                          placeholder="Enter your password"
+                          type="password"
+                          value=""
+                        />
+                        <button
+                          class="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-light dark:text-muted-dark"
+                        >
+                          <span class="material-symbols-outlined text-xl"
+                            >visibility_off</span
+                          >
+                        </button>
+                      </div>
+                    </label>
+                  </div>
+                  <a
+                    class="text-right text-sm font-medium text-primary hover:underline"
+                    href="#"
+                    >Forgot Password?</a
+                  >
+                  <!-- CTA Button -->
+                  <button
+                    class="flex h-12 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-semibold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark"
+                  >
+                    Login
+                  </button>
+                  <div class="relative my-4 flex items-center">
+                    <div
+                      class="flex-grow border-t border-border-light dark:border-border-dark"
+                    ></div>
+                    <span
+                      class="mx-4 flex-shrink text-sm text-muted-light dark:text-muted-dark"
+                      >OR</span
+                    >
+                    <div
+                      class="flex-grow border-t border-border-light dark:border-border-dark"
+                    ></div>
+                  </div>
+                  <!-- Social Logins -->
+                  <div class="flex flex-col gap-3 sm:flex-row">
+                    <button
+                      class="flex h-12 flex-1 items-center justify-center gap-3 rounded-lg border border-border-light bg-input-bg-light text-text-light transition-colors hover:bg-gray-100 dark:border-border-dark dark:bg-input-bg-dark dark:text-text-dark dark:hover:bg-white/5"
+                    >
+                      <svg
+                        class="h-5 w-5"
+                        viewbox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                          fill="#FFC107"
+                        ></path>
+                        <path
+                          d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                          fill="#FF3D00"
+                        ></path>
+                        <path
+                          d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.223,0-9.657-3.356-11.303-7.962l-6.571,4.819C9.656,39.663,16.318,44,24,44z"
+                          fill="#4CAF50"
+                        ></path>
+                        <path
+                          d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C43.021,36.688,44,34.008,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                          fill="#1976D2"
+                        ></path>
+                      </svg>
+                      <span>Continue with Google</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

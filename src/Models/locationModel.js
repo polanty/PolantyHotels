@@ -81,7 +81,7 @@ const locationSchema = new mongoose.Schema(
 
 // Attach middleware BEFORE compiling model
 locationSchema.pre(/^find/, function (next) {
-  this.populate("amenities", "-_id"); // only include brand name
+  this.populate("amenities", "-_id -__v"); // only include brand name
 
   next();
 });

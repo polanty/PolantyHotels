@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+
 import brandRoutes from "./src/Routes/BrandRoutes/BrandRoute.js";
 import hotelRoutes from "./src/Routes/HotelRoutes/HotelRoutes.js";
 import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
@@ -12,6 +14,7 @@ import roomRouter from "./src/Routes/RoomRoutes(test)/roomRoutes.js";
 import roomTypesRouter from "./src/Routes/RoomTypesRoutes/RoomTypesRoutes.js";
 //
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import AppError from "./src/Utilities/globalErrorCatcher.js";
 
@@ -28,14 +31,22 @@ const app = express();
 
 //   next();
 // });
+app.use(cors({ origin: "http://127.0.0.1:5500", credentials: true }));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cookieParser()); // <- used to pass all the cookies coming from the request
 
 // Mount all the routes for dev environment
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// Test middleware
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
 
 //Authentication Routes (login, sign up, password change, passwordUpdate);
 app.use("/api/v1/auth", authRoutes);

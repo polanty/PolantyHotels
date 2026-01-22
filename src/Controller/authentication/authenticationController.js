@@ -28,13 +28,13 @@ export const protect = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError("You are not logged in! Please log in to get access.", 401)
+      new AppError("You are not logged in! Please log in to get access.", 401),
     );
   }
 
   const confirmedToken = await promisify(jwt.verify)(
     token,
-    process.env.JWT_SECRET_TOKEN
+    process.env.JWT_SECRET_TOKEN,
   );
 
   //if user has been decativated but token still exist then we want to stop the user from logging in
@@ -42,7 +42,7 @@ export const protect = catchAsync(async (req, res, next) => {
 
   if (!confirmedUser) {
     return next(
-      new AppError("The User belonging to the Token no Longer exist", 401)
+      new AppError("The User belonging to the Token no Longer exist", 401),
     );
   }
 
@@ -54,8 +54,8 @@ export const protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "User recently changed password and should Log In again ",
-        401
-      )
+        401,
+      ),
     );
   }
 
@@ -92,7 +92,7 @@ export const Login = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET_TOKEN,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
-    }
+    },
   );
 
   //Update last login date
@@ -100,6 +100,14 @@ export const Login = catchAsync(async (req, res, next) => {
   await currentUser.save({ validateBeforeSave: false });
 
   // Input statistics for admin analytics later on
+
+  //Send json web token as cookie to the browser
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 24 * 60 * 60 * 1000,
+  }); // 1 day
 
   res.status(200).json({
     token,
@@ -111,7 +119,7 @@ export const Login = catchAsync(async (req, res, next) => {
 });
 
 export const signUp = catchAsync(async (req, res, next) => {
-  console.log(req.body);
+  //console.log(req.body);
 
   const newUser = await User.create({
     first_name: req.body.first_name,
@@ -164,7 +172,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3)  send password reset token
   const resetURL = `${req.protocol}://${req.get(
-    "host"
+    "host",
   )}/api/v1/users/reset-password/${resetToken}`;
 
   const message = `Forgot your password? Submit a Patch request with your new password and passwordConfirm to: ${resetURL}. \n If you didn't forget your password, please ignore this email!`;
@@ -186,7 +194,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
     return next(
       new AppError("There was an error sending the email. Try again later"),
-      500
+      500,
     );
   }
 
@@ -245,7 +253,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET_TOKEN,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
-    }
+    },
   );
 
   res.status(200).json({
