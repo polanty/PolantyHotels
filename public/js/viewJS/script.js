@@ -47,6 +47,10 @@ form.addEventListener("submit", async (e) => {
       withCredentials: true,
     });
 
+    // window.setTimeout(() => {
+    //   location.assign('/')
+    // }, 1500)
+
     console.log(res.data);
   } catch (error) {
     console.log(error.response?.data || error.message || error);

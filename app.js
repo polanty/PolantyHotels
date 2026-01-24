@@ -48,6 +48,9 @@ app.use((req, res, next) => {
   next();
 });
 
+//Have to reconfigure all my routes
+//some will need the user to be logged in while others will not
+
 //Authentication Routes (login, sign up, password change, passwordUpdate);
 app.use("/api/v1/auth", authRoutes);
 

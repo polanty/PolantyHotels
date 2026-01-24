@@ -66,6 +66,36 @@ export const protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// Only for rendered pages, middleware will never have error
+export const isLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.token) {
+    const confirmedToken = await promisify(jwt.verify)(
+      req.cookies.token,
+      process.env.JWT_SECRET_TOKEN,
+    );
+
+    //if user has been decativated but token still exist then we want to stop the user from logging in
+    const confirmedUser = await User.findById(confirmedToken.id);
+
+    if (!confirmedUser) {
+      return next();
+    }
+
+    //check if the user changed password after the tokenwas issued
+    //console.log(confirmedToken);
+    if (confirmedUser.changePasswordAfter(confirmedToken.iat)) {
+      return next();
+    }
+
+    //THERE IS A LOGGED IN USER
+    //SO MAKE USER ACCESSIBLE TO THE FRONTEND
+    res.locals.user = confirmedUser;
+    return next();
+  }
+
+  next();
+});
+
 // Creating User functionalities with sensitive privileges that should be restricted to users only
 
 export const Login = catchAsync(async (req, res, next) => {
