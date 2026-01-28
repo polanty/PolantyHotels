@@ -12,8 +12,11 @@
     "test:run": "vitest run"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "axios": "^1.13.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.3"
   },
   "devDependencies": {

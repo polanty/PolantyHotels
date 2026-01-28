@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
-import "./AuthPage.css";
+import "./Auth.page.css";
 
-export default function AuthPage() {
+function AuthPage() {
   const emailId = useId();
   const passwordId = useId();
 
@@ -121,3 +121,5 @@ export default function AuthPage() {
     </div>
   );
 }
+
+export default AuthPage;
