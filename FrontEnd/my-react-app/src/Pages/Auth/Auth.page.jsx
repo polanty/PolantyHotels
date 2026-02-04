@@ -30,16 +30,25 @@ function AuthPage() {
   //   e.preventDefault();
   //   // TODO: API call (login / register)
   // }
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("The code got here");
+
+    const formData = new FormData(e.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    console.log("Email:", email);
+    console.log("Password:", password);
     dispatch(clearAuthError());
 
-    const result = dispatch(loginThunk({ emailId, passwordId }));
-    if (loginThunk.fulfilled.match(result)) {
+    try {
+      const user = await dispatch(loginThunk({ email, password })).unwrap();
+      console.log("Logged in user:", user);
       navigate("/");
+    } catch (err) {
+      console.log("Login failed:", err);
     }
-  }
+  };
 
   return (
     <div className="auth-page">
@@ -126,8 +135,8 @@ function AuthPage() {
               </a>
             )}
 
-            <button type="submit" className="primary-btn">
-              {isLogin ? "Login" : "Register"}
+            <button type="submit" className="primary-btn" disabled={loading}>
+              {loading ? "Loading..." : isLogin ? "Login" : "Register"}
             </button>
           </form>
 
