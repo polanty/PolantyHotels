@@ -31,7 +31,7 @@ const app = express();
 
 //   next();
 // });
-app.use(cors({ origin: "http://127.0.0.1:5500", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 // Middleware to parse JSON bodies
 app.use(express.json());

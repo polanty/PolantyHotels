@@ -1,7 +1,21 @@
 import { useId, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk } from "../../store/auth/auth.thunks";
+import { clearAuthError } from "../../store/auth/auth.slice";
+import {
+  selectAuthError,
+  selectAuthStatus,
+} from "../../store/auth/auth.selectors";
+import { useNavigate } from "react-router-dom";
 import "./Auth.page.css";
 
 function AuthPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const status = useSelector(selectAuthStatus);
+  const error = useSelector(selectAuthError);
+
   const emailId = useId();
   const passwordId = useId();
 
@@ -10,9 +24,21 @@ function AuthPage() {
 
   const isLogin = mode === "login";
 
+  const loading = status === "loading";
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   // TODO: API call (login / register)
+  // }
   function handleSubmit(e) {
     e.preventDefault();
-    // TODO: API call (login / register)
+    console.log("The code got here");
+    dispatch(clearAuthError());
+
+    const result = dispatch(loginThunk({ emailId, passwordId }));
+    if (loginThunk.fulfilled.match(result)) {
+      navigate("/");
+    }
   }
 
   return (

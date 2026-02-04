@@ -1,14 +1,58 @@
 import "./App.css";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMe, logoutThunk } from "./store/auth/auth.thunks";
+import {
+  selectBootstrapped,
+  selectIsAuthed,
+  selectUser,
+} from "./store/auth/auth.selectors";
 
 function App() {
+  const dispatch = useDispatch();
+  const bootstrapped = useSelector(selectBootstrapped);
+  const isAuthed = useSelector(selectIsAuthed);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    dispatch(fetchMe());
+  }, [dispatch]);
+
+  // Optional: show splash while checking cookie session
+  if (!bootstrapped) return null; // or your loading component
+
+  //   return (
+  //     <>
+  //       {/* Header / Nav could go here */}
+  //       <Outlet />
+  //       {/* Footer could go here */}
+  //     </>
+  //   );
+  // }
   return (
-    <>
-      {/* Header / Nav could go here */}
-      <Outlet />
-      {/* Footer could go here */}
-    </>
+    <div>
+      <nav style={{ display: "flex", gap: 12, padding: 16 }}>
+        <Link to="/">Home</Link>
+
+        {isAuthed ? (
+          <>
+            <Link to="/dashboard">Dashboard</Link>
+            <span>Hi, {user?.name ?? "User"}</span>
+            <button type="button" onClick={() => dispatch(logoutThunk())}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/auth">Login</Link>
+        )}
+      </nav>
+
+      <main style={{ padding: 16 }}>
+        <Outlet />
+      </main>
+    </div>
   );
 }
 
