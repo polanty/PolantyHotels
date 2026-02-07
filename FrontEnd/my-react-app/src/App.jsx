@@ -14,11 +14,13 @@ function App() {
   const dispatch = useDispatch();
   const bootstrapped = useSelector(selectBootstrapped);
   const isAuthed = useSelector(selectIsAuthed);
-  const user = useSelector(selectUser);
+  const userData = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchMe());
   }, [dispatch]);
+
+  +console.log(userData);
 
   // Optional: show splash while checking cookie session
   if (!bootstrapped) return null; // or your loading component
@@ -39,7 +41,7 @@ function App() {
         {isAuthed ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
-            <span>Hi, {user?.name ?? "User"}</span>
+            <span>Hi, {userData?.first_name ?? "User"}</span>
             <button type="button" onClick={() => dispatch(logoutThunk())}>
               Logout
             </button>

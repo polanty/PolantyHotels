@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../store/auth/auth.thunks";
 import { clearAuthError } from "../../store/auth/auth.slice";
@@ -15,6 +15,16 @@ function AuthPage() {
 
   const status = useSelector(selectAuthStatus);
   const error = useSelector(selectAuthError);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        dispatch(clearAuthError());
+      }, 3000); // 3 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
 
   const emailId = useId();
   const passwordId = useId();
@@ -68,6 +78,7 @@ function AuthPage() {
             </p>
           </div>
         </div>
+        {error && <div className="auth-error">{error}</div>}
 
         {/* Right panel */}
         <div className="auth-form-wrapper">

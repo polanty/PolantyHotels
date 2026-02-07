@@ -5,5 +5,5 @@ export const authApi = {
   login: (payload) => api.post("api/v1/auth/login", payload),
   register: (payload) => api.post("api/v1/auth/signup", payload),
   logout: () => api.post("/auth/logout"),
-  me: () => api.get("api/v1/profile/:id"),
+  me: () => api.get("api/v1/auth/me"),
 };
