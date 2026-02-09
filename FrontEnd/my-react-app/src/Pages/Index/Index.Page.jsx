@@ -1,5 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAuthError,
+  selectAuthStatus,
+} from "../../store/auth/auth.selectors";
+import { paginatedHotels } from "../../store/auth/auth.thunks";
 
 const DESTINATION_BG =
   'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt8MEL-c-9eNtjj4KkKjZm3lOuwhUg9NYppUFuKVQsfCpLZlyDQpRQ2PqpFhuDW4sW8gkCVr5ZmaNez-FUECTWoHLT72mEgGwX83dmUsdsCeeYt2w2nInXv6s1b-bX5PHdlWr2GI97ZPkMsxmJkxRRlF1B3g0fmFIei8ISXMhYKASZ07LZ9ijOr5e3lYcVsLmA4qHF210pOCjuk1CfNA58BqSWWaQjVSnjykk0qk3z9XrMx0AyyPTmZXMqFH-k-o4yi4J-HE6--x4")';
@@ -32,6 +38,7 @@ const featured = [
 ];
 
 function Index() {
+  const dispatch = useDispatch();
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -43,11 +50,19 @@ function Index() {
 
   const heroStyle = useMemo(() => ({ backgroundImage: DESTINATION_BG }), []);
 
-  function onSearch(e) {
+  const onSearch = async (e) => {
     e.preventDefault();
-    // Replace with real navigation / API call later
-    console.log({ destination, checkIn, checkOut, guests });
-  }
+    try {
+      // Replace with real navigation / API call later
+      console.log({ destination, checkIn, checkOut, guests });
+      // const user = await dispatch(loginThunk({ email, password })).unwrap();
+      const data = await dispatch(paginatedHotels()).unwrap();
+
+      console.log("Data Received:", data);
+    } catch (error) {
+      console.log("The error is ", error);
+    }
+  };
 
   function onSubscribe(e) {
     e.preventDefault();

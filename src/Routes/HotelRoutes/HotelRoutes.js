@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route("/:id").get(getOneHotel).patch(updateHotel).delete(deleteHotel);
 
-router.use(protect);
+// router.use(protect);
 
 router.route("/").get(getAllHotels).post(createHotel);
 

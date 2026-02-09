@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMe, loginThunk, logoutThunk, registerThunk } from "./auth.thunks";
+import {
+  fetchMe,
+  loginThunk,
+  logoutThunk,
+  registerThunk,
+  paginatedHotels,
+} from "./auth.thunks";
 
 function normalizeUser(payload) {
-  // Supports APIs returning { user: ... } or just user
   if (!payload) return null;
-  if (payload.user) return payload.user;
-  return payload;
+  const user = payload.data || payload;
+  return { ...user, first_name: user.first_name || user.name || "" };
 }
 
 const initialState = {
   user: null,
+  data: null,
   status: "idle", // idle | loading | succeeded | failed
   bootstrapped: false, // ✅ so routes know when /me check finished
   error: null,
@@ -25,6 +31,9 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setData(state, action) {
+      state.data = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // ME
@@ -35,13 +44,28 @@ const authSlice = createSlice({
     builder.addCase(fetchMe.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.user = normalizeUser(action.payload);
-      state.bootstrapped = true;
+      state.bootstrapped = true; // bootstrap complete
     });
     builder.addCase(fetchMe.rejected, (state) => {
       state.status = "idle";
       state.user = null; // not logged in
       state.bootstrapped = true;
       state.error = null; // don't show "not logged in" as an error
+    });
+
+    // DATA
+    builder.addCase(paginatedHotels.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    });
+    builder.addCase(paginatedHotels.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.data = action.payload;
+      state.error = null;
+    });
+    builder.addCase(paginatedHotels.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload || "Failed to Load Hotels";
     });
 
     // LOGIN

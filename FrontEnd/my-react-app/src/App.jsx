@@ -20,19 +20,16 @@ function App() {
     dispatch(fetchMe());
   }, [dispatch]);
 
-  +console.log(userData);
+  console.log(`Bootstrap Before: ${bootstrapped}`);
 
   // Optional: show splash while checking cookie session
-  if (!bootstrapped) return null; // or your loading component
+  if (!bootstrapped) {
+    return <div className="splash">Loading...</div>;
+  }
+  // or your loading component
 
-  //   return (
-  //     <>
-  //       {/* Header / Nav could go here */}
-  //       <Outlet />
-  //       {/* Footer could go here */}
-  //     </>
-  //   );
-  // }
+  console.log(`Bootstrap After: ${bootstrapped}`);
+
   return (
     <div>
       <nav style={{ display: "flex", gap: 12, padding: 16 }}>
@@ -40,8 +37,11 @@ function App() {
 
         {isAuthed ? (
           <>
+            {console.log(userData)}
             <Link to="/dashboard">Dashboard</Link>
-            <span>Hi, {userData?.first_name ?? "User"}</span>
+            <span>
+              {userData && <span>Hi, {userData.user.first_name}</span>}
+            </span>
             <button type="button" onClick={() => dispatch(logoutThunk())}>
               Logout
             </button>

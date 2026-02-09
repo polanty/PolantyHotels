@@ -10,10 +10,27 @@ export const fetchMe = createAsyncThunk("auth/me", async (_, thunkApi) => {
     // If not logged in, treat as "no user" not "fatal error"
     console.log("This thunk is called");
     const message =
-      err.response?.data?.message || err.message || "Login failed";
+      err.response?.data?.message || err.message || "Not Authenticated";
     return thunkApi.rejectWithValue(message);
   }
 });
+
+// Pass in the returned Hotels into the paginatedHotels
+export const paginatedHotels = createAsyncThunk(
+  "auth/paginatedHotels",
+  async (payload, thunkApi) => {
+    try {
+      const res = await authApi.paginatedHotels();
+      return res.data; // received data of Hotels paginated from back end
+    } catch (err) {
+      // Return Error
+      console.log("This thunk is called");
+      const message =
+        err.response?.data?.message || err.message || "Hotels failed";
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
@@ -38,7 +55,7 @@ export const registerThunk = createAsyncThunk(
       return res.data;
     } catch (err) {
       const message =
-        err.response?.data?.message || err.message || "Login failed";
+        err.response?.data?.message || err.message || "Registered failed";
       return thunkApi.rejectWithValue(message);
     }
   },
@@ -52,7 +69,7 @@ export const logoutThunk = createAsyncThunk(
       return true;
     } catch (err) {
       const message =
-        err.response?.data?.message || err.message || "Login failed";
+        err.response?.data?.message || err.message || "Log out failed";
       return thunkApi.rejectWithValue(message);
     }
   },

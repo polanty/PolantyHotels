@@ -67,6 +67,7 @@ export const protect = catchAsync(async (req, res, next) => {
 });
 
 // Only for rendered pages, middleware will never have error
+//this will only work with Server rendered pages like pug
 export const isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.token) {
     const confirmedToken = await promisify(jwt.verify)(
@@ -146,7 +147,8 @@ export const Login = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       user: {
-        name: currentUser.name,
+        first_name: currentUser.first_name,
+        last_name: currentUser.last_name,
         email: currentUser.email,
         role: currentUser.role,
         last_login: currentUser.last_login,
