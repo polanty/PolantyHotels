@@ -15,16 +15,14 @@ export const fetchMe = createAsyncThunk("auth/me", async (_, thunkApi) => {
   }
 });
 
-// Pass in the returned Hotels into the paginatedHotels
+// DATA Retrieval Thunk
 export const paginatedHotels = createAsyncThunk(
   "auth/paginatedHotels",
-  async (payload, thunkApi) => {
+  async (params, thunkApi) => {
     try {
-      const res = await authApi.paginatedHotels();
-      return res.data; // received data of Hotels paginated from back end
+      const res = await authApi.paginatedHotels(params);
+      return res.data;
     } catch (err) {
-      // Return Error
-      console.log("This thunk is called");
       const message =
         err.response?.data?.message || err.message || "Hotels failed";
       return thunkApi.rejectWithValue(message);

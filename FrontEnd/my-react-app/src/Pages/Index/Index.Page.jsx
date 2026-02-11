@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   selectAuthError,
   selectAuthStatus,
@@ -39,6 +40,7 @@ const featured = [
 
 function Index() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -59,6 +61,19 @@ function Index() {
       const data = await dispatch(paginatedHotels()).unwrap();
 
       console.log("Data Received:", data);
+
+      e.preventDefault();
+
+      const params = new URLSearchParams();
+
+      if (destination?.trim()) params.set("location", destination.trim());
+      if (checkIn) params.set("checkIn", checkIn);
+      if (checkOut) params.set("checkOut", checkOut);
+      if (guests) params.set("guests", guests);
+
+      params.set("page", "1"); // reset page on new search
+
+      navigate(`/search?${params.toString()}`);
     } catch (error) {
       console.log("The error is ", error);
     }
