@@ -9,8 +9,16 @@
   --bg-light: #f6f7f8;
   --bg-dark: #101922;
 
+  --text: #0f172a;
   --text-light: #1f2937; /* gray-800 */
   --text-dark: #e5e7eb; /* gray-200 */
+  --text-muted: rgba(15, 23, 42, 0.65);
+  --text-muted-dark: rgba(255, 255, 255, 0.6);
+
+  --shadow: 0 18px 40px rgba(2, 6, 23, 0.14);
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
 
   --muted-light: #4b5563; /* gray-600 */
   --muted-dark: #d1d5db; /* gray-300 */
@@ -18,8 +26,11 @@
   --subtle-light: #6b7280; /* gray-500 */
   --subtle-dark: #9ca3af; /* gray-400 */
 
+  --panel: rgba(255, 255, 255, 1);
+  --panel-dark: rgba(17, 24, 39, 0.55);
+  --border: rgba(17, 24, 39, 0.12);
   --border-light: #e5e7eb; /* gray-200 */
-  --border-dark: #1f2937; /* gray-800-ish */
+  --border-dark: rgba(255, 255, 255, 0.12); /* gray-800-ish */
   --surface-light: rgba(246, 247, 248, 0.8);
   --surface-dark: rgba(16, 25, 34, 0.8);
 
@@ -28,19 +39,20 @@
   --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 /* Dark mode uses the same mechanism as your HTML: <html class="dark"> */
 html.dark {
   color-scheme: dark;
 }
 
-/* ===== Base ===== */
-* {
-  box-sizing: border-box;
-}
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family:

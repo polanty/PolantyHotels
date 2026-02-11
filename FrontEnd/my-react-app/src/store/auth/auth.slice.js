@@ -60,7 +60,10 @@ const authSlice = createSlice({
     });
     builder.addCase(paginatedHotels.fulfilled, (state, action) => {
       state.status = "succeeded";
-      state.data = action.payload;
+      state.data = action.payload.hotels;
+      state.totalPages = action.payload.totalPages;
+      state.currentPage = action.payload.currentPage;
+      state.results = action.payload.results;
       state.error = null;
     });
     builder.addCase(paginatedHotels.rejected, (state, action) => {

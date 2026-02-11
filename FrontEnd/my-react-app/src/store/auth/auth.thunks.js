@@ -21,7 +21,15 @@ export const paginatedHotels = createAsyncThunk(
   async (params, thunkApi) => {
     try {
       const res = await authApi.paginatedHotels(params);
-      return res.data;
+      const payload = res.data;
+
+      return {
+        hotels: payload?.data?.data?.allHotels ?? [],
+        totalPages: payload?.totalPages ?? 1,
+        currentPage: payload?.currentPage ?? 1,
+        results: payload?.results ?? 0,
+        raw: payload, // optional for debugging
+      };
     } catch (err) {
       const message =
         err.response?.data?.message || err.message || "Hotels failed";

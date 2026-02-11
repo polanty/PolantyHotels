@@ -1,5 +1,25 @@
 import qs from "qs";
 
+// helper: recursively lowercase string values in an object
+function lowercaseValues(obj) {
+  if (obj == null) return obj;
+
+  if (typeof obj === "string") {
+    // exact match but case-insensitive
+    return { $regex: `^${obj}$`, $options: "i" };
+  }
+
+  if (Array.isArray(obj)) return obj.map(lowercaseValues);
+
+  if (typeof obj === "object") {
+    return Object.keys(obj).reduce((acc, key) => {
+      acc[key] = lowercaseValues(obj[key]);
+      return acc;
+    }, {});
+  }
+  return obj;
+}
+
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
@@ -7,29 +27,26 @@ class APIFeatures {
   }
 
   defaultyQueryWithFilter() {
-    // console.log(this.query, this.queryString);
-
-    //1A) Filtering to remove special query parameters
+    // 1) copy and parse query string
     let queryObj = { ...this.queryString };
-
     queryObj = qs.parse(queryObj);
 
+    // 2) remove excluded fields
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    let updatedQuery = JSON.stringify(queryObj);
+    // 3) lowercase all string values for consistent comparison
+    queryObj = lowercaseValues(queryObj);
 
-    // const regex = /\b(lt|lte|gt|gte)\b/g;
+    // 4) convert operators like gte/lt to $gte/$lt
+    let updatedQuery = JSON.stringify(queryObj);
     const regexResult = updatedQuery.replace(
       /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
+      (match) => `$${match}`,
     );
-
     updatedQuery = JSON.parse(regexResult);
 
     this.query = this.query.find(updatedQuery);
-
-    // Save filter for later use in count
     this.filter = updatedQuery;
 
     return this;

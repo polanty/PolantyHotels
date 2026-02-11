@@ -2,11 +2,8 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  selectAuthError,
-  selectAuthStatus,
-} from "../../store/auth/auth.selectors";
-import { paginatedHotels } from "../../store/auth/auth.thunks";
+import { logoutThunk } from "../../store/auth/auth.thunks";
+import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
 
 const DESTINATION_BG =
   'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt8MEL-c-9eNtjj4KkKjZm3lOuwhUg9NYppUFuKVQsfCpLZlyDQpRQ2PqpFhuDW4sW8gkCVr5ZmaNez-FUECTWoHLT72mEgGwX83dmUsdsCeeYt2w2nInXv6s1b-bX5PHdlWr2GI97ZPkMsxmJkxRRlF1B3g0fmFIei8ISXMhYKASZ07LZ9ijOr5e3lYcVsLmA4qHF210pOCjuk1CfNA58BqSWWaQjVSnjykk0qk3z9XrMx0AyyPTmZXMqFH-k-o4yi4J-HE6--x4")';
@@ -40,43 +37,55 @@ const featured = [
 
 function Index() {
   const dispatch = useDispatch();
+  const isAuthed = useSelector(selectIsAuthed);
+  const userData = useSelector(selectUser);
   const navigate = useNavigate();
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState("2 guests");
+  const [guests, setGuests] = useState("2");
   const [email, setEmail] = useState("");
+
+  // useEffect(() => {
+  //   dispatch(fetchMe());
+  // }, [dispatch]);
 
   // Note: Your original HTML uses <html class="dark">.
   // To keep dark mode, add class="dark" on <html> in public/index.html (or toggle it yourself).
 
   const heroStyle = useMemo(() => ({ backgroundImage: DESTINATION_BG }), []);
 
-  const onSearch = async (e) => {
+  // small example country list (expand or use a proper dataset/API)
+  const countries = new Set([
+    "france",
+    "united kingdom",
+    "usa",
+    "united states",
+    "germany",
+    "spain",
+  ]);
+
+  function decideCityOrCountry(text) {
+    const normalized = text.toLowerCase().trim();
+    if (countries.has(normalized)) return { country: text };
+    return { city: text };
+  }
+
+  const onSearch = (e) => {
     e.preventDefault();
-    try {
-      // Replace with real navigation / API call later
-      console.log({ destination, checkIn, checkOut, guests });
-      // const user = await dispatch(loginThunk({ email, password })).unwrap();
-      const data = await dispatch(paginatedHotels()).unwrap();
 
-      console.log("Data Received:", data);
+    const dest = destination?.trim();
+    if (!dest || !/^[A-Za-z\s-]+$/.test(dest)) return;
 
-      e.preventDefault();
+    const params = new URLSearchParams();
+    const which = decideCityOrCountry(dest);
 
-      const params = new URLSearchParams();
+    if (which.city) params.set("city", which.city.toLowerCase());
+    if (which.country) params.set("country", which.country.toLowerCase());
 
-      if (destination?.trim()) params.set("location", destination.trim());
-      if (checkIn) params.set("checkIn", checkIn);
-      if (checkOut) params.set("checkOut", checkOut);
-      if (guests) params.set("guests", guests);
+    params.set("page", "1");
 
-      params.set("page", "1"); // reset page on new search
-
-      navigate(`/search?${params.toString()}`);
-    } catch (error) {
-      console.log("The error is ", error);
-    }
+    navigate(`/search?${params.toString()}`);
   };
 
   function onSubscribe(e) {
@@ -110,15 +119,32 @@ function Index() {
               Support
             </a>
           </div>
+          {isAuthed ? (
+            <>
+              {console.log(userData)}
+              <Link to="/dashboard">Dashboard</Link>
+              <span>
+                {userData && <span>Hi, {userData.user.first_name}</span>}
+              </span>
 
-          <div className="topbar__actions">
-            <Link to="/auth" className="btn btn--muted" type="button">
-              Sign In
-            </Link>
-            <button className="btn btn--primary" type="button">
-              Sign Up
-            </button>
-          </div>
+              <button
+                className="btn btn--primary"
+                type="button"
+                onClick={() => dispatch(logoutThunk())}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <div className="topbar__actions">
+              <Link to="/auth" className="btn btn--muted" type="button">
+                Sign In
+              </Link>
+              <button className="btn btn--primary" type="button">
+                Sign Up
+              </button>
+            </div>
+          )}
         </nav>
       </header>
 

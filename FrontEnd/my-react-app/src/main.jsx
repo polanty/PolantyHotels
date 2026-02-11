@@ -9,7 +9,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Index from "./Pages/Index/Index.Page.jsx";
 import AuthPage from "./Pages/Auth/Auth.page.jsx";
-import SearchResultsPage from "./Pages/Search/Search.page.jsx";
+import HotelSearchResults from "./Pages/Search/Search.page.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Index /> },
       { path: "auth", element: <AuthPage /> },
-      { path: "search", element: <SearchResultsPage /> },
+      { path: "search", element: <HotelSearchResults /> },
     ],
   },
 ]);
