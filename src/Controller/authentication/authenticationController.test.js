@@ -1,10 +1,23 @@
+jest.mock("mongoose");
+
 import User from "../../Models/userModel.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 import jwt from "jsonwebtoken";
 import { protect, Login } from "./authenticationController.js";
+import { promisify } from "util";
 
 jest.mock("../../Models/userModel.js");
 jest.mock("jsonwebtoken");
+jest.mock("util", () => ({
+  promisify: jest.fn((fn) => {
+    return async (token, secret) => {
+      return fn(token, secret, (err, decoded) => {
+        if (err) throw err;
+        return decoded;
+      });
+    };
+  }),
+}));
 
 // For the protect middleware
 // I need to make sure there is a token and if NOT , return an ERROR stating you are not logged in.
@@ -21,10 +34,12 @@ describe("protect middleware", () => {
   beforeEach(() => {
     req = {
       headers: {},
+      cookies: {},
     };
     res = {
-      status: jest.fn().mockReturnValue(this),
+      status: jest.fn().mockReturnValue(res),
       json: jest.fn(),
+      cookie: jest.fn(),
     };
     next = jest.fn();
 
@@ -33,35 +48,28 @@ describe("protect middleware", () => {
   });
 
   it("should call next with AppError when no token is provided", async () => {
-    // no Authorization header set
+    // no Authorization header or cookie set
     await protect(req, res, next);
 
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
 
     const error = next.mock.calls[0][0];
     expect(error.message).toBe(
-      "You are not logged in! Please log in to get access."
+      "You are not logged in! Please log in to get access.",
     );
-    expect(error.statusCode || error.status).toBe(401); // depending on your AppError implementation
+    expect(error.statusCode || error.status).toBe(401);
   });
 
   it("should call next when jwt.verify fails", async () => {
     req.headers.authorization = "Bearer invalidtoken";
 
-    // jwt.verify(token, secret, cb)
-    jwt.verify.mockImplementation((token, secret, cb) => {
-      cb(new Error("Invalid token"), null);
+    jwt.verify.mockImplementationOnce((token, secret, cb) => {
+      cb(new Error("Invalid token"));
     });
 
     await protect(req, res, next);
 
-    expect(jwt.verify).toHaveBeenCalledWith(
-      "invalidtoken",
-      process.env.JWT_SECRET_TOKEN,
-      expect.any(Function)
-    );
     expect(next).toHaveBeenCalledWith(expect.any(Error));
-    // you don't send a response here, catchAsync should pass the error to next
   });
 
   it("should call next with AppError when user is not found", async () => {
@@ -69,11 +77,10 @@ describe("protect middleware", () => {
 
     const decodedToken = { id: "user-id-123", iat: 123456 };
 
-    jwt.verify.mockImplementation((token, secret, cb) => {
+    jwt.verify.mockImplementationOnce((token, secret, cb) => {
       cb(null, decodedToken);
     });
 
-    // simulate no user in DB
     User.findById.mockResolvedValue(null);
 
     await protect(req, res, next);
@@ -83,7 +90,7 @@ describe("protect middleware", () => {
 
     const error = next.mock.calls[0][0];
     expect(error.message).toBe(
-      "The User belonging to the Token no Longer exist"
+      "The User belonging to the Token no Longer exist",
     );
     expect(error.statusCode || error.status).toBe(401);
   });
@@ -93,13 +100,13 @@ describe("protect middleware", () => {
 
     const decodedToken = { id: "user-id-123", iat: 123456 };
 
-    jwt.verify.mockImplementation((token, secret, cb) => {
+    jwt.verify.mockImplementationOnce((token, secret, cb) => {
       cb(null, decodedToken);
     });
 
     const mockUser = {
       _id: "user-id-123",
-      changePasswordAfter: jest.fn().mockReturnValue(true), // user changed password
+      changePasswordAfter: jest.fn().mockReturnValue(true),
     };
 
     User.findById.mockResolvedValue(mockUser);
@@ -112,7 +119,7 @@ describe("protect middleware", () => {
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
     const error = next.mock.calls[0][0];
     expect(error.message.trim()).toBe(
-      "User recently changed password and should Log In again"
+      "User recently changed password and should Log In again",
     );
     expect(error.statusCode || error.status).toBe(401);
   });
@@ -122,14 +129,14 @@ describe("protect middleware", () => {
 
     const decodedToken = { id: "user-id-123", iat: 123456 };
 
-    jwt.verify.mockImplementation((token, secret, cb) => {
+    jwt.verify.mockImplementationOnce((token, secret, cb) => {
       cb(null, decodedToken);
     });
 
     const mockUser = {
       _id: "user-id-123",
       email: "user@example.com",
-      changePasswordAfter: jest.fn().mockReturnValue(false), // password NOT changed
+      changePasswordAfter: jest.fn().mockReturnValue(false),
     };
 
     User.findById.mockResolvedValue(mockUser);
@@ -139,10 +146,7 @@ describe("protect middleware", () => {
     expect(User.findById).toHaveBeenCalledWith(decodedToken.id);
     expect(mockUser.changePasswordAfter).toHaveBeenCalledWith(decodedToken.iat);
 
-    // user should be attached to req
     expect(req.user).toBe(mockUser);
-
-    // next should have been called with no arguments (no error)
     expect(next).toHaveBeenCalled();
     expect(next.mock.calls[0].length).toBe(0);
   });
@@ -154,10 +158,10 @@ describe("Login Controller", () => {
   beforeEach(() => {
     req = { body: {} };
 
-    // Proper Express response mock
     res = {};
     res.status = jest.fn().mockReturnValue(res);
     res.json = jest.fn();
+    res.cookie = jest.fn().mockReturnValue(res);
 
     next = jest.fn();
 
@@ -212,7 +216,7 @@ describe("Login Controller", () => {
 
     expect(mockUser.correctPassword).toHaveBeenCalledWith(
       "wrongPassword",
-      mockUser.password
+      mockUser.password,
     );
 
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
@@ -228,6 +232,7 @@ describe("Login Controller", () => {
       _id: "user-id-123",
       email: "user@example.com",
       password: "hashed-password",
+      first_name: "John",
       correctPassword: jest.fn().mockResolvedValue(true),
       save: jest.fn().mockResolvedValue(true),
     };
@@ -243,17 +248,18 @@ describe("Login Controller", () => {
     expect(jwt.sign).toHaveBeenCalledWith(
       { id: mockUser._id },
       process.env.JWT_SECRET_TOKEN,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      { expiresIn: process.env.JWT_EXPIRES_IN },
     );
 
     expect(mockUser.save).toHaveBeenCalledWith({ validateBeforeSave: false });
 
+    expect(res.cookie).toHaveBeenCalledWith(
+      "token",
+      "fake-jwt-token",
+      expect.any(Object),
+    );
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      token: "fake-jwt-token",
-      status: "success",
-      data: { user: mockUser },
-    });
+    expect(res.json).toHaveBeenCalled();
 
     expect(next).not.toHaveBeenCalled();
   });

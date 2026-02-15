@@ -72,7 +72,7 @@ describe("BrandController", () => {
       expect(apiFeaturesInstance.sort).toHaveBeenCalled();
       expect(apiFeaturesInstance.pagination).toHaveBeenCalled();
       expect(Brands.countDocuments).toHaveBeenCalledWith(
-        apiFeaturesInstance.filter
+        apiFeaturesInstance.filter,
       );
 
       expect(res.status).toHaveBeenCalledWith(200);
@@ -174,7 +174,7 @@ describe("BrandController", () => {
 
       expect(Brands.findById).toHaveBeenCalledWith("123");
       expect(next).toHaveBeenCalledWith(
-        new AppError("Hotel not found 💥", 404)
+        new AppError("Hotel not found 💥", 404),
       );
       expect(res.status).not.toHaveBeenCalled();
     });
@@ -231,8 +231,8 @@ describe("BrandController", () => {
       expect(next).toHaveBeenCalledWith(
         new AppError(
           "Invalid updates! You can only update name and description.",
-          400
-        )
+          400,
+        ),
       );
       expect(res.status).not.toHaveBeenCalled();
     });
