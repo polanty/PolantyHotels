@@ -168,6 +168,7 @@ export const signUp = catchAsync(async (req, res, next) => {
     date_of_birth: req.body.date_of_birth,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    profile_image: req.file.filename,
   });
 
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_TOKEN, {

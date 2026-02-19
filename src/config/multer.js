@@ -1,7 +1,8 @@
-const multer = require("multer");
-const path = require("path");
+// const multer = require("multer");
+// const path = require("path");
+import multer from "multer";
+import path from "path";
 
-// Ensure unique filenames
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads"));
@@ -13,7 +14,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Allow only jpeg/png
 function imageFilter(req, file, cb) {
   const allowed = /jpeg|jpg|png/;
   const ext = allowed.test(path.extname(file.originalname).toLowerCase());
@@ -29,7 +29,7 @@ function imageFilter(req, file, cb) {
 const upload = multer({
   storage,
   fileFilter: imageFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
 module.exports = upload;

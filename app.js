@@ -48,6 +48,9 @@ app.use((req, res, next) => {
   next();
 });
 
+//Now any uploaded image is accessible like: http://localhost:5000/uploads/<filename>
+app.use("/uploads", express.static("uploads"));
+
 //Have to reconfigure all my routes
 //some will need the user to be logged in while others will not
 

@@ -1,4 +1,5 @@
 import express from "express";
+import upload from "../../config/multer.js";
 import {
   protect,
   signUp,
@@ -22,7 +23,8 @@ router.route("/me").get(protect, (req, res) => {
   });
 });
 
-router.route("/signup").post(signUp);
+router.route("/signup").post(upload.single("profile_image"), signUp);
+//This means the signup form must send a field called profile_image.
 
 router.route("/login").post(Login);
 

@@ -44,13 +44,16 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "staff", "admin", "owner"],
     default: "user",
   },
+  profile_image: {
+    type: String,
+    default: "profile.jpeg",
+  },
   password: {
     type: String,
     required: [true, "Please provide a password"],
     minlength: 8,
     select: false,
   },
-
   passwordConfirm: {
     type: String,
     required: [true, "Please provide a password"],
@@ -105,7 +108,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.correctPassword = async function (
   candidatePassword,
-  hashedPassword
+  hashedPassword,
 ) {
   return await bcrypt.compare(candidatePassword, hashedPassword);
 };
@@ -115,7 +118,7 @@ userSchema.methods.changePasswordAfter = function (JWTTimeStamp) {
     //console.log("The time stamp is here");
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
-      10
+      10,
     );
 
     return JWTTimeStamp < changedTimestamp;
