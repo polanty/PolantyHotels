@@ -96,13 +96,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", function (next) {
   // Only hash if the field was modified or is new
-  if (!this.isModified("password") || this.isNew()) return next();
+  if (!this.isModified("password") || this.isNew) return next();
 
   // change the password change At property
   this.passwordChangedAt = Date.now() - 1000;
-
   next();
 });
 
