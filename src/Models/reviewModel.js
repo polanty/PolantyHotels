@@ -28,6 +28,9 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
+// ⭐ Prevent duplicate reviews per user per location
+reviewSchema.index({ user_id: 1, location_id: 1 }, { unique: true });
+
 const Review = mongoose.model("Review", reviewSchema);
 
 export default Review;
