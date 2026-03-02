@@ -5,6 +5,7 @@ import { Provider } from "react-redux"; // from React redux
 import { store } from "./store/index.js";
 
 import "./index.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import App from "./App.jsx";
 import Index from "./Pages/Index/Index.Page.jsx";
