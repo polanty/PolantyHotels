@@ -43,6 +43,18 @@ const locationSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Longitude must be provided"],
     },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [lng, lat]
+        required: true,
+      },
+    },
     created_at: {
       type: Date,
       default: Date.now,
@@ -108,6 +120,8 @@ locationSchema.pre("save", function (next) {
   }
   next();
 });
+
+locationSchema.index({ location: "2dsphere" });
 
 const Location = mongoose.model("Location", locationSchema);
 

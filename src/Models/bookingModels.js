@@ -25,31 +25,11 @@ const BookingSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// Prevent overlapping bookings for the same room
-// BookingSchema.index({ room: 1, check_in: 1, check_out: 1 }, { unique: true });
+//Prevent overlapping bookings for the same room
+BookingSchema.index(
+  { RoomRef: 1, check_in: 1, check_out: 1 },
+  { unique: true },
+);
 
-// const Booking = mongoose.model("Booking", BookingSchema);
-// export default Booking;
-
-// // Booking controller
-// export const createBooking = async (req, res) => {
-//   const { roomId, check_in, check_out } = req.body;
-
-//   const room = await Room.findById(roomId);
-//   if (!room) return res.status(404).json({ message: "Room not found" });
-
-//   const nights =
-//     (new Date(check_out) - new Date(check_in)) / (1000 * 60 * 60 * 24);
-
-//   const total_price = nights * room.price_per_night;
-
-//   const booking = await Booking.create({
-//     user: req.user.id,
-//     room: roomId,
-//     check_in,
-//     check_out,
-//     total_price,
-//   });
-
-//   res.status(201).json({ status: "success", booking });
-// };
+const Booking = mongoose.model("Booking", BookingSchema);
+export default Booking;
