@@ -61,7 +61,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/brands", brandRoutes);
 
 //Location routes
-app.use("/api/v1/hotels/search", hotelRoutes);
+app.use("/api/v1/hotels", hotelRoutes);
 
 //User profile  routes (primarily for admin)
 app.use("/api/v1/profile", userRoutes);
