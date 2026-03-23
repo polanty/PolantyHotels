@@ -7,6 +7,7 @@ import userRoutes from "./src/Routes/UserRoutes/UserRoutes.js";
 import authRoutes from "./src/Routes/Authentication/authRoutes.js";
 import amenitiesRoute from "./src/Routes/Amenities/amenitiesRoute.js";
 import pricingRoute from "./src/Routes/Pricing/pricingRoutes.js";
+import reviewsRouter from "./src/Routes/Reviews/reviewsRouter.js";
 
 // Test routes -> Only for testing for
 // Used to also create data for references by Other models
@@ -71,6 +72,8 @@ app.use("/api/v1/rooms", roomRouter);
 
 //Room types (Varieties) (primarily for admin)
 app.use("/api/v1/room-types", roomTypesRouter);
+
+app.use("/api/v1/admin/reviews", reviewsRouter);
 
 //Amenities Route for Admin
 app.use("/api/v1/admin", amenitiesRoute);
