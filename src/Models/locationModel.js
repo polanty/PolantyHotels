@@ -1,3 +1,4 @@
+// models/locationModel.js
 import mongoose from "mongoose";
 import validator from "validator";
 
@@ -5,15 +6,14 @@ const locationSchema = new mongoose.Schema(
   {
     brand_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Brands", // must match the model name you exported
+      ref: "Brands",
       required: true,
     },
     name: {
-      type: mongoose.Schema.Types.String,
+      type: String,
       required: [true, "Location name must be provided"],
       trim: true,
-      unique: [true, "Location name must be unique"],
-      ref: "Brands",
+      unique: true,
     },
     address: {
       type: String,
@@ -43,6 +43,8 @@ const locationSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Longitude must be provided"],
     },
+
+    // GEOJSON LOCATION FIELD
     location: {
       type: {
         type: String,
@@ -55,20 +57,23 @@ const locationSchema = new mongoose.Schema(
         required: true,
       },
     },
+
     created_at: {
       type: Date,
       default: Date.now,
       select: false,
     },
+
     email: {
       type: String,
       required: [true, "Email must be provided"],
-      unique: [true, "Email must be unique"],
+      unique: true,
       validate: {
         validator: validator.isEmail,
         message: "Please provide a valid email address",
       },
     },
+
     RoomRef: [
       {
         type: mongoose.Schema.ObjectId,
@@ -79,25 +84,40 @@ const locationSchema = new mongoose.Schema(
     amenities: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Amenities", // must match the model name you exported
+        ref: "Amenities",
         required: true,
       },
     ],
-  },
 
+    /**
+     * NEW FIELDS FOR RATINGS
+     * These get updated automatically by the Review model
+     */
+    ratingsAverage: {
+      type: Number,
+      default: 0,
+      min: [1, "Rating must be above 1.0"],
+      max: [5, "Rating must be below 5.0"],
+      set: (val) => Math.round(val * 10) / 10, // Round to 1 decimal place
+    },
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
+    },
+  },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },
 );
 
-// Attach middleware BEFORE compiling model
+// Populate amenities on all find queries
 locationSchema.pre(/^find/, function (next) {
-  this.populate("amenities", "-_id -__v"); // only include brand name
-
+  this.populate("amenities", "-_id -__v");
   next();
 });
 
+// Populate RoomRef deeply on findOne
 locationSchema.pre(/^findOne$/, function (next) {
   this.populate({
     path: "RoomRef",
@@ -105,24 +125,16 @@ locationSchema.pre(/^findOne$/, function (next) {
       path: "room_type_id",
       model: "RoomTypes",
       populate: {
-        path: "pricing", // virtual on RoomTypes
+        path: "pricing",
         select: "base_price_per_night currency -_id -room_type_id",
       },
     },
   });
-
   next();
 });
 
-locationSchema.pre("save", function (next) {
-  if (!validator.isEmail(this.email)) {
-    return next(new Error("Invalid email format"));
-  }
-  next();
-});
-
+// Enable geospatial queries
 locationSchema.index({ location: "2dsphere" });
 
 const Location = mongoose.model("Location", locationSchema);
-
 export default Location;

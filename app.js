@@ -89,6 +89,17 @@ app.use((req, res, next) => {
 //Global Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.message);
+
+  const handleDuplicateKeyError = (err) => {
+    const field = Object.keys(err.keyValue)[0];
+    const value = err.keyValue[field];
+
+    return new AppError(
+      `Duplicate value for ${field}: ${value}. You have already submitted this review.`,
+      400,
+    );
+  };
+
   if (err.message.startsWith("Cast to ObjectId failed")) {
     err = new AppError("Invalid ID format", 400);
   }
@@ -103,6 +114,9 @@ app.use((err, req, res, next) => {
   if (err.name === "TestExpiredError") {
     err = new AppError("Your Token has expired! Please log in again!", 400);
   }
+
+  if (err.code === 11000) err = handleDuplicateKeyError(err);
+
   res.status(err.statusCode || 500).send(err.message);
 });
 

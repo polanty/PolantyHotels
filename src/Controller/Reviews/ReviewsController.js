@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Review from "../../Models/reviewModel.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
@@ -5,18 +6,36 @@ import APIFeatures from "../../Utilities/apiFeatures.js";
 
 // get all reviews (with filtering by query or nested route)
 export const getAllReviews = catchAsync(async (req, res, next) => {
-  // allow nested routes: /locations/:locationId/reviews
+  // Validate params
+  if (
+    req.params.locationId &&
+    !mongoose.Types.ObjectId.isValid(req.params.locationId)
+  ) {
+    return next(new AppError("Invalid location parameter", 400));
+  }
+
+  if (
+    req.params.userId &&
+    !mongoose.Types.ObjectId.isValid(req.params.userId)
+  ) {
+    return next(new AppError("Invalid user", 400));
+  }
+
+  // Build filter
   let filter = {};
   if (req.params.locationId) filter.location_id = req.params.locationId;
   if (req.params.userId) filter.user_id = req.params.userId;
 
+  // Apply API features
   const apiFeatures = new APIFeatures(Review.find(filter), req.query)
     .defaultyQueryWithFilter()
     .sort()
     .pagination();
 
   const reviews = await apiFeatures.query;
-  const total = await Review.countDocuments(apiFeatures.filter);
+
+  // Correct total count (filtered, not paginated)
+  const total = await Review.countDocuments(filter);
 
   res.status(200).json({
     status: "success",
