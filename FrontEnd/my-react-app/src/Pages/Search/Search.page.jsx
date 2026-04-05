@@ -1,142 +1,10 @@
-// import { useEffect } from "react";
-// import { useSearchParams } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   selectData,
-//   selectAuthStatus,
-//   selectAuthError,
-// } from "../../store/auth/auth.selectors";
-// import { paginatedHotels } from "../../store/auth/auth.thunks";
-
-// export default function SearchResultsPage() {
-//   const dispatch = useDispatch();
-//   const [searchParams, setSearchParams] = useSearchParams();
-
-//   const data = useSelector(selectData); // adjust slice key
-//   const status = useSelector(selectAuthStatus);
-//   const error = useSelector(selectAuthError);
-
-//   console.log(data);
-
-//   // pull params from URL
-//   const cityRaw = searchParams.get("city") || undefined;
-//   const countryRaw = searchParams.get("country") || undefined;
-
-//   const city = cityRaw ? cityRaw.toLowerCase() : undefined;
-//   const country = countryRaw ? countryRaw.toLowerCase() : undefined;
-
-//   const page = Number(searchParams.get("page") || "1");
-
-//   useEffect(() => {
-//     const params = {
-//       ...(city ? { city } : {}),
-//       ...(country ? { country } : {}),
-//       page,
-//     };
-
-//     dispatch(paginatedHotels(params));
-//   }, [dispatch, city, country, page]);
-
-//   const goToPage = (nextPage) => {
-//     const next = new URLSearchParams(searchParams);
-//     next.set("page", String(nextPage));
-//     setSearchParams(next);
-//   };
-
-//   return (
-//     <div>
-//       <h1>Search Results</h1>
-
-//       {status === "loading" && <p>Loading...</p>}
-//       {status === "failed" && <p style={{ color: "crimson" }}>{error}</p>}
-
-//       {status === "succeeded" && (
-//         <>
-//           <pre>{JSON.stringify(data, null, 2)}</pre>
-
-//           <button disabled={page <= 1} onClick={() => goToPage(page - 1)}>
-//             Prev
-//           </button>
-//           <button onClick={() => goToPage(page + 1)}>Next</button>
-//         </>
-//       )}
-//     </div>
-//   );
-// }
-
-// src/pages/HotelSearchResults.jsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./HotelSearchResults.css";
 
-const seedHotels = [
-  {
-    id: "1",
-    name: "The Modernist Hotel",
-    rating: 4.7,
-    locationText: "Midtown Manhattan, 0.5 miles from center",
-    price: 349,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "pool", "local_parking"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAD0B5aK8pw3KZDx5JFoTF7LJCnMfCc0gvYrZidYYp7JQZTyUFlioLYIKdL7raVdH6elLyT_oTYRqKDWEXL4YJ67IaJF6eeChkjCyokYnuiOs_CVnag3PtjXNbbtIotI6LqMTGSUA26d-X_ZXFjcXzWCqtUQFxL8Y8u6kLYA_PcQ_boV7bPi9mTe2ojq9gKog8EmvitnverchqFMyOhQ78j7gvso3Mhm5rwaF0N4alv-NqEhMHufEWAeCcH9IDOn5JSvFjr3DIMBPE",
-    liked: false,
-  },
-  {
-    id: "2",
-    name: "The Urban Oasis",
-    rating: 4.5,
-    locationText: "Brooklyn, 2.1 miles from center",
-    price: 280,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "spa", "restaurant"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDbjA-Cb5gJRq2ASQU2IPSMLNeET2Fxc8hVDH7ZTmg4uYIaXSC8eYfVkxF765sQr3gQaTZtGXPBlr_3gOZJmXi6lU9AwCfXVvLkBOKvU6W6XpgIdfRe17Khr-P0I4Q7wOUWiHTbCCtI1fOLQexNMTwnM3gBdnjZpDu8w0WL2X1AeQeF9a87suNLv0QBidIdAZrFfk2beHQzMS0OU2zCNj_rYvWCzP10_yPx7STYizXtJ1iNlyARgD28TFyoQHZYjOXtJwPri-BD-qA",
-    liked: false,
-  },
-  {
-    id: "3",
-    name: "Grand Central Palace",
-    rating: 4.9,
-    locationText: "Near Grand Central, 0.2 miles from center",
-    price: 450,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "fitness_center", "pets"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrK5VOIkt0P3PyxWdM0mjN7mKEUnXG04_OtJsjkbl8EThwZvvXMJLNtAAWf3MfWDKfHg29gp_fLJV8UVDziUzPejbJywawCzuQcXpBSnou78qB-sl9IFyQzTJzLtG0m3LNmPe9rgpd_rVXXnosqTFLT_1cx-yMA6DabHvz54bvSPJZK3poZ2hoEmFqTxIlx6mNDlMDtWQOakBv3keNhOKMrCHoMZaeXuYYxOmYf1iDEfyh7AcGNV13Xpf9AieHUCbW3oR0shiKdrk",
-    liked: true,
-  },
-  {
-    id: "4",
-    name: "Cityscape Inn",
-    rating: 4.2,
-    locationText: "Financial District, 1.5 miles from center",
-    price: 210,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "fitness_center"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA_gZQjJ2WtuzwL7T3lsBmuScca8OQ3sWzEopDWhpsy7KwNd8vVHiaiuRJYKTElxQr8b83TxCPOuLpeUFKNFijIAvpqFjkSDcxQBNExc8a6B86IB46NMTCxRD0e9kT0dN5LI62L_cUGmuzHn8JW_lVchp2K1VQqiAUGeZ9u5TG2S_3s8yLkfcjpZsy7XEsv3Y7jHqMQDUMs9eYZwZT7Nf4jbV1rO_zh0aZJp8PmJVoTRH_uhzNvV4t4-tnuy-YDOwN3xTmy4khAzkI",
-    liked: false,
-  },
-  {
-    id: "5",
-    name: "The Budget Stay",
-    rating: 3.8,
-    locationText: "Queens, 5.0 miles from center",
-    price: 159,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "local_parking"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDACKzpBnRO0R6xOSmUq7d2zvD0z30LHXwHlHlHUPCq9ER1Wdqby7ixxRxg59r3xP_f6iLkV87eua7iHEY1lFjq0QkgdHftYRMs-6AAtK124tvS57gNOsDvuThOW7lWpwPnZdoAEvDnMer_VhnxPJvNEq-GEjB504ydV94TFe1pBpKJy2X6O4wlKY3tWO_twq2G-og99xwYfzNUkn6hTFDAY2nq_hq9h8a3NSdU0UCrKhiHGh7XxD_oJZrJatrJ38WuQmilpkjT_io",
-    liked: false,
-  },
-  {
-    id: "6",
-    name: "Riverside Luxury Suites",
-    rating: 4.8,
-    locationText: "Upper West Side, 2.8 miles from center",
-    price: 520,
-    priceSuffix: "/ night",
-    amenities: ["wifi", "spa", "fitness_center"],
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrCwfB_AgbfJPOiS-G8wgIiYm5rVyhQnF5PuQPhTM1Qm8j6yrdFi3Iy8zXB_TpO0JxQFUbVB5JeDbN2ckQwIrC_kWafLFEdJaXBu3hv5IVsUgvXXZlgaStynwhYCj1CYja-eXwCCHVkpt_j5jssG3xjbaaJhXTSBeOBtVK_P3ojcjdnFu0G3c_3gKaStHBuOuCFQMmf__Xe5VO1ajx_mbrlxyzd1x0s5A-5c66syfvmYMPrIKtvtmV5SLwa5vVrBIkPqUfIMfIyI4",
-    liked: false,
-  },
-];
-
+/**
+ * Small reusable star icon
+ */
 function Star({ filled }) {
   return (
     <span
@@ -148,11 +16,24 @@ function Star({ filled }) {
   );
 }
 
+/**
+ * Normal hotel card
+ */
 function HotelCard({ hotel, onToggleLike }) {
   return (
     <article className="hotelCard">
       <div className="hotelCardMedia">
-        <img className="hotelCardImg" src={hotel.img} alt={hotel.name} />
+        <img
+          className="hotelCardImg"
+          src={hotel.img}
+          alt={hotel.name}
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.src =
+              "https://via.placeholder.com/600x400?text=No+Image";
+          }}
+        />
+
         <button
           type="button"
           className={`likeBtn ${hotel.liked ? "liked" : ""}`}
@@ -172,7 +53,9 @@ function HotelCard({ hotel, onToggleLike }) {
           <h3 className="hotelName">{hotel.name}</h3>
           <div className="ratingPill" aria-label={`Rating ${hotel.rating}`}>
             <Star filled />
-            <span className="ratingNumber">{hotel.rating.toFixed(1)}</span>
+            <span className="ratingNumber">
+              {Number(hotel.rating).toFixed(1)}
+            </span>
           </div>
         </div>
 
@@ -192,8 +75,14 @@ function HotelCard({ hotel, onToggleLike }) {
 
         <div className="hotelCardFooter">
           <p className="price">
-            ${hotel.price}{" "}
-            <span className="priceSuffix">{hotel.priceSuffix}</span>
+            {hotel.price > 0 ? (
+              <>
+                ${hotel.price}{" "}
+                <span className="priceSuffix">{hotel.priceSuffix}</span>
+              </>
+            ) : (
+              <span className="priceSuffix">Price unavailable</span>
+            )}
           </p>
           <button type="button" className="primaryBtn">
             View Deal
@@ -204,11 +93,70 @@ function HotelCard({ hotel, onToggleLike }) {
   );
 }
 
-export default function HotelSearchResults() {
-  const [searchValue, setSearchValue] = useState(
-    "New York, NY | 2 Guests | Oct 26 - Oct 28",
+/**
+ * Skeleton placeholder card shown while loading
+ */
+function HotelCardSkeleton() {
+  return (
+    <article className="hotelCard skeletonCard" aria-hidden="true">
+      <div className="hotelCardMedia skeleton skeletonImage" />
+      <div className="hotelCardBody">
+        <div className="skeleton skeletonTitle" />
+        <div className="skeleton skeletonText" />
+        <div className="skeleton skeletonAmenities" />
+        <div className="hotelCardFooter">
+          <div className="skeleton skeletonPrice" />
+          <div className="skeleton skeletonButton" />
+        </div>
+      </div>
+    </article>
   );
+}
 
+/**
+ * Spinner
+ */
+function Spinner() {
+  return (
+    <div className="spinnerWrap" role="status" aria-live="polite">
+      <div className="spinner" />
+      <p>Loading hotels...</p>
+    </div>
+  );
+}
+
+/**
+ * Map your backend hotel response into the UI shape your card expects.
+ * Adjust these fields to match your real API response.
+ */
+function mapHotelFromApi(item) {
+  return {
+    id: item.id || item._id,
+    name: item.name || "Unnamed Hotel",
+    img: "https://via.placeholder.com/600x400?text=Hotel+Image",
+    liked: false,
+    rating: Number(item.ratingsAverage ?? 0),
+    locationText: [item.address, item.city, item.country]
+      .filter(Boolean)
+      .join(", "),
+    amenities: Array.isArray(item.amenities) ? item.amenities : [],
+    price: 250,
+    priceSuffix: "/night",
+  };
+}
+
+export default function HotelSearchResults() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  /**
+   * Read params from the URL.
+   * Example URL:
+   * /search?city=manchester&page=1
+   */
+  const city = searchParams.get("city") || "";
+  const currentPage = Number(searchParams.get("page") || 1);
+
+  const [searchValue, setSearchValue] = useState("");
   const [price, setPrice] = useState(350);
   const [activeStars, setActiveStars] = useState(1);
   const [amenities, setAmenities] = useState({
@@ -217,65 +165,187 @@ export default function HotelSearchResults() {
     local_parking: true,
     pets: true,
   });
-
-  const [hotels, setHotels] = useState(seedHotels);
   const [sortBy, setSortBy] = useState("Popularity");
-  const [page, setPage] = useState(1);
 
-  const filteredHotels = useMemo(() => {
-    let list = [...hotels];
+  // API states
+  // const [hotels, setHotels] = useState([]);
+  const [filteredHotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
 
-    // Price filter (simple example: include hotels up to slider value)
-    list = list.filter((h) => h.price <= price);
+  /**
+   * Keep the search input synced with the city from the URL
+   */
+  useEffect(() => {
+    setSearchValue(city);
+  }, [city]);
 
-    // Star filter (simple example: keep those within +/- 1 of selected)
-    if (activeStars) {
-      list = list.filter((h) => Math.round(h.rating) >= activeStars);
+  /**
+   * Fetch hotels whenever city or page changes
+   */
+  useEffect(() => {
+    if (!city) {
+      setHotels([]);
+      setError("No city was provided in the search URL.");
+      return;
     }
 
-    // Amenities filter (if checked, require presence)
-    const required = Object.entries(amenities)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
+    let ignore = false;
+    const controller = new AbortController();
 
-    if (required.length) {
-      list = list.filter((h) => required.some((r) => h.amenities.includes(r)));
+    async function fetchHotels() {
+      try {
+        setLoading(true);
+        setError("");
+
+        const endpoint = `http://127.0.0.1:3000/api/v1/hotels?city=${encodeURIComponent(
+          city,
+        )}&page=${currentPage}`;
+
+        const response = await fetch(endpoint, {
+          method: "GET",
+          signal: controller.signal,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (ignore) return;
+
+        // Your real hotel list lives here
+        const apiHotels = Array.isArray(data?.data?.data?.allHotels)
+          ? data.data.data.allHotels
+          : [];
+
+        setHotels(apiHotels.map(mapHotelFromApi));
+
+        // Pagination from your backend
+        setTotalPages(Number(data?.totalPages ?? 1));
+      } catch (err) {
+        if (err.name === "AbortError") return;
+
+        if (!ignore) {
+          setHotels([]);
+          setError(
+            err.message || "Something went wrong while fetching hotels.",
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
     }
 
-    // Sorting
-    if (sortBy === "Price (Low to High)") {
-      list.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "Rating (High to Low)") {
-      list.sort((a, b) => b.rating - a.rating);
-    }
+    fetchHotels();
 
-    return list;
-  }, [hotels, price, activeStars, amenities, sortBy]);
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, [city, currentPage]);
 
-  console.log(hotels);
   console.log(filteredHotels);
 
+  /**
+   *
+   * Filter and sort the hotels from API in-memory
+   */
+  // const filteredHotels = useMemo(() => {
+  //   let list = [...hotels];
+
+  //   // price filter
+  //   list = list.filter((h) => h.price <= price);
+
+  //   // star filter
+  //   if (activeStars) {
+  //     list = list.filter((h) => Math.round(h.rating) >= activeStars);
+  //   }
+
+  //   // amenities filter
+  //   const required = Object.entries(amenities)
+  //     .filter(([, value]) => value)
+  //     .map(([key]) => key);
+
+  //   if (required.length) {
+  //     list = list.filter((h) =>
+  //       required.some((requiredAmenity) =>
+  //         h.amenities
+  //           .map((a) => String(a).toLowerCase().trim())
+  //           .includes(requiredAmenity.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+
+  //   // sorting
+  //   if (sortBy === "Price (Low to High)") {
+  //     list.sort((a, b) => a.price - b.price);
+  //   } else if (sortBy === "Rating (High to Low)") {
+  //     list.sort((a, b) => b.rating - a.rating);
+  //   }
+
+  //   return list;
+  // }, [hotels, price, activeStars, amenities, sortBy]);
+
+  /**
+   * Toggle favourite locally
+   */
   const onToggleLike = (id) => {
     setHotels((prev) =>
-      prev.map((h) => (h.id === id ? { ...h, liked: !h.liked } : h)),
+      prev.map((hotel) =>
+        hotel.id === id ? { ...hotel, liked: !hotel.liked } : hotel,
+      ),
     );
   };
 
+  /**
+   * Toggle amenity locally
+   */
   const onToggleAmenity = (key) => {
     setAmenities((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const onApplyFilters = () => {
-    // In your real app, you’ll update URL params + dispatch thunk here.
-    // For now, filters already apply in-memory via useMemo.
+  /**
+   * Optional search submit from input
+   * This updates URL, which triggers the fetch automatically
+   */
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+
+    const trimmed = searchValue.trim();
+    if (!trimmed) return;
+
+    setSearchParams({
+      city: trimmed.toLowerCase(),
+      page: "1",
+    });
   };
 
-  const totalPages = 12;
+  /**
+   * Pagination handler, update URL
+   */
+  const goToPage = (nextPage) => {
+    setSearchParams({
+      city,
+      page: String(nextPage),
+    });
+  };
+
+  const onApplyFilters = () => {
+    // For now filters are applied client-side through useMemo.
+    // Later you can also push filter params into the URL here if you want.
+  };
 
   return (
     <div className="pageRoot dark">
       <div className="pageShell">
-        {/* TopNavBar */}
         <header className="topNav">
           <div className="brandRow">
             <div className="brandMark" aria-hidden="true">
@@ -287,17 +357,19 @@ export default function HotelSearchResults() {
           </div>
 
           <div className="navSearch">
-            <label className="searchWrap" aria-label="Search">
-              <span className="searchIcon material-symbols-outlined">
-                search
-              </span>
-              <input
-                className="searchInput"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="New York, NY | 2 Guests | Oct 26 - Oct 28"
-              />
-            </label>
+            <form onSubmit={onSearchSubmit}>
+              <label className="searchWrap" aria-label="Search">
+                <span className="searchIcon material-symbols-outlined">
+                  search
+                </span>
+                <input
+                  className="searchInput"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder="Search city"
+                />
+              </label>
+            </form>
           </div>
 
           <div className="navActions">
@@ -319,37 +391,16 @@ export default function HotelSearchResults() {
             <button className="primaryBtn" type="button">
               Sign Up
             </button>
-
-            <div
-              className="avatar"
-              aria-label="User avatar"
-              style={{
-                backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBA7ynmCb7bUpPpEyE0XA8DRLGV4tAObYvOgXrF2zq0WFyqfwpxA46OTyhQF5jDkut7yH5PHXRzh72qnnyVFey_Ls_ar8xeKCj_4VJ9NnXlHTr_GGqESyVoThY-s93jXIs-w347zfxrAQZLuVtKO5zKQNPVhGfNeCYkBM1SPgXtElSTx5aGrBWe3kHAqGbVIqtSmnZMQy2s6bgSfpHw2uGZBFpsfop2Lwh7tMwDB8Db6lRs1uN_R2tQjAjJKUZ04njo2xiGUu0_Srs")',
-              }}
-            />
           </div>
         </header>
 
         <main className="layout">
           <div className="columns">
-            {/* Filters */}
             <aside className="leftCol">
               <div className="sticky">
-                <div
-                  className="mapCard"
-                  role="img"
-                  aria-label="Map of New York City showing hotel locations"
-                  style={{
-                    backgroundImage:
-                      'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDisueaJGCTYnd0SQEF96YUFb6nNZO0YDVGuEEiexlY04ngaa0bTwDOTD_kM6_BiSuqbB4sJoHXQ63CmE2jOhDJE9txhl8PSzEi78LGMLM0kitSDJ0bQAjxu07mMb9wAqJWYtE0Zs3wdQnyrXWEy9BjsOOvl61lhIGua323rnwrfBpwCV1DYS3eoPLQRLdknvGREmZJzg_Gm9Sowc-76lWgiusTWUzigd7FEctr3suYuX2sAz9KSXGrVsM79x0vYNAnpHAK5kapeog")',
-                  }}
-                />
-
                 <section className="filterCard" aria-label="Filter by">
                   <h2 className="filterTitle">Filter By</h2>
 
-                  {/* Price */}
                   <div className="filterSection">
                     <label className="filterLabel" htmlFor="price-range">
                       Price Range
@@ -369,7 +420,6 @@ export default function HotelSearchResults() {
                     </div>
                   </div>
 
-                  {/* Stars */}
                   <div className="filterSection">
                     <h3 className="filterLabel">Star Rating</h3>
                     <div
@@ -390,9 +440,9 @@ export default function HotelSearchResults() {
                     </div>
                   </div>
 
-                  {/* Amenities */}
                   <div className="filterSection noBorder">
                     <h3 className="filterLabel">Amenities</h3>
+
                     <div className="amenityChecks">
                       <label className="checkRow">
                         <input
@@ -402,6 +452,7 @@ export default function HotelSearchResults() {
                         />
                         <span>Free Wi-Fi</span>
                       </label>
+
                       <label className="checkRow">
                         <input
                           type="checkbox"
@@ -410,6 +461,7 @@ export default function HotelSearchResults() {
                         />
                         <span>Swimming Pool</span>
                       </label>
+
                       <label className="checkRow">
                         <input
                           type="checkbox"
@@ -418,6 +470,7 @@ export default function HotelSearchResults() {
                         />
                         <span>Parking</span>
                       </label>
+
                       <label className="checkRow">
                         <input
                           type="checkbox"
@@ -440,26 +493,15 @@ export default function HotelSearchResults() {
               </div>
             </aside>
 
-            {/* Results */}
             <section className="rightCol">
-              <div className="breadcrumbs" aria-label="Breadcrumbs">
-                <a href="#" className="crumb">
-                  Home
-                </a>
-                <span className="crumbSep">/</span>
-                <a href="#" className="crumb">
-                  USA
-                </a>
-                <span className="crumbSep">/</span>
-                <span className="crumbCurrent">New York</span>
-              </div>
-
               <div className="headingRow">
                 <div>
-                  <p className="pageTitle">New York: 150+ hotels found</p>
-                  <p className="pageSubtitle">
-                    Showing results for 2 guests, from Oct 26 to Oct 28
+                  <p className="pageTitle">
+                    {city
+                      ? `${city}: ${filteredHotels.length} hotels found`
+                      : "Hotels"}
                   </p>
+                  <p className="pageSubtitle">Page {currentPage}</p>
                 </div>
 
                 <div className="sortRow">
@@ -476,58 +518,86 @@ export default function HotelSearchResults() {
                 </div>
               </div>
 
-              <div className="cardsGrid">
-                {filteredHotels.map((h) => (
-                  <HotelCard key={h.id} hotel={h} onToggleLike={onToggleLike} />
-                ))}
-              </div>
+              {loading && (
+                <>
+                  <Spinner />
+                  <div className="cardsGrid">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <HotelCardSkeleton key={index} />
+                    ))}
+                  </div>
+                </>
+              )}
 
-              <div className="paginationWrap" aria-label="Pagination">
-                <nav className="pagination">
-                  <button
-                    type="button"
-                    className="pageBtn"
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    aria-label="Previous page"
-                  >
-                    <span className="material-symbols-outlined">
-                      chevron_left
-                    </span>
-                  </button>
+              {!loading && error && (
+                <div className="errorState" role="alert">
+                  <p>{error}</p>
+                </div>
+              )}
 
-                  {[1, 2, 3].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      className={`pageNum ${page === n ? "active" : ""}`}
-                      onClick={() => setPage(n)}
-                    >
-                      {n}
-                    </button>
-                  ))}
+              {!loading && !error && filteredHotels.length === 0 && (
+                <div className="emptyState">
+                  <p>No hotels found for this search.</p>
+                </div>
+              )}
 
-                  <span className="ellipsis">...</span>
+              {!loading && !error && filteredHotels.length > 0 && (
+                <>
+                  <div className="cardsGrid">
+                    {filteredHotels.map((hotel) => (
+                      <HotelCard
+                        key={hotel.id}
+                        hotel={hotel}
+                        onToggleLike={onToggleLike}
+                      />
+                    ))}
+                  </div>
 
-                  <button
-                    type="button"
-                    className={`pageNum ${page === totalPages ? "active" : ""}`}
-                    onClick={() => setPage(totalPages)}
-                  >
-                    {totalPages}
-                  </button>
+                  <div className="paginationWrap" aria-label="Pagination">
+                    <nav className="pagination">
+                      <button
+                        type="button"
+                        className="pageBtn"
+                        onClick={() => goToPage(Math.max(1, currentPage - 1))}
+                        aria-label="Previous page"
+                        disabled={currentPage === 1}
+                      >
+                        <span className="material-symbols-outlined">
+                          chevron_left
+                        </span>
+                      </button>
 
-                  <button
-                    type="button"
-                    className="pageBtn"
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    aria-label="Next page"
-                  >
-                    <span className="material-symbols-outlined">
-                      chevron_right
-                    </span>
-                  </button>
-                </nav>
-              </div>
+                      {Array.from(
+                        { length: Math.min(totalPages, 5) },
+                        (_, i) => i + 1,
+                      ).map((n) => (
+                        <button
+                          key={n}
+                          type="button"
+                          className={`pageNum ${currentPage === n ? "active" : ""}`}
+                          onClick={() => goToPage(n)}
+                        >
+                          {n}
+                        </button>
+                      ))}
+
+                      <button
+                        type="button"
+                        className="pageBtn"
+                        onClick={() =>
+                          goToPage(Math.min(totalPages, currentPage + 1))
+                        }
+                        aria-label="Next page"
+                        disabled={currentPage === totalPages}
+                      >
+                        <span className="material-symbols-outlined">
+                          chevron_right
+                        </span>
+                      </button>
+                    </nav>
+                  </div>
+                </>
+              )}
             </section>
           </div>
         </main>
