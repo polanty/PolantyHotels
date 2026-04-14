@@ -17,6 +17,66 @@ function Star({ filled }) {
 }
 
 /**
+ * Spinner shown while data is loading
+ */
+function Spinner() {
+  return (
+    <div className="spinnerWrap" role="status" aria-live="polite">
+      <div className="spinner" />
+      <p>Loading hotels...</p>
+    </div>
+  );
+}
+
+/**
+ * Skeleton placeholder card shown while loading
+ */
+function HotelCardSkeleton() {
+  return (
+    <article className="hotelCard skeletonCard" aria-hidden="true">
+      <div className="hotelCardMedia skeleton skeletonImage" />
+      <div className="hotelCardBody">
+        <div className="skeleton skeletonTitle" />
+        <div className="skeleton skeletonText" />
+        <div className="skeleton skeletonAmenities" />
+        <div className="hotelCardFooter">
+          <div className="skeleton skeletonPrice" />
+          <div className="skeleton skeletonButton" />
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/**
+ * Map backend amenity names to Material Symbols icons where possible.
+ * Fallback is "check_circle".
+ */
+function getAmenityIcon(amenity) {
+  const value = String(amenity).toLowerCase().trim();
+
+  const iconMap = {
+    wifi: "wifi",
+    pool: "pool",
+    swimming: "pool",
+    parking: "local_parking",
+    local_parking: "local_parking",
+    pets: "pets",
+    pet: "pets",
+    breakfast: "restaurant",
+    gym: "fitness_center",
+    air_conditioning: "mode_fan",
+    ac: "mode_fan",
+    spa: "spa",
+    bar: "local_bar",
+    restaurant: "restaurant",
+    laundry: "local_laundry_service",
+  };
+
+  return iconMap[value] || "check_circle";
+}
+
+/**
  * Normal hotel card
  */
 function HotelCard({ hotel, onToggleLike }) {
@@ -51,6 +111,7 @@ function HotelCard({ hotel, onToggleLike }) {
       <div className="hotelCardBody">
         <div className="hotelCardTop">
           <h3 className="hotelName">{hotel.name}</h3>
+
           <div className="ratingPill" aria-label={`Rating ${hotel.rating}`}>
             <Star filled />
             <span className="ratingNumber">
@@ -62,15 +123,19 @@ function HotelCard({ hotel, onToggleLike }) {
         <p className="hotelMeta">{hotel.locationText}</p>
 
         <div className="amenitiesRow" aria-label="Amenities">
-          {hotel.amenities.map((a) => (
-            <span
-              key={a}
-              className="material-symbols-outlined amenityIcon"
-              title={a}
-            >
-              {a}
-            </span>
-          ))}
+          {hotel.amenities.length > 0 ? (
+            hotel.amenities.map((amenity, index) => (
+              <span
+                key={`${amenity}-${index}`}
+                className="material-symbols-outlined amenityIcon"
+                title={amenity}
+              >
+                {getAmenityIcon(amenity)}
+              </span>
+            ))
+          ) : (
+            <span className="hotelMeta">No amenities listed</span>
+          )}
         </div>
 
         <div className="hotelCardFooter">
@@ -84,6 +149,7 @@ function HotelCard({ hotel, onToggleLike }) {
               <span className="priceSuffix">Price unavailable</span>
             )}
           </p>
+
           <button type="button" className="primaryBtn">
             View Deal
           </button>
@@ -94,53 +160,50 @@ function HotelCard({ hotel, onToggleLike }) {
 }
 
 /**
- * Skeleton placeholder card shown while loading
+ * Safely normalize amenities from API response.
+ * Your API may return strings or objects like:
+ * { category, name, description }
  */
-function HotelCardSkeleton() {
-  return (
-    <article className="hotelCard skeletonCard" aria-hidden="true">
-      <div className="hotelCardMedia skeleton skeletonImage" />
-      <div className="hotelCardBody">
-        <div className="skeleton skeletonTitle" />
-        <div className="skeleton skeletonText" />
-        <div className="skeleton skeletonAmenities" />
-        <div className="hotelCardFooter">
-          <div className="skeleton skeletonPrice" />
-          <div className="skeleton skeletonButton" />
-        </div>
-      </div>
-    </article>
-  );
+function normalizeAmenities(amenities) {
+  if (!Array.isArray(amenities)) return [];
+
+  return amenities
+    .map((amenity) => {
+      if (typeof amenity === "string") return amenity;
+
+      if (typeof amenity === "object" && amenity !== null) {
+        return amenity.name || amenity.category || amenity.description || "";
+      }
+
+      return "";
+    })
+    .filter(Boolean);
 }
 
 /**
- * Spinner
- */
-function Spinner() {
-  return (
-    <div className="spinnerWrap" role="status" aria-live="polite">
-      <div className="spinner" />
-      <p>Loading hotels...</p>
-    </div>
-  );
-}
-
-/**
- * Map your backend hotel response into the UI shape your card expects.
- * Adjust these fields to match your real API response.
+ * Map API hotel response into the structure your UI expects
  */
 function mapHotelFromApi(item) {
   return {
     id: item.id || item._id,
     name: item.name || "Unnamed Hotel",
-    img: "https://via.placeholder.com/600x400?text=Hotel+Image",
+
+    // Replace with real image field from backend when available
+    img:
+      item.image ||
+      item.thumbnail ||
+      item.photo ||
+      "https://via.placeholder.com/600x400?text=Hotel+Image",
+
     liked: false,
     rating: Number(item.ratingsAverage ?? 0),
     locationText: [item.address, item.city, item.country]
       .filter(Boolean)
       .join(", "),
-    amenities: Array.isArray(item.amenities) ? item.amenities : [],
-    price: 250,
+    amenities: normalizeAmenities(item.amenities),
+
+    // Replace with real price fields when backend provides them
+    price: Number(item.price ?? item.amount ?? 250),
     priceSuffix: "/night",
   };
 }
@@ -149,8 +212,8 @@ export default function HotelSearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   /**
-   * Read params from the URL.
-   * Example URL:
+   * Read params from the URL
+   * Example:
    * /search?city=manchester&page=1
    */
   const city = searchParams.get("city") || "";
@@ -158,24 +221,23 @@ export default function HotelSearchResults() {
 
   const [searchValue, setSearchValue] = useState("");
   const [price, setPrice] = useState(350);
-  const [activeStars, setActiveStars] = useState(1);
+  const [activeStars, setActiveStars] = useState(0);
   const [amenities, setAmenities] = useState({
-    wifi: true,
+    wifi: false,
     pool: false,
-    local_parking: true,
-    pets: true,
+    local_parking: false,
+    pets: false,
   });
   const [sortBy, setSortBy] = useState("Popularity");
 
-  // API states
-  // const [hotels, setHotels] = useState([]);
-  const [filteredHotels, setHotels] = useState([]);
+  // API state
+  const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [totalPages, setTotalPages] = useState(1);
 
   /**
-   * Keep the search input synced with the city from the URL
+   * Keep search input in sync with city param
    */
   useEffect(() => {
     setSearchValue(city);
@@ -219,14 +281,17 @@ export default function HotelSearchResults() {
 
         if (ignore) return;
 
-        // Your real hotel list lives here
+        /**
+         * Your API shape:
+         * data.data.data.allHotels
+         */
         const apiHotels = Array.isArray(data?.data?.data?.allHotels)
           ? data.data.data.allHotels
           : [];
 
-        setHotels(apiHotels.map(mapHotelFromApi));
+        const mappedHotels = apiHotels.map(mapHotelFromApi);
 
-        // Pagination from your backend
+        setHotels(mappedHotels);
         setTotalPages(Number(data?.totalPages ?? 1));
       } catch (err) {
         if (err.name === "AbortError") return;
@@ -252,47 +317,53 @@ export default function HotelSearchResults() {
     };
   }, [city, currentPage]);
 
-  console.log(filteredHotels);
-
   /**
-   *
-   * Filter and sort the hotels from API in-memory
+   * Filter and sort the hotels in memory
    */
-  // const filteredHotels = useMemo(() => {
-  //   let list = [...hotels];
+  const filteredHotels = useMemo(() => {
+    let list = [...hotels];
 
-  //   // price filter
-  //   list = list.filter((h) => h.price <= price);
+    // Filter by max price
+    list = list.filter((hotel) => hotel.price <= price);
 
-  //   // star filter
-  //   if (activeStars) {
-  //     list = list.filter((h) => Math.round(h.rating) >= activeStars);
-  //   }
+    // Filter by minimum star rating
+    if (activeStars > 0) {
+      list = list.filter((hotel) => Math.round(hotel.rating) >= activeStars);
+    }
 
-  //   // amenities filter
-  //   const required = Object.entries(amenities)
-  //     .filter(([, value]) => value)
-  //     .map(([key]) => key);
+    // Filter by selected amenities
+    const requiredAmenities = Object.entries(amenities)
+      .filter(([, value]) => value)
+      .map(([key]) => key.toLowerCase());
 
-  //   if (required.length) {
-  //     list = list.filter((h) =>
-  //       required.some((requiredAmenity) =>
-  //         h.amenities
-  //           .map((a) => String(a).toLowerCase().trim())
-  //           .includes(requiredAmenity.toLowerCase()),
-  //       ),
-  //     );
-  //   }
+    if (requiredAmenities.length > 0) {
+      list = list.filter((hotel) => {
+        const hotelAmenities = hotel.amenities.map((amenity) =>
+          String(amenity).toLowerCase().trim(),
+        );
 
-  //   // sorting
-  //   if (sortBy === "Price (Low to High)") {
-  //     list.sort((a, b) => a.price - b.price);
-  //   } else if (sortBy === "Rating (High to Low)") {
-  //     list.sort((a, b) => b.rating - a.rating);
-  //   }
+        return requiredAmenities.some((required) => {
+          if (required === "local_parking") {
+            return (
+              hotelAmenities.includes("local_parking") ||
+              hotelAmenities.includes("parking")
+            );
+          }
 
-  //   return list;
-  // }, [hotels, price, activeStars, amenities, sortBy]);
+          return hotelAmenities.includes(required);
+        });
+      });
+    }
+
+    // Sort results
+    if (sortBy === "Price (Low to High)") {
+      list.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "Rating (High to Low)") {
+      list.sort((a, b) => b.rating - a.rating);
+    }
+
+    return list;
+  }, [hotels, price, activeStars, amenities, sortBy]);
 
   /**
    * Toggle favourite locally
@@ -306,15 +377,17 @@ export default function HotelSearchResults() {
   };
 
   /**
-   * Toggle amenity locally
+   * Toggle amenity filter
    */
   const onToggleAmenity = (key) => {
-    setAmenities((prev) => ({ ...prev, [key]: !prev[key] }));
+    setAmenities((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
   /**
-   * Optional search submit from input
-   * This updates URL, which triggers the fetch automatically
+   * Submit search and update URL
    */
   const onSearchSubmit = (e) => {
     e.preventDefault();
@@ -329,7 +402,7 @@ export default function HotelSearchResults() {
   };
 
   /**
-   * Pagination handler, update URL
+   * Pagination handler
    */
   const goToPage = (nextPage) => {
     setSearchParams({
@@ -338,14 +411,18 @@ export default function HotelSearchResults() {
     });
   };
 
+  /**
+   * Currently filters are live, so this button is optional
+   */
   const onApplyFilters = () => {
-    // For now filters are applied client-side through useMemo.
-    // Later you can also push filter params into the URL here if you want.
+    // Filters already apply automatically through useMemo.
+    // Kept here because your current UI includes the button.
   };
 
   return (
     <div className="pageRoot dark">
       <div className="pageShell">
+        {/* Top navbar */}
         <header className="topNav">
           <div className="brandRow">
             <div className="brandMark" aria-hidden="true">
@@ -388,6 +465,7 @@ export default function HotelSearchResults() {
             <button className="ghostBtn" type="button">
               Log In
             </button>
+
             <button className="primaryBtn" type="button">
               Sign Up
             </button>
@@ -396,11 +474,13 @@ export default function HotelSearchResults() {
 
         <main className="layout">
           <div className="columns">
+            {/* Filters */}
             <aside className="leftCol">
               <div className="sticky">
                 <section className="filterCard" aria-label="Filter by">
                   <h2 className="filterTitle">Filter By</h2>
 
+                  {/* Price */}
                   <div className="filterSection">
                     <label className="filterLabel" htmlFor="price-range">
                       Price Range
@@ -420,6 +500,7 @@ export default function HotelSearchResults() {
                     </div>
                   </div>
 
+                  {/* Star rating */}
                   <div className="filterSection">
                     <h3 className="filterLabel">Star Rating</h3>
                     <div
@@ -427,19 +508,20 @@ export default function HotelSearchResults() {
                       role="group"
                       aria-label="Star rating"
                     >
-                      {[1, 2, 3, 4, 5].map((n) => (
+                      {[0, 1, 2, 3, 4, 5].map((n) => (
                         <button
                           key={n}
                           type="button"
                           className={`starBtn ${activeStars === n ? "active" : ""}`}
                           onClick={() => setActiveStars(n)}
                         >
-                          {n}
+                          {n === 0 ? "All" : n}
                         </button>
                       ))}
                     </div>
                   </div>
 
+                  {/* Amenities */}
                   <div className="filterSection noBorder">
                     <h3 className="filterLabel">Amenities</h3>
 
@@ -493,6 +575,7 @@ export default function HotelSearchResults() {
               </div>
             </aside>
 
+            {/* Results */}
             <section className="rightCol">
               <div className="headingRow">
                 <div>
@@ -518,6 +601,7 @@ export default function HotelSearchResults() {
                 </div>
               </div>
 
+              {/* Loading state */}
               {loading && (
                 <>
                   <Spinner />
@@ -529,18 +613,21 @@ export default function HotelSearchResults() {
                 </>
               )}
 
+              {/* Error state */}
               {!loading && error && (
                 <div className="errorState" role="alert">
                   <p>{error}</p>
                 </div>
               )}
 
+              {/* Empty state */}
               {!loading && !error && filteredHotels.length === 0 && (
                 <div className="emptyState">
                   <p>No hotels found for this search.</p>
                 </div>
               )}
 
+              {/* Success state */}
               {!loading && !error && filteredHotels.length > 0 && (
                 <>
                   <div className="cardsGrid">

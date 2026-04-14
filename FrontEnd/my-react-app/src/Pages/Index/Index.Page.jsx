@@ -1,9 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutThunk } from "../../store/auth/auth.thunks";
-import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
 
 const DESTINATION_BG =
   'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt8MEL-c-9eNtjj4KkKjZm3lOuwhUg9NYppUFuKVQsfCpLZlyDQpRQ2PqpFhuDW4sW8gkCVr5ZmaNez-FUECTWoHLT72mEgGwX83dmUsdsCeeYt2w2nInXv6s1b-bX5PHdlWr2GI97ZPkMsxmJkxRRlF1B3g0fmFIei8ISXMhYKASZ07LZ9ijOr5e3lYcVsLmA4qHF210pOCjuk1CfNA58BqSWWaQjVSnjykk0qk3z9XrMx0AyyPTmZXMqFH-k-o4yi4J-HE6--x4")';
@@ -36,11 +32,12 @@ const featured = [
 ];
 
 function Index() {
-  const dispatch = useDispatch();
-  const isAuthed = useSelector(selectIsAuthed);
-  const userData = useSelector(selectUser);
+  // const dispatch = useDispatch();
+  // const isAuthed = useSelector(selectIsAuthed);
+  // const userData = useSelector(selectUser);
   const navigate = useNavigate();
   const [destination, setDestination] = useState("");
+  const [destinationError, setDestinationError] = useState(false);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("2");
@@ -74,8 +71,20 @@ function Index() {
   const onSearch = (e) => {
     e.preventDefault();
 
-    const dest = destination?.trim();
-    if (!dest || !/^[A-Za-z\s-]+$/.test(dest)) return;
+    const dest = destination.trim();
+
+    if (!dest || !/^[A-Za-z\s-]+$/.test(dest)) {
+      setDestinationError(true);
+
+      // Auto-remove error after 3 seconds
+      setTimeout(() => {
+        setDestinationError(false);
+      }, 3000);
+
+      return;
+    }
+
+    setDestinationError(false);
 
     const params = new URLSearchParams();
     const which = decideCityOrCountry(dest);
@@ -95,59 +104,6 @@ function Index() {
 
   return (
     <div className="page">
-      {/* Top Navigation Bar */}
-      <header className="topbar" role="banner">
-        <nav className="container topbar__inner" aria-label="Top navigation">
-          <div className="brand">
-            <span
-              className="material-symbols-outlined brand__icon"
-              aria-hidden="true"
-            >
-              travel_explore
-            </span>
-            <h2 className="brand__name">Voyage</h2>
-          </div>
-
-          <div className="navlinks" aria-label="Primary links">
-            <a className="navlinks__link" href="#">
-              Destinations
-            </a>
-            <a className="navlinks__link" href="#">
-              Deals
-            </a>
-            <a className="navlinks__link" href="#">
-              Support
-            </a>
-          </div>
-          {isAuthed ? (
-            <>
-              {console.log(userData)}
-              <Link to="/dashboard">Dashboard</Link>
-              <span>
-                {userData && <span>Hi, {userData.user.first_name}</span>}
-              </span>
-
-              <button
-                className="btn btn--primary"
-                type="button"
-                onClick={() => dispatch(logoutThunk())}
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <div className="topbar__actions">
-              <Link to="/auth" className="btn btn--muted" type="button">
-                Sign In
-              </Link>
-              <button className="btn btn--primary" type="button">
-                Sign Up
-              </button>
-            </div>
-          )}
-        </nav>
-      </header>
-
       <main>
         {/* Hero Section */}
         <section className="hero" style={heroStyle} aria-label="Hero">
@@ -173,13 +129,20 @@ function Index() {
                       >
                         location_on
                       </span>
+
                       <input
-                        className="input input--ghost"
+                        className={`input input--ghost ${destinationError ? "input-error" : ""}`}
                         placeholder="Destination, city, hotel"
                         value={destination}
                         onChange={(e) => setDestination(e.target.value)}
                       />
                     </label>
+
+                    {destinationError && (
+                      <p className="error-text">
+                        A destination must be provided.
+                      </p>
+                    )}
                   </div>
 
                   <div className="searchCell">

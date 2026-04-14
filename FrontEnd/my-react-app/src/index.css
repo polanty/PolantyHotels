@@ -381,6 +381,17 @@ html.dark .fieldRow__icon {
   padding: 0 12px;
   color: #111827;
 }
+
+.input-error {
+  border: 2px solid red !important;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
 html.dark .input,
 html.dark .select {
   color: #fff;
