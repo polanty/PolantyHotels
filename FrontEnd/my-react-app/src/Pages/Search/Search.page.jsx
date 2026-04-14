@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import "./HotelSearchResults.css";
 
 /**
@@ -422,6 +423,7 @@ export default function HotelSearchResults() {
   return (
     <div className="pageRoot dark">
       <div className="pageShell">
+        <SearchComponent />
         {/* Top navbar */}
         <header className="topNav">
           <div className="brandRow">
