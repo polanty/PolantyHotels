@@ -1,21 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
+import HotelCard from "../../Components/HotelCard/HotelCard";
 import "./HotelSearchResults.css";
-
-/**
- * Small reusable star icon
- */
-function Star({ filled }) {
-  return (
-    <span
-      className={`material-symbols-outlined starIcon ${filled ? "filled" : ""}`}
-      aria-hidden="true"
-    >
-      star
-    </span>
-  );
-}
 
 /**
  * Spinner shown while data is loading
@@ -43,117 +30,6 @@ function HotelCardSkeleton() {
         <div className="hotelCardFooter">
           <div className="skeleton skeletonPrice" />
           <div className="skeleton skeletonButton" />
-        </div>
-      </div>
-    </article>
-  );
-}
-
-/**
- * Map backend amenity names to Material Symbols icons where possible.
- * Fallback is "check_circle".
- */
-function getAmenityIcon(amenity) {
-  const value = String(amenity).toLowerCase().trim();
-
-  const iconMap = {
-    wifi: "wifi",
-    pool: "pool",
-    swimming: "pool",
-    parking: "local_parking",
-    local_parking: "local_parking",
-    pets: "pets",
-    pet: "pets",
-    breakfast: "restaurant",
-    gym: "fitness_center",
-    air_conditioning: "mode_fan",
-    ac: "mode_fan",
-    spa: "spa",
-    bar: "local_bar",
-    restaurant: "restaurant",
-    laundry: "local_laundry_service",
-  };
-
-  return iconMap[value] || "check_circle";
-}
-
-/**
- * Normal hotel card
- */
-function HotelCard({ hotel, onToggleLike }) {
-  return (
-    <article className="hotelCard">
-      <div className="hotelCardMedia">
-        <img
-          className="hotelCardImg"
-          src={hotel.img}
-          alt={hotel.name}
-          loading="lazy"
-          onError={(e) => {
-            e.currentTarget.src =
-              "https://via.placeholder.com/600x400?text=No+Image";
-          }}
-        />
-
-        <button
-          type="button"
-          className={`likeBtn ${hotel.liked ? "liked" : ""}`}
-          onClick={() => onToggleLike(hotel.id)}
-          aria-label={
-            hotel.liked ? "Remove from favourites" : "Add to favourites"
-          }
-        >
-          <span className="material-symbols-outlined">
-            {hotel.liked ? "favorite" : "favorite_border"}
-          </span>
-        </button>
-      </div>
-
-      <div className="hotelCardBody">
-        <div className="hotelCardTop">
-          <h3 className="hotelName">{hotel.name}</h3>
-
-          <div className="ratingPill" aria-label={`Rating ${hotel.rating}`}>
-            <Star filled />
-            <span className="ratingNumber">
-              {Number(hotel.rating).toFixed(1)}
-            </span>
-          </div>
-        </div>
-
-        <p className="hotelMeta">{hotel.locationText}</p>
-
-        <div className="amenitiesRow" aria-label="Amenities">
-          {hotel.amenities.length > 0 ? (
-            hotel.amenities.map((amenity, index) => (
-              <span
-                key={`${amenity}-${index}`}
-                className="material-symbols-outlined amenityIcon"
-                title={amenity}
-              >
-                {getAmenityIcon(amenity)}
-              </span>
-            ))
-          ) : (
-            <span className="hotelMeta">No amenities listed</span>
-          )}
-        </div>
-
-        <div className="hotelCardFooter">
-          <p className="price">
-            {hotel.price > 0 ? (
-              <>
-                ${hotel.price}{" "}
-                <span className="priceSuffix">{hotel.priceSuffix}</span>
-              </>
-            ) : (
-              <span className="priceSuffix">Price unavailable</span>
-            )}
-          </p>
-
-          <button type="button" className="primaryBtn">
-            View Deal
-          </button>
         </div>
       </div>
     </article>
@@ -422,10 +298,12 @@ export default function HotelSearchResults() {
 
   return (
     <div className="pageRoot dark">
-      <div className="pageShell">
+      <div className="index-search--holder">
         <SearchComponent />
+      </div>
+      <div className="pageShell">
         {/* Top navbar */}
-        <header className="topNav">
+        {/* <header className="topNav">
           <div className="brandRow">
             <div className="brandMark" aria-hidden="true">
               <span className="material-symbols-outlined kingBed">
@@ -472,7 +350,7 @@ export default function HotelSearchResults() {
               Sign Up
             </button>
           </div>
-        </header>
+        </header> */}
 
         <main className="layout">
           <div className="columns">

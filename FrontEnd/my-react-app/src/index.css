@@ -304,6 +304,12 @@ html.dark .btn--muted:hover {
   max-width: 1120px;
 }
 
+.index-search--holder {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background-color: red;
+}
 .searchCard {
   border-radius: var(--radius);
   padding: 16px;

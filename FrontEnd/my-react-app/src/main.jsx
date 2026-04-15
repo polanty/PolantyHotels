@@ -11,6 +11,7 @@ import App from "./App.jsx";
 import Index from "./Pages/Index/Index.Page.jsx";
 import AuthPage from "./Pages/Auth/Auth.page.jsx";
 import HotelSearchResults from "./Pages/Search/Search.page.jsx";
+import HotelDetailsPage from "./Pages/Hotel/Hotel.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { index: true, element: <Index /> },
       { path: "auth", element: <AuthPage /> },
       { path: "search", element: <HotelSearchResults /> },
+      { path: "/hotels/:hotelId", element: <HotelDetailsPage /> },
     ],
   },
 ]);
