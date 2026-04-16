@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 /**
  * Small reusable star icon
  */
@@ -54,6 +55,12 @@ function getAmenityIcon(amenity) {
  * Normal hotel card
  */
 function HotelCard({ hotel, onToggleLike }) {
+  const navigate = useNavigate();
+
+  const handleViewDeal = () => {
+    navigate(`/hotels/${hotel.id}`);
+  };
+
   return (
     <article className="hotelCard">
       <div className="hotelCardMedia">
@@ -123,7 +130,7 @@ function HotelCard({ hotel, onToggleLike }) {
             )}
           </p>
 
-          <button type="button" className="primaryBtn">
+          <button type="button" className="primaryBtn" onClick={handleViewDeal}>
             View Deal
           </button>
         </div>

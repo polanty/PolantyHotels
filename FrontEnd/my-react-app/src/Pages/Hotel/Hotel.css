@@ -1,20 +1,6 @@
-:root {
-  --bg: #0b1220;
-  --panel: #121a2b;
-  --panel-2: #162033;
-  --card: #101827;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #f5f7fb;
-  --muted: #aeb8cc;
-  --accent: #2f80ed;
-  --accent-2: #195fc3;
-  --success: #1f9d55;
-  --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-}
-
 .hotelDetailsPage {
   min-height: 100vh;
-  background: linear-gradient(180deg, #09111f 0%, #0c1525 100%);
+  /* background: linear-gradient(180deg, #09111f 0%, #0c1525 100%); */
   color: var(--text);
 }
 
@@ -235,7 +221,7 @@
 .hotelSection,
 .hotelDetailsStateCard,
 .infoPanel {
-  background: rgba(16, 24, 39, 0.92);
+  /* background: rgba(16, 24, 39, 0.92); */
   border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: var(--shadow);

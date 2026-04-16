@@ -3,7 +3,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./HotelDetailsPage.css";
+import Map from "../../api/MapView";
+import "./Hotel.css";
 
 /**
  * Small helper to format amenity names nicely
@@ -544,6 +545,7 @@ export default function HotelDetailsPage() {
             <section className="hotelSection">
               <h2 className="sectionTitle">Location</h2>
               <div className="mapPlaceholder">
+                <Map lat={53.4} lon={-3.0} />
                 <span className="material-symbols-outlined">map</span>
                 <p>
                   {hotel.address}, {hotel.city}, {hotel.country}
