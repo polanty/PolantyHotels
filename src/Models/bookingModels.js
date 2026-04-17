@@ -27,7 +27,7 @@ const BookingSchema = new mongoose.Schema(
 
 //Prevent overlapping bookings for the same room
 BookingSchema.index(
-  { RoomRef: 1, check_in: 1, check_out: 1 },
+  { userRef: 1, RoomRef: 1, check_in: 1, check_out: 1 },
   { unique: true },
 );
 

@@ -36,6 +36,39 @@ function getAmenityIcon(name) {
   return "check_circle";
 }
 
+// function getAmenityIcon(amenity) {
+//   const value = String(amenity).trim();
+
+//   const iconMap = {
+//     WiFi: "wifi",
+//     Air_Conditioning: "mode_fan",
+//     Flat_Screen_TV: "full_hd",
+//     Minibar: "table_bar",
+//     Coffee_Maker: "coffee_maker",
+//     Hair_Dryer: "health_and_beauty",
+//     Bathrobes: "dry_cleaning",
+//     Work_Desk: "desk",
+//     Balcony: "balcony",
+//     Smart_TV: "connected_tv",
+//     Espresso_Machine: "emoji_food_beverage",
+//     Restaurant: "restaurant",
+//     Bar: "sports_bar",
+//     Gym: "exercise",
+//     Swimming_Pool: "pool",
+//     Safe: "security",
+//     Spa: "spa",
+//     Business_Center: "business_center",
+//     Meeting_Rooms: "meeting_room",
+//     Parking: "garage",
+//     Room_Service: "room_service",
+//     Concierge: "concierge",
+//     Airport_Shuttle: "airport_shuttle",
+//     Laundry_Service: "iron",
+//     Pet_Friendly: "pets",
+//   };
+
+//   return iconMap[value] || "check_circle";
+// }
 /**
  * Choose room images first, then hotel images, then placeholders
  */
