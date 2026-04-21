@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMe } from "./store/auth/auth.thunks";
 import { selectBootstrapped } from "./store/auth/auth.selectors";
 import Navbar from "./Components/NavBar/NavBar";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
       <main style={{ padding: 16 }}>
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
