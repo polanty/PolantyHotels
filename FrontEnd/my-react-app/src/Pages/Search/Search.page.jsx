@@ -1,20 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Spinner } from "../../utils/utils";
+import { NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import HotelCard from "../../Components/HotelCard/HotelCard";
 import "./HotelSearchResults.css";
-
-/**
- * Spinner shown while data is loading
- */
-function Spinner() {
-  return (
-    <div className="spinnerWrap" role="status" aria-live="polite">
-      <div className="spinner" />
-      <p>Loading hotels...</p>
-    </div>
-  );
-}
 
 /**
  * Skeleton placeholder card shown while loading
@@ -37,27 +27,6 @@ function HotelCardSkeleton() {
 }
 
 /**
- * Safely normalize amenities from API response.
- * Your API may return strings or objects like:
- * { category, name, description }
- */
-function normalizeAmenities(amenities) {
-  if (!Array.isArray(amenities)) return [];
-
-  return amenities
-    .map((amenity) => {
-      if (typeof amenity === "string") return amenity;
-
-      if (typeof amenity === "object" && amenity !== null) {
-        return amenity.name || amenity.category || amenity.description || "";
-      }
-
-      return "";
-    })
-    .filter(Boolean);
-}
-
-/**
  * Map API hotel response into the structure your UI expects
  */
 function mapHotelFromApi(item) {
@@ -77,7 +46,7 @@ function mapHotelFromApi(item) {
     locationText: [item.address, item.city, item.country]
       .filter(Boolean)
       .join(", "),
-    amenities: normalizeAmenities(item.amenities),
+    amenities: NormalizeAmenities(item.amenities),
 
     // Replace with real price fields when backend provides them
     price: Number(item.price ?? item.amount ?? 250),

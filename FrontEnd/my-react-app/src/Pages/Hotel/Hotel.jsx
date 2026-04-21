@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { NormalizeAmenities } from "../../utils/utils";
 import Map from "../../api/MapView";
 import "./Hotel.css";
 
@@ -100,33 +101,6 @@ function buildGalleryImages(hotel) {
   ];
 
   return [...normalizedRoomImages, ...fallback].slice(0, 5);
-}
-
-/**
- * Normalize amenity objects into a renderable structure
- */
-function normalizeAmenities(amenities) {
-  if (!Array.isArray(amenities)) return [];
-
-  return amenities
-    .map((item, index) => {
-      if (typeof item === "string") {
-        return {
-          id: `${item}-${index}`,
-          name: item,
-          description: "",
-          category: "",
-        };
-      }
-
-      return {
-        id: `${item?.name || "amenity"}-${index}`,
-        name: item?.name || "Amenity",
-        description: item?.description || "",
-        category: item?.category || "",
-      };
-    })
-    .filter(Boolean);
 }
 
 /**
@@ -330,7 +304,7 @@ export default function HotelDetailsPage() {
 
   const galleryImages = useMemo(() => buildGalleryImages(hotel), [hotel]);
   const amenityList = useMemo(
-    () => normalizeAmenities(hotel?.amenities),
+    () => NormalizeAmenities(hotel?.amenities),
     [hotel],
   );
   const rooms = useMemo(() => (hotel?.RoomRef || []).map(mapRoom), [hotel]);

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-/**
- * Small reusable star icon
- */
+import { useMemo } from "react";
+import { NormalizeAmenities } from "../../utils/utils";
+
+//Small reusable star icon
+
 function Star({ filled }) {
   return (
     <span
@@ -13,10 +15,9 @@ function Star({ filled }) {
   );
 }
 
-/**
- * Map backend amenity names to Material Symbols icons where possible.
- * Fallback is "check_circle".
- */
+//  Map backend amenity names to Material Symbols icons where possible.
+//   Fallback is "check_circle".
+
 function getAmenityIcon(amenity) {
   const value = String(amenity).trim();
 
@@ -51,15 +52,19 @@ function getAmenityIcon(amenity) {
   return iconMap[value] || "check_circle";
 }
 
-/**
- * Normal hotel card
- */
+//Normal hotel card
+
 function HotelCard({ hotel, onToggleLike }) {
   const navigate = useNavigate();
 
   const handleViewDeal = () => {
     navigate(`/hotels/${hotel.id}`);
   };
+
+  const amenityList = useMemo(
+    () => NormalizeAmenities(hotel?.amenities),
+    [hotel],
+  );
 
   return (
     <article className="hotelCard">
@@ -103,14 +108,14 @@ function HotelCard({ hotel, onToggleLike }) {
         <p className="hotelMeta">{hotel.locationText}</p>
 
         <div className="amenitiesRow" aria-label="Amenities">
-          {hotel.amenities.length > 0 ? (
-            hotel.amenities.map((amenity, index) => (
+          {amenityList.length > 0 ? (
+            amenityList.map((amenity) => (
               <span
-                key={`${amenity}-${index}`}
+                key={amenity.id}
                 className="material-symbols-outlined amenityIcon"
-                title={amenity}
+                title={amenity.name}
               >
-                {getAmenityIcon(amenity)}
+                {getAmenityIcon(amenity.name)}
               </span>
             ))
           ) : (
