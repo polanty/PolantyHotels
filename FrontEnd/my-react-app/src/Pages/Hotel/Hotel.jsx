@@ -261,12 +261,8 @@ export default function HotelDetailsPage() {
       try {
         setLoading(true);
         setError("");
+        setHotel(null);
 
-        /**
-         * Replace this endpoint if your single-hotel route differs.
-         * Example expected response:
-         * { status: "success", data: { hotel: { ... } } }
-         */
         const response = await fetch(
           `http://127.0.0.1:3000/api/v1/hotels/${hotelId}`,
           {
@@ -291,9 +287,12 @@ export default function HotelDetailsPage() {
         setHotel(payloadHotel);
       } catch (err) {
         if (err.name === "AbortError") return;
+
         setError(err.message || "Failed to load hotel details.");
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 

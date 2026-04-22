@@ -51,7 +51,14 @@ export const createHotel = catchAsync(async (req, res, next) => {
 export const getOneHotel = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
 
-  const hotel = await Location.findById(hotelId);
+  const hotel = await Location.findById(hotelId).populate({
+    path: "reviews",
+    select: "-__v",
+    populate: {
+      path: "user_id",
+      select: "first_name profile_image",
+    },
+  });
 
   if (!hotel) {
     return next(new AppError("Hotel not found 💥", 404));
@@ -72,22 +79,22 @@ export const updateHotel = catchAsync(async (req, res, next) => {
   const allowedUpdates = ["name", "address"];
   const attemptedUpdates = Object.keys(upDatedHotels);
   const isValidOperation = attemptedUpdates.every((update) =>
-    allowedUpdates.includes(update)
+    allowedUpdates.includes(update),
   );
 
   if (!isValidOperation) {
     return next(
       new AppError(
         `Invalid updates! You can only update name and address.`,
-        400
-      )
+        400,
+      ),
     );
   }
 
   const newHotel = await Location.findByIdAndUpdate(
     req.params.id,
     upDatedHotels,
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   );
 
   //persit the User who Updated the hotel - future feature

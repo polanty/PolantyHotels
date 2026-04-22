@@ -44,7 +44,6 @@ const locationSchema = new mongoose.Schema(
       required: [true, "Longitude must be provided"],
     },
 
-    // GEOJSON LOCATION FIELD
     location: {
       type: {
         type: String,
@@ -53,7 +52,7 @@ const locationSchema = new mongoose.Schema(
         default: "Point",
       },
       coordinates: {
-        type: [Number], // [lng, lat]
+        type: [Number],
         required: true,
       },
     },
@@ -89,16 +88,12 @@ const locationSchema = new mongoose.Schema(
       },
     ],
 
-    /**
-     * NEW FIELDS FOR RATINGS
-     * These get updated automatically by the Review model
-     */
     ratingsAverage: {
       type: Number,
       default: 0,
       min: [1, "Rating must be above 1.0"],
       max: [5, "Rating must be below 5.0"],
-      set: (val) => Math.round(val * 10) / 10, // Round to 1 decimal place
+      set: (val) => Math.round(val * 10) / 10,
     },
     ratingsQuantity: {
       type: Number,
@@ -110,6 +105,12 @@ const locationSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   },
 );
+
+locationSchema.virtual("reviews", {
+  ref: "Review",
+  foreignField: "location_id",
+  localField: "_id",
+});
 
 // Populate amenities on all find queries
 locationSchema.pre(/^find/, function (next) {
@@ -133,7 +134,6 @@ locationSchema.pre(/^findOne$/, function (next) {
   next();
 });
 
-// Enable geospatial queries
 locationSchema.index({ location: "2dsphere" });
 
 const Location = mongoose.model("Location", locationSchema);
