@@ -4,7 +4,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { NormalizeAmenities } from "../../utils/utils";
+import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import Map from "../../api/MapView";
+import HotelInfoCards from "../../Components/HotelInfo/HotelInfo";
 import "./Hotel.css";
 
 /**
@@ -347,6 +349,9 @@ export default function HotelDetailsPage() {
   return (
     <div className="hotelDetailsPage dark">
       <div className="hotelDetailsShell">
+        <div className="index-search--holder">
+          <SearchComponent /> {/* Make sure target is blank */}
+        </div>
         <nav className="hotelBreadcrumbs" aria-label="Breadcrumbs">
           <span>Home</span>
           <span>/</span>
@@ -558,6 +563,7 @@ export default function HotelDetailsPage() {
                 </p>
               </div>
             </section>
+            <HotelInfoCards hotel={hotel} />
           </main>
 
           <BookingCard hotel={hotel} rooms={rooms} lowestPrice={lowestPrice} />

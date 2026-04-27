@@ -11,6 +11,7 @@
 }
 
 .hotelBreadcrumbs {
+  margin-top: 120px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -111,14 +112,15 @@
 .heroPrimaryBtn,
 .bookNowBtn,
 .roomSelectBtn {
-  background: var(--accent);
+  /* background: var(--accent); */
+  background-color: #113e7a;
   color: white;
 }
 
 .heroPrimaryBtn:hover,
 .bookNowBtn:hover,
 .roomSelectBtn:hover {
-  background: var(--accent-2);
+  background: var(--primary);
 }
 
 .heroGhostBtn,
