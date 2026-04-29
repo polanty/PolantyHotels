@@ -66,8 +66,9 @@ export default function HotelInfoCards({ hotel }) {
               <div className="reviewsList">
                 {reviews.map((review) => (
                   <div className="reviewItem" key={review._id}>
-                    <h4>{review.user?.name || "Guest"}</h4>
-                    <p>{review.review}</p>
+                    <h4>{review.user_id?.first_name || "Guest"}</h4>
+                    <h3>{review.title}</h3>
+                    <p>{review.comment}</p>
                     {review.rating && <span>{review.rating}/5</span>}
                   </div>
                 ))}

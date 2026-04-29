@@ -13,6 +13,8 @@ import reviewsRouter from "./src/Routes/Reviews/reviewsRouter.js";
 // Used to also create data for references by Other models
 import roomRouter from "./src/Routes/RoomRoutes(test)/roomRoutes.js";
 import roomTypesRouter from "./src/Routes/RoomTypesRoutes/RoomTypesRoutes.js";
+
+import paymentRoutes from "./src/Routes/paymentRoutes/paymentRoutes.js";
 //
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -77,6 +79,9 @@ app.use("/api/v1/admin/reviews", reviewsRouter);
 
 //Amenities Route for Admin
 app.use("/api/v1/admin", amenitiesRoute);
+
+//Payment Routes
+app.use("/api/v1/payments", paymentRoutes);
 
 //Pricing Routes for Admin
 app.use("/api/v1/admin", pricingRoute);
