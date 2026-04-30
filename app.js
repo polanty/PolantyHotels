@@ -48,6 +48,8 @@ if (process.env.NODE_ENV === "development") {
 // Test middleware
 app.use((req, res, next) => {
   console.log(req.cookies);
+  console.log("This is a test middleware");
+  console.log(process.env.STRIPE_API_KEY);
   next();
 });
 
