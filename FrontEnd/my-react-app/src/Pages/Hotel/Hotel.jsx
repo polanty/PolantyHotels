@@ -2,7 +2,7 @@
 //return each individual hotel along with it's mapped location
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import Map from "../../api/MapView";
@@ -250,6 +250,24 @@ export default function HotelDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [showPaymentCancelled, setShowPaymentCancelled] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const paymentStatus = params.get("payment");
+
+    if (paymentStatus === "cancelled") {
+      setShowPaymentCancelled(true);
+
+      navigate(location.pathname, {
+        replace: true,
+      });
+    }
+  }, [location.search, location.pathname, navigate]);
+
   useEffect(() => {
     if (!hotelId) {
       setError("No hotel id was provided.");
@@ -350,8 +368,34 @@ export default function HotelDetailsPage() {
     <div className="hotelDetailsPage dark">
       <div className="hotelDetailsShell">
         <div className="index-search--holder">
-          <SearchComponent /> {/* Make sure target is blank */}
+          <SearchComponent />
         </div>
+
+        {showPaymentCancelled && (
+          <div className="paymentCancelledBanner" role="alert">
+            <div className="paymentCancelledIcon">
+              <span className="material-symbols-outlined">info</span>
+            </div>
+
+            <div className="paymentCancelledContent">
+              <h2>Payment cancelled</h2>
+              <p>
+                Your booking was not completed. You can review the room details
+                and try again when you are ready.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="paymentCancelledClose"
+              onClick={() => setShowPaymentCancelled(false)}
+              aria-label="Dismiss payment cancellation message"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        )}
+
         <nav className="hotelBreadcrumbs" aria-label="Breadcrumbs">
           <span>Home</span>
           <span>/</span>
@@ -511,6 +555,9 @@ export default function HotelDetailsPage() {
                             type="button"
                             className="roomSelectBtn"
                             disabled={room.isAvailable < 1}
+                            onClick={(e) => {
+                              console.log(e);
+                            }}
                           >
                             {room.isAvailable > 0 ? "Reserve" : "Sold out"}
                           </button>

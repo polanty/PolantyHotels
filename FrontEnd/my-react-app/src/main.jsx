@@ -13,6 +13,9 @@ import AuthPage from "./Pages/Auth/Auth.page.jsx";
 import HotelSearchResults from "./Pages/Search/Search.page.jsx";
 import HotelDetailsPage from "./Pages/Hotel/Hotel.jsx";
 
+//payment sucess routes
+import PaymentSuccess from "./Pages/PaymentSucess/PaymentSucess.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +25,7 @@ const router = createBrowserRouter([
       { path: "auth", element: <AuthPage /> },
       { path: "search", element: <HotelSearchResults /> },
       { path: "/hotels/:hotelId", element: <HotelDetailsPage /> },
+      { path: "/payment-success", element: <PaymentSuccess /> },
     ],
   },
 ]);

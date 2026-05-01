@@ -565,3 +565,71 @@
     width: 100%;
   }
 }
+
+/* Cancellation CSS */
+.paymentCancelledBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 20px 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 193, 7, 0.35);
+  background: rgba(255, 193, 7, 0.12);
+  border-radius: 14px;
+  color: #fff;
+}
+
+.paymentCancelledIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 193, 7, 0.18);
+  color: #ffc107;
+}
+
+.paymentCancelledContent {
+  flex: 1;
+}
+
+.paymentCancelledContent h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.paymentCancelledContent p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.paymentCancelledClose {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.paymentCancelledClose:hover {
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .paymentCancelledBanner {
+    padding: 14px;
+  }
+
+  .paymentCancelledContent h2 {
+    font-size: 0.95rem;
+  }
+
+  .paymentCancelledContent p {
+    font-size: 0.85rem;
+  }
+}

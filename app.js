@@ -85,6 +85,9 @@ app.use("/api/v1/admin", amenitiesRoute);
 //Payment Routes
 app.use("/api/v1/payments", paymentRoutes);
 
+//To Handle getting the session from the frontend after payment is successful
+app.use("/api/v1/bookings", paymentRoutes);
+
 //Pricing Routes for Admin
 app.use("/api/v1/admin", pricingRoute);
 
