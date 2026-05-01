@@ -100,7 +100,7 @@ class EmailService {
   }
 }
 
-// export default new EmailService();
+export default new EmailService();
 
 //Testing Links
 // 1.await emailService.sendSignupEmail(user.email, user.name);

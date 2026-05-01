@@ -2,34 +2,101 @@ import mongoose from "mongoose";
 
 const BookingSchema = new mongoose.Schema(
   {
+    hotel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Location",
+      required: true,
+    },
+
+    room: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Room",
+      required: true,
+    },
+
+    roomType: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "RoomType",
+      required: true,
+    },
+
     userRef: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "User ID must be provided"],
+      required: true,
     },
-    RoomRef: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Room",
-      required: [true, "Room ID must be provided"],
+
+    checkInDate: {
+      type: Date,
+      required: true,
     },
-    check_in: { type: Date, required: true },
-    check_out: { type: Date, required: true },
-    total_price: { type: Number, required: true },
+
+    checkOutDate: {
+      type: Date,
+      required: true,
+    },
+
+    nights: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+
+    currency: {
+      type: String,
+      required: true,
+      default: "USD",
+    },
+
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled"],
-      default: "pending",
+      enum: [
+        "pending_payment",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "expired",
+      ],
+      default: "pending_payment",
     },
-    created_at: { type: Date, default: Date.now },
+
+    paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid", "refunded", "failed"],
+      default: "unpaid",
+    },
+
+    paymentIntentId: {
+      type: String,
+      default: null,
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    roomReleased: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-//Prevent overlapping bookings for the same room
+// Prevent overlapping bookings for the same room
 BookingSchema.index(
-  { userRef: 1, RoomRef: 1, check_in: 1, check_out: 1 },
-  { unique: true },
+  { room: 1, checkInDate: 1, checkOutDate: 1 },
+  { unique: false },
 );
 
 const Booking = mongoose.model("Booking", BookingSchema);
+
 export default Booking;

@@ -556,7 +556,7 @@ export default function HotelDetailsPage() {
                             className="roomSelectBtn"
                             disabled={room.isAvailable < 1}
                             onClick={(e) => {
-                              console.log(e);
+                              console.log(hotel.id, room.id);
                             }}
                           >
                             {room.isAvailable > 0 ? "Reserve" : "Sold out"}

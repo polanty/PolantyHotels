@@ -7,7 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 function Map({ lat, lon, zoom = 12 }) {
   const mapRef = useRef();
   const mapContainerRef = useRef();
-  console.log(MAPBOX_TOKEN);
+  // console.log(MAPBOX_TOKEN);
   useEffect(() => {
     if (!lat || !lon) return; // prevent map from loading with invalid coords
 
