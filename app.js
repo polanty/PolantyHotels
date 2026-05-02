@@ -15,6 +15,7 @@ import roomRouter from "./src/Routes/RoomRoutes(test)/roomRoutes.js";
 import roomTypesRouter from "./src/Routes/RoomTypesRoutes/RoomTypesRoutes.js";
 
 import paymentRoutes from "./src/Routes/paymentRoutes/paymentRoutes.js";
+import { stripeWebhook } from "./src/Utilities/stripeWebhook/stripeWebHook.js";
 //
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -36,6 +37,23 @@ const app = express();
 // });
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
+// Stripe Webhook Route (Unprotected, must be defined before any authentication middleware)
+// This route is used by Stripe to send event notifications (e.g., payment success, payment failure), Do NOT use express.json() for this route or signature verification will fail.
+app.use("/api/v1/bookings/webhook", (req, res, next) => {
+  console.log("Incoming Stripe webhook request", {
+    url: req.originalUrl,
+    method: req.method,
+    contentType: req.headers["content-type"],
+    hasStripeSignature: Boolean(req.headers["stripe-signature"]),
+  });
+  next();
+});
+app.post(
+  "/api/v1/bookings/webhook",
+  express.raw({ type: "application/json" }),
+  stripeWebhook,
+);
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cookieParser()); // <- used to pass all the cookies coming from the request
@@ -49,7 +67,7 @@ if (process.env.NODE_ENV === "development") {
 app.use((req, res, next) => {
   console.log(req.cookies);
   console.log("This is a test middleware");
-  console.log(process.env.STRIPE_API_KEY);
+  console.log(process.env.NODE_ENV);
   next();
 });
 

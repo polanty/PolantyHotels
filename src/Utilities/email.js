@@ -83,11 +83,29 @@ class EmailService {
     });
   }
 
-  async sendBookingEmail(email, bookingDetails) {
+  async sendBookingEmail(email, booking) {
+    const message = `
+          <h2>Booking Confirmed 🎉</h2>
+
+          <p><strong>Hotel:</strong> ${booking.hotel.name}</p>
+          <p><strong>Room:</strong> ${booking.roomType.name}</p>
+
+          <p><strong>Check-in:</strong> ${new Date(booking.checkInDate).toDateString()}</p>
+          <p><strong>Check-out:</strong> ${new Date(booking.checkOutDate).toDateString()}</p>
+
+          <p><strong>Nights:</strong> ${booking.nights}</p>
+
+          <p><strong>Total Paid:</strong> £${booking.totalPrice} ${booking.currency}</p>
+
+          <p><strong>Booking Ref:</strong> ${booking._id}</p>
+
+          <p>Thank you for choosing Polanty Hotels.</p>
+          `;
+
     return this.send({
       email,
       subject: "Your Booking Confirmation",
-      message: `Your booking is confirmed.\n\nDetails:\n${bookingDetails}\n\nThank you for choosing Polanty Hotels.`,
+      message,
     });
   }
 

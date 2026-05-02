@@ -75,15 +75,14 @@ const BookingSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    roomReleased: {
+      type: Boolean,
+      default: false,
+    },
 
     createdAt: {
       type: Date,
       default: Date.now,
-    },
-
-    roomReleased: {
-      type: Boolean,
-      default: false,
     },
   },
   {

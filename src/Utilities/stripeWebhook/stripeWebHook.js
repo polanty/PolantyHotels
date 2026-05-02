@@ -1,9 +1,10 @@
 //The following function is to safely handle the success of the payment and update the booking status accordingly. It will be called by the Stripe webhook when a payment is successful.
 // As recommended by Stripe, we will not rely on the client to update the booking status, but instead use a webhook to listen for successful payments and update the booking in our database accordingly.
+import Booking from "../../Models/bookingModels.js";
+import Room from "../../Models/roomModel.js";
+import User from "../../Models/userModel.js";
+import stripe from "../stripe.js";
 import emailService from "../email.js";
-import Booking from "../Models/bookingModel.js";
-import Location from "../Models/locationModel.js";
-import stripe from "../Utilities/stripe.js";
 
 export const stripeWebhook = async (req, res) => {
   let event;
@@ -15,49 +16,161 @@ export const stripeWebhook = async (req, res) => {
       process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
+    console.error("Webhook signature failed:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  const session = event.data.object;
+  try {
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const bookingId = session.metadata?.bookingId;
 
-  if (event.type === "checkout.session.completed") {
-    const booking = await Booking.findById(session.metadata.bookingId);
+      if (!bookingId) {
+        console.warn("Missing bookingId in Stripe metadata");
+        return res.status(200).json({ received: true });
+      }
 
-    if (booking && booking.paymentStatus !== "paid") {
-      booking.status = "confirmed";
-      booking.paymentStatus = "paid";
-      booking.stripePaymentIntentId = session.payment_intent;
-      booking.paidAt = new Date();
+      const booking = await Booking.findById(bookingId);
 
-      await booking.save();
+      if (!booking) {
+        console.warn("Booking not found:", bookingId);
+        return res.status(200).json({ received: true });
+      }
 
-      // Send confirmation email here
-      await emailService.sendBookingEmail(booking.user, booking);
+      if (booking.paymentStatus !== "paid") {
+        booking.status = "confirmed";
+        booking.paymentStatus = "paid";
+        booking.paymentIntentId =
+          typeof session.payment_intent === "object"
+            ? session.payment_intent.id
+            : session.payment_intent;
+
+        await booking.save();
+
+        console.log("Booking confirmed:", booking._id);
+      }
+
+      try {
+        const populatedBooking = await Booking.findById(bookingId)
+          .populate("hotel")
+          .populate("roomType");
+
+        const user = await User.findById(booking.userRef);
+
+        if (user?.email && populatedBooking) {
+          await emailService.sendBookingEmail(user.email, populatedBooking);
+        }
+      } catch (emailErr) {
+        console.error("Booking email failed:", emailErr.message);
+      }
     }
-  }
 
-  if (event.type === "checkout.session.expired") {
-    const booking = await Booking.findById(session.metadata.bookingId);
+    if (event.type === "checkout.session.expired") {
+      const session = event.data.object;
+      const bookingId = session.metadata?.bookingId;
 
-    if (booking && booking.status === "pending_payment") {
-      booking.status = "expired";
-      booking.paymentStatus = "unpaid";
+      if (!bookingId) {
+        return res.status(200).json({ received: true });
+      }
 
-      await booking.save();
+      const booking = await Booking.findById(bookingId);
 
-      await Location.updateOne(
-        {
-          _id: booking.hotel,
-          "RoomRef._id": booking.room,
-        },
-        {
-          $inc: {
-            "RoomRef.$.isAvailable": 1,
+      if (!booking) {
+        return res.status(200).json({ received: true });
+      }
+
+      if (booking.status === "pending_payment" && !booking.roomReleased) {
+        booking.status = "expired";
+        booking.paymentStatus = "unpaid";
+        booking.roomReleased = true;
+
+        await booking.save();
+
+        await Room.updateOne(
+          { _id: booking.room },
+          {
+            $inc: {
+              isAvailable: 1,
+            },
           },
-        },
-      );
-    }
-  }
+        );
 
-  res.status(200).json({ received: true });
+        console.log("Expired booking released:", booking._id);
+      }
+    }
+
+    return res.status(200).json({ received: true });
+  } catch (err) {
+    console.error("Webhook handler failed:", err.message);
+
+    return res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
 };
+
+// import stripe from "../stripe.js";
+// import Booking from "../../Models/bookingModels.js";
+
+// export const stripeWebhook = async (req, res) => {
+//   console.log("Inside stripeWebhook");
+
+//   let event;
+
+//   try {
+//     console.log(
+//       "Webhook secret exists:",
+//       Boolean(process.env.STRIPE_WEBHOOK_SECRET),
+//     );
+//     console.log(
+//       "Stripe signature exists:",
+//       Boolean(req.headers["stripe-signature"]),
+//     );
+//     console.log("Body is Buffer:", Buffer.isBuffer(req.body));
+
+//     event = stripe.webhooks.constructEvent(
+//       req.body,
+//       req.headers["stripe-signature"],
+//       process.env.STRIPE_WEBHOOK_SECRET,
+//     );
+//   } catch (err) {
+//     console.log("Webhook signature failed:", err.message);
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
+
+//   try {
+//     console.log("Stripe event type:", event.type);
+
+//     if (event.type === "checkout.session.completed") {
+//       const session = event.data.object;
+
+//       console.log("Checkout session metadata:", session.metadata);
+
+//       const booking = await Booking.findById(session.metadata.bookingId);
+
+//       console.log("Booking found:", Boolean(booking));
+
+//       if (!booking) {
+//         return res.status(200).json({ received: true });
+//       }
+
+//       booking.status = "confirmed";
+//       booking.paymentStatus = "paid";
+//       booking.paymentIntentId = session.payment_intent;
+
+//       await booking.save();
+
+//       console.log("Booking updated:", booking._id);
+//     }
+
+//     return res.status(200).json({ received: true });
+//   } catch (err) {
+//     console.log("Webhook handler failed:", err.message);
+//     console.log(err);
+//     return res.status(500).json({
+//       status: "error",
+//       message: err.message,
+//     });
+//   }
+// };

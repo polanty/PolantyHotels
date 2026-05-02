@@ -13,8 +13,19 @@ export default function PaymentSuccess() {
     async function verifyPayment() {
       try {
         const res = await fetch(
-          `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${sessionId}`,
+          `http://localhost:3000/api/v1/bookings/checkout-session/${sessionId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         );
+
+        const contentType = res.headers.get("content-type");
+
+        if (!contentType?.includes("application/json")) {
+          const text = await res.text();
+          throw new Error(text || "Server did not return JSON");
+        }
 
         const data = await res.json();
 

@@ -1,31 +1,29 @@
 import cron from "node-cron";
-import Booking from "./models/bookingModel.js";
-import Location from "./models/locationModel.js";
+import Booking from "../../Models/bookingModels.js";
+import Location from "../../Models/locationModel.js";
 
-cron.schedule("0 1 * * *", async () => {
-  const now = new Date();
-
-  const completedBookings = await Booking.find({
-    status: "confirmed",
-    checkOutDate: { $lte: now },
-    roomReleased: { $ne: true },
+export const startReleaseRoomsJob = () => {
+  cron.schedule("0 1 * * *", async () => {
+    try {
+      const now = new Date();
+      const bookings = await Booking.find({
+        status: "confirmed",
+        paymentStatus: "paid",
+        checkOutDate: { $lte: now },
+        roomReleased: false,
+      });
+      for (const booking of bookings) {
+        await Room.updateOne(
+          { _id: booking.room },
+          { $inc: { isAvailable: 1 } },
+        );
+        booking.status = "completed";
+        booking.roomReleased = true;
+        await booking.save();
+      }
+      console.log(`Released ${bookings.length} completed booking rooms`);
+    } catch (err) {
+      console.error("Room release job failed:", err.message);
+    }
   });
-
-  for (const booking of completedBookings) {
-    await Location.updateOne(
-      {
-        _id: booking.hotel,
-        "RoomRef._id": booking.room,
-      },
-      {
-        $inc: {
-          "RoomRef.$.isAvailable": 1,
-        },
-      },
-    );
-
-    booking.status = "completed";
-    booking.roomReleased = true;
-    await booking.save();
-  }
-});
+};

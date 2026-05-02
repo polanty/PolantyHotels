@@ -137,8 +137,8 @@ export const Login = catchAsync(async (req, res, next) => {
   //Send json web token as cookie to the browser
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === "development" ? false : true,
+    sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
     maxAge: 24 * 60 * 60 * 1000,
   }); // 1 day
 

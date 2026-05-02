@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import app from "./app.js";
+import { startReleaseRoomsJob } from "./src/Utilities/NodeCron/nodeCron.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -7,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 const uri = process.env.MONGO_CLUSTER.replace(
   "<USERNAME>",
-  process.env.MONGO_DB_USER
+  process.env.MONGO_DB_USER,
 ).replace("<PASSWORD>", process.env.MONGO_PASS);
 
 //console.log(process.env.MONGO_CLUSTER);
@@ -19,6 +20,9 @@ mongoose
   })
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ Connection error:", err));
+
+// Start the cron job to release rooms after check-out
+startReleaseRoomsJob();
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
