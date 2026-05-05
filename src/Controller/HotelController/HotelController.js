@@ -2,6 +2,7 @@ import Location from "../../Models/locationModel.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 import APIFeatures from "../../Utilities/apiFeatures.js";
+import emailService from "../../Utilities/email.js";
 
 export const getAllHotels = catchAsync(async (req, res, next) => {
   //BUILD THE QUERY
@@ -59,6 +60,9 @@ export const getOneHotel = catchAsync(async (req, res, next) => {
       select: "first_name profile_image",
     },
   });
+
+  // Testing email sending on hotel retrieval - this is just for testing purposes, in a real application you would not send an email every time a hotel is retrieved
+  await emailService.sendSignupEmail("admin@example.com", "Admin");
 
   if (!hotel) {
     return next(new AppError("Hotel not found 💥", 404));

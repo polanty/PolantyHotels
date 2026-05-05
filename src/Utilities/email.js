@@ -40,9 +40,9 @@ class EmailService {
     //Code within constructor are called first before any other code in an Object
 
     // 1. Create transporter
-    const transporter = nodemailer.createTransport({
+    this.transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
+      port: Number(process.env.EMAIL_PORT),
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
