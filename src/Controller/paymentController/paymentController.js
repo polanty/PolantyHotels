@@ -8,7 +8,13 @@ import AppError from "../../Utilities/globalErrorCatcher.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 
 export const createCheckoutSession = catchAsync(async (req, res, next) => {
-  const { hotelId, roomId, checkInDate, checkOutDate } = req.body;
+  const {
+    hotelId,
+    roomId,
+    checkInDate,
+    checkOutDate,
+    numberOfRooms = 1,
+  } = req.body;
 
   const checkIn = new Date(checkInDate);
   const checkOut = new Date(checkOutDate);
@@ -43,7 +49,7 @@ export const createCheckoutSession = catchAsync(async (req, res, next) => {
   const roomType = room.room_type_id;
   const priceInfo = roomType.pricing[0];
 
-  const price = Number(priceInfo.base_price_per_night) * nights;
+  const price = Number(priceInfo.base_price_per_night) * nights * numberOfRooms;
 
   if (!price || price <= 0) {
     return next(new AppError("Invalid room type price", 400));

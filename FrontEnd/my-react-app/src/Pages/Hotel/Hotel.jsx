@@ -3,10 +3,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
 import { NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import Map from "../../api/MapView";
 import HotelInfoCards from "../../Components/HotelInfo/HotelInfo";
+import AvailabilitySearchComponent from "../../Components/AvaialaibilityComponent/AvailabilityComponent";
 import "./Hotel.css";
 
 /**
@@ -255,6 +258,10 @@ export default function HotelDetailsPage() {
 
   const [showPaymentCancelled, setShowPaymentCancelled] = useState(false);
 
+  const dispatch = useDispatch();
+  const isAuthed = useSelector(selectIsAuthed);
+  const userData = useSelector(selectUser);
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const paymentStatus = params.get("payment");
@@ -328,6 +335,16 @@ export default function HotelDetailsPage() {
   );
   const rooms = useMemo(() => (hotel?.RoomRef || []).map(mapRoom), [hotel]);
   const lowestPrice = useMemo(() => getLowestPrice(hotel?.RoomRef), [hotel]);
+
+  const bookHotel = () => {
+    // Handle booking logic here, e.g., navigate to booking page or open booking modal
+    console.log("Book hotel clicked for hotel ID:", hotelId);
+    if (!isAuthed) {
+      navigate("/login", {
+        state: { from: location },
+      });
+    }
+  };
 
   if (loading) {
     return (
@@ -520,8 +537,8 @@ export default function HotelDetailsPage() {
 
             <section className="hotelSection">
               <h2 className="sectionTitle">Available rooms</h2>
-
               <div className="roomsTableWrap">
+                <AvailabilitySearchComponent />
                 <table className="roomsTable">
                   <thead>
                     <tr>
