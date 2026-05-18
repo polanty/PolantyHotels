@@ -302,11 +302,12 @@ html.dark .btn--muted:hover {
 
 /* ===== Hero Search Card (absolute bottom) ===== */
 .heroSearch {
-  position: absolute;
+  width: 100%;
+  /* position: absolute;
   left: 0;
   right: 0;
   bottom: -64px;
-  padding: 0 24px;
+  padding: 0 24px; */
 }
 .heroSearch__container {
   max-width: 1120px;

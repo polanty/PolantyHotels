@@ -525,12 +525,13 @@ export default function HotelDetailsPage() {
               </div>
             </section>
 
+            <section className="hotelCalenderSection">
+              <AvailabilitySearchComponent />
+            </section>
+
             <section className="hotelSection">
               <h2 className="sectionTitle">Available rooms</h2>
-
               <div className="roomsTableWrap">
-                <AvailabilitySearchComponent />
-
                 <table className="roomsTable">
                   <thead>
                     <tr>

@@ -12,6 +12,7 @@ import Index from "./Pages/Index/Index.Page.jsx";
 import AuthPage from "./Pages/Auth/Auth.page.jsx";
 import HotelSearchResults from "./Pages/Search/Search.page.jsx";
 import HotelDetailsPage from "./Pages/Hotel/Hotel.jsx";
+import RouteErrorPage from "./Pages/GlobalError/RouteErrorPage.jsx";
 
 //payment sucess routes
 import PaymentSuccess from "./Pages/PaymentSucess/PaymentSucess.jsx";
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <RouteErrorPage />,
     children: [
       { index: true, element: <Index /> },
       { path: "auth", element: <AuthPage /> },

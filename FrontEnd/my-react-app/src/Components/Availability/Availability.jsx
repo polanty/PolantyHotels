@@ -9,7 +9,7 @@ export default function AvailabilitySearch({
 }) {
   return (
     <div className="heroSearch" aria-label="Hotel search bar">
-      <div className="container heroSearch__container">
+      <div className="heroSearch__container">
         <form className="searchCard" onSubmit={onSearch}>
           <div className="searchRow">
             {/* Check-in */}
