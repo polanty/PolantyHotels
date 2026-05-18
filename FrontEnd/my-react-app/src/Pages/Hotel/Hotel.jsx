@@ -1,30 +1,33 @@
-//Encrypt the hotel ID so not to expose thhe ID
-//return each individual hotel along with it's mapped location
+// Encrypt the hotel ID so not to expose the ID
+// Return each individual hotel along with its mapped location
 
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
+import {
+  selectSelectedHotel,
+  selectSelectedHotelStatus,
+  selectSelectedHotelError,
+} from "../../store/auth/auth.selectors";
+
+import { hotelDetails } from "../../store/auth/auth.thunks";
+
 import { NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import Map from "../../api/MapView";
 import HotelInfoCards from "../../Components/HotelInfo/HotelInfo";
 import AvailabilitySearchComponent from "../../Components/AvaialaibilityComponent/AvailabilityComponent";
+
 import "./Hotel.css";
 
-/**
- * Small helper to format amenity names nicely
- * Example: Flat_Screen_TV -> Flat Screen TV
- */
 function formatAmenityName(value) {
   return String(value || "")
     .replaceAll("_", " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-/**
- * Simple amenity icon mapper
- */
 function getAmenityIcon(name) {
   const value = String(name).toLowerCase();
 
@@ -42,42 +45,6 @@ function getAmenityIcon(name) {
   return "check_circle";
 }
 
-// function getAmenityIcon(amenity) {
-//   const value = String(amenity).trim();
-
-//   const iconMap = {
-//     WiFi: "wifi",
-//     Air_Conditioning: "mode_fan",
-//     Flat_Screen_TV: "full_hd",
-//     Minibar: "table_bar",
-//     Coffee_Maker: "coffee_maker",
-//     Hair_Dryer: "health_and_beauty",
-//     Bathrobes: "dry_cleaning",
-//     Work_Desk: "desk",
-//     Balcony: "balcony",
-//     Smart_TV: "connected_tv",
-//     Espresso_Machine: "emoji_food_beverage",
-//     Restaurant: "restaurant",
-//     Bar: "sports_bar",
-//     Gym: "exercise",
-//     Swimming_Pool: "pool",
-//     Safe: "security",
-//     Spa: "spa",
-//     Business_Center: "business_center",
-//     Meeting_Rooms: "meeting_room",
-//     Parking: "garage",
-//     Room_Service: "room_service",
-//     Concierge: "concierge",
-//     Airport_Shuttle: "airport_shuttle",
-//     Laundry_Service: "iron",
-//     Pet_Friendly: "pets",
-//   };
-
-//   return iconMap[value] || "check_circle";
-// }
-/**
- * Choose room images first, then hotel images, then placeholders
- */
 function buildGalleryImages(hotel) {
   const roomImages =
     hotel?.RoomRef?.flatMap((room) =>
@@ -108,9 +75,6 @@ function buildGalleryImages(hotel) {
   return [...normalizedRoomImages, ...fallback].slice(0, 5);
 }
 
-/**
- * Extract lowest room price
- */
 function getLowestPrice(rooms) {
   if (!Array.isArray(rooms) || rooms.length === 0) return null;
 
@@ -120,12 +84,10 @@ function getLowestPrice(rooms) {
     .filter((price) => Number.isFinite(price));
 
   if (prices.length === 0) return null;
+
   return Math.min(...prices);
 }
 
-/**
- * Format one room row for the UI
- */
 function mapRoom(room) {
   const roomType = room?.room_type_id || {};
   const firstPrice = roomType?.pricing?.[0];
@@ -171,7 +133,9 @@ function Gallery({ images, hotelName }) {
             <button
               key={`${image}-${index}`}
               type="button"
-              className={`galleryThumbBtn ${activeImage === image ? "active" : ""}`}
+              className={`galleryThumbBtn ${
+                activeImage === image ? "active" : ""
+              }`}
               onClick={() => setActiveImage(image)}
             >
               <img
@@ -187,7 +151,7 @@ function Gallery({ images, hotelName }) {
   );
 }
 
-function BookingCard({ hotel, rooms, lowestPrice }) {
+function BookingCard({ hotel, rooms, lowestPrice, onBook }) {
   const availableRooms = rooms.filter((room) => room.isAvailable > 0).length;
 
   return (
@@ -200,9 +164,11 @@ function BookingCard({ hotel, rooms, lowestPrice }) {
 
         <div className="bookingPriceBlock">
           <span className="bookingPricePrefix">From</span>
+
           <p className="bookingPrice">
             {lowestPrice ? `£${lowestPrice}` : "Check rates"}
           </p>
+
           <span className="bookingPriceSuffix">per night</span>
         </div>
 
@@ -225,7 +191,7 @@ function BookingCard({ hotel, rooms, lowestPrice }) {
           </div>
         </div>
 
-        <button type="button" className="bookNowBtn">
+        <button type="button" className="bookNowBtn" onClick={onBook}>
           See availability
         </button>
 
@@ -236,6 +202,7 @@ function BookingCard({ hotel, rooms, lowestPrice }) {
 
       <div className="sidebarInfoCard">
         <h4>Property highlights</h4>
+
         <ul className="sidebarList">
           <li>Central location</li>
           <li>Flexible room options</li>
@@ -249,18 +216,21 @@ function BookingCard({ hotel, rooms, lowestPrice }) {
 export default function HotelDetailsPage() {
   const { hotelId } = useParams();
 
-  const [hotel, setHotel] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [showPaymentCancelled, setShowPaymentCancelled] = useState(false);
 
-  const dispatch = useDispatch();
   const isAuthed = useSelector(selectIsAuthed);
   const userData = useSelector(selectUser);
+
+  const hotel = useSelector(selectSelectedHotel);
+  const hotelStatus = useSelector(selectSelectedHotelStatus);
+  const hotelError = useSelector(selectSelectedHotelError);
+
+  const loading = hotelStatus === "loading";
+  const error = hotelError;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -275,76 +245,84 @@ export default function HotelDetailsPage() {
     }
   }, [location.search, location.pathname, navigate]);
 
+  //Dispatch for Hotel Call
   useEffect(() => {
-    if (!hotelId) {
-      setError("No hotel id was provided.");
-      setLoading(false);
-      return;
-    }
+    if (!hotelId) return;
 
-    const controller = new AbortController();
-
-    async function fetchHotel() {
-      try {
-        setLoading(true);
-        setError("");
-        setHotel(null);
-
-        const response = await fetch(
-          `http://127.0.0.1:3000/api/v1/hotels/${hotelId}`,
-          {
-            signal: controller.signal,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
-        }
-
-        const data = await response.json();
-        const payloadHotel = data?.data?.hotel || data?.hotel || null;
-
-        if (!payloadHotel) {
-          throw new Error("Hotel details were not found.");
-        }
-
-        setHotel(payloadHotel);
-      } catch (err) {
-        if (err.name === "AbortError") return;
-
-        setError(err.message || "Failed to load hotel details.");
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchHotel();
-
-    return () => controller.abort();
-  }, [hotelId]);
+    dispatch(hotelDetails(hotelId));
+  }, [dispatch, hotelId]);
 
   const galleryImages = useMemo(() => buildGalleryImages(hotel), [hotel]);
+
   const amenityList = useMemo(
     () => NormalizeAmenities(hotel?.amenities),
     [hotel],
   );
+
   const rooms = useMemo(() => (hotel?.RoomRef || []).map(mapRoom), [hotel]);
+
   const lowestPrice = useMemo(() => getLowestPrice(hotel?.RoomRef), [hotel]);
 
+  const maxGuests = useMemo(() => {
+    if (!rooms.length) return 0;
+
+    return Math.max(...rooms.map((room) => room.capacity || 0));
+  }, [rooms]);
+
   const bookHotel = () => {
-    // Handle booking logic here, e.g., navigate to booking page or open booking modal
-    console.log("Book hotel clicked for hotel ID:", hotelId);
     if (!isAuthed) {
       navigate("/login", {
         state: { from: location },
       });
+
+      return;
     }
+
+    const firstAvailableRoom = rooms.find((room) => room.isAvailable > 0);
+
+    if (!firstAvailableRoom) {
+      return;
+    }
+
+    navigate(`/booking/${hotelId}`, {
+      state: {
+        hotel,
+        room: firstAvailableRoom,
+        user: userData,
+      },
+    });
   };
+
+  const handleRoomReserve = (room) => {
+    if (!isAuthed) {
+      navigate("/login", {
+        state: { from: location },
+      });
+
+      return;
+    }
+
+    navigate(`/booking/${hotelId}/${room.id}`, {
+      state: {
+        hotel,
+        room,
+        user: userData,
+      },
+    });
+  };
+
+  if (!hotelId) {
+    return (
+      <div className="hotelDetailsPage dark">
+        <div className="hotelDetailsShell">
+          <div className="hotelDetailsStateCard" role="alert">
+            <h2>Unable to load hotel</h2>
+            <p>No hotel id was provided.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -380,6 +358,9 @@ export default function HotelDetailsPage() {
       </div>
     );
   }
+
+  const mapLat = Number(hotel.latitude) || 53.4;
+  const mapLon = Number(hotel.longitude) || -3.0;
 
   return (
     <div className="hotelDetailsPage dark">
@@ -446,17 +427,15 @@ export default function HotelDetailsPage() {
                 <span className="material-symbols-outlined">apartment</span>
                 Hotel
               </span>
+
               <span className="quickFactChip">
                 <span className="material-symbols-outlined">king_bed</span>
                 {rooms.length} room types
               </span>
+
               <span className="quickFactChip">
                 <span className="material-symbols-outlined">groups</span>
-                Up to {Math.max(
-                  ...rooms.map((room) => room.capacity || 0),
-                  0,
-                )}{" "}
-                guests
+                Up to {maxGuests} guests
               </span>
             </div>
           </div>
@@ -465,7 +444,12 @@ export default function HotelDetailsPage() {
             <button type="button" className="heroGhostBtn">
               Save
             </button>
-            <button type="button" className="heroPrimaryBtn">
+
+            <button
+              type="button"
+              className="heroPrimaryBtn"
+              onClick={bookHotel}
+            >
               Reserve
             </button>
           </div>
@@ -477,6 +461,7 @@ export default function HotelDetailsPage() {
           <main className="hotelMainColumn">
             <section className="hotelSection">
               <h2 className="sectionTitle">About this property</h2>
+
               <p className="overviewText">
                 {hotel.name} is located in {hotel.city}, {hotel.country}. The
                 property offers a polished stay experience with comfortable
@@ -487,6 +472,7 @@ export default function HotelDetailsPage() {
               <div className="overviewStats">
                 <div className="statCard">
                   <span className="material-symbols-outlined">hotel</span>
+
                   <div>
                     <strong>{rooms.length}</strong>
                     <p>Room options</p>
@@ -495,6 +481,7 @@ export default function HotelDetailsPage() {
 
                 <div className="statCard">
                   <span className="material-symbols-outlined">payments</span>
+
                   <div>
                     <strong>{lowestPrice ? `£${lowestPrice}` : "N/A"}</strong>
                     <p>Starting price</p>
@@ -503,6 +490,7 @@ export default function HotelDetailsPage() {
 
                 <div className="statCard">
                   <span className="material-symbols-outlined">rate_review</span>
+
                   <div>
                     <strong>{hotel.ratingsQuantity || 0}</strong>
                     <p>Reviews</p>
@@ -521,8 +509,10 @@ export default function HotelDetailsPage() {
                       <span className="material-symbols-outlined amenityCardIcon">
                         {getAmenityIcon(amenity.name)}
                       </span>
+
                       <div>
                         <h3>{formatAmenityName(amenity.name)}</h3>
+
                         {amenity.description ? (
                           <p>{amenity.description}</p>
                         ) : null}
@@ -537,8 +527,10 @@ export default function HotelDetailsPage() {
 
             <section className="hotelSection">
               <h2 className="sectionTitle">Available rooms</h2>
+
               <div className="roomsTableWrap">
                 <AvailabilitySearchComponent />
+
                 <table className="roomsTable">
                   <thead>
                     <tr>
@@ -564,17 +556,17 @@ export default function HotelDetailsPage() {
                         <td>{room.capacity || "-"}</td>
                         <td>{room.bedConfiguration}</td>
                         <td>{room.size ? `${room.size} m²` : "-"}</td>
+
                         <td className="roomPriceCell">
                           {room.price > 0 ? `£${room.price}` : "Check rate"}
                         </td>
+
                         <td>
                           <button
                             type="button"
                             className="roomSelectBtn"
                             disabled={room.isAvailable < 1}
-                            onClick={(e) => {
-                              console.log(hotel.id, room.id);
-                            }}
+                            onClick={() => handleRoomReserve(room)}
                           >
                             {room.isAvailable > 0 ? "Reserve" : "Sold out"}
                           </button>
@@ -589,17 +581,21 @@ export default function HotelDetailsPage() {
             <section className="hotelSection twoColSection">
               <div className="infoPanel">
                 <h2 className="sectionTitle">Property information</h2>
+
                 <ul className="infoList">
                   <li>
                     <strong>Email:</strong> {hotel.email || "Not available"}
                   </li>
+
                   <li>
                     <strong>Postal code:</strong>{" "}
                     {hotel.postal_code || "Not available"}
                   </li>
+
                   <li>
                     <strong>Latitude:</strong> {hotel.latitude || "N/A"}
                   </li>
+
                   <li>
                     <strong>Longitude:</strong> {hotel.longitude || "N/A"}
                   </li>
@@ -608,6 +604,7 @@ export default function HotelDetailsPage() {
 
               <div className="infoPanel">
                 <h2 className="sectionTitle">House rules</h2>
+
                 <ul className="infoList">
                   <li>Check-in from 15:00</li>
                   <li>Check-out until 11:00</li>
@@ -619,18 +616,27 @@ export default function HotelDetailsPage() {
 
             <section className="hotelSection">
               <h2 className="sectionTitle">Location</h2>
+
               <div className="mapPlaceholder">
-                <Map lat={53.4} lon={-3.0} />
+                <Map lat={mapLat} lon={mapLon} />
+
                 <span className="material-symbols-outlined">map</span>
+
                 <p>
                   {hotel.address}, {hotel.city}, {hotel.country}
                 </p>
               </div>
             </section>
+
             <HotelInfoCards hotel={hotel} />
           </main>
 
-          <BookingCard hotel={hotel} rooms={rooms} lowestPrice={lowestPrice} />
+          <BookingCard
+            hotel={hotel}
+            rooms={rooms}
+            lowestPrice={lowestPrice}
+            onBook={bookHotel}
+          />
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   logoutThunk,
   registerThunk,
   paginatedHotels,
+  hotelDetails,
 } from "./auth.thunks";
 
 function normalizeUser(payload) {
@@ -16,9 +17,15 @@ function normalizeUser(payload) {
 const initialState = {
   user: null,
   data: null,
+
   status: "idle", // idle | loading | succeeded | failed
   bootstrapped: false, // ✅ so routes know when /me check finished
   error: null,
+
+  //states for single Hotel
+  selectedHotel: null,
+  selectedHotelStatus: "idle",
+  selectedHotelError: null,
 };
 
 const authSlice = createSlice({
@@ -33,6 +40,9 @@ const authSlice = createSlice({
     },
     setData(state, action) {
       state.data = action.payload;
+    },
+    setSelectedHotel(state, action) {
+      state.selectedHotel = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -69,6 +79,28 @@ const authSlice = createSlice({
     builder.addCase(paginatedHotels.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.payload || "Failed to Load Hotels";
+    });
+
+    // SINGLE HOTEL DETAILS
+    builder.addCase(hotelDetails.pending, (state) => {
+      state.selectedHotelStatus = "loading";
+      state.selectedHotelError = null;
+    });
+
+    builder.addCase(hotelDetails.fulfilled, (state, action) => {
+      state.selectedHotelStatus = "succeeded";
+      state.selectedHotel = action.payload;
+      state.selectedHotelError = null;
+    });
+
+    builder.addCase(hotelDetails.rejected, (state, action) => {
+      state.selectedHotelStatus = "failed";
+      state.selectedHotelError =
+        action.payload || "Failed to load hotel details";
+
+      if (!state.selectedHotel) {
+        state.selectedHotel = null;
+      }
     });
 
     // LOGIN

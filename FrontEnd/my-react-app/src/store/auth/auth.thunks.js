@@ -15,6 +15,58 @@ export const fetchMe = createAsyncThunk("auth/me", async (_, thunkApi) => {
   }
 });
 
+// SINGLE HOTEL THUNK
+// DATA Retrieval Thunk: single hotel details
+export const hotelDetails = createAsyncThunk(
+  "auth/hotelDetails",
+
+  async (hotelId, thunkApi) => {
+    try {
+      console.log("This thunk is called");
+
+      const res = await authApi.getHotelById(hotelId);
+      const payload = res.data;
+
+      console.log("Hotel details payload:", payload);
+
+      const hotel = payload?.data?.hotel || payload?.hotel || null;
+
+      if (!hotel) {
+        return thunkApi.rejectWithValue("Hotel details were not found");
+      }
+
+      return hotel;
+    } catch (err) {
+      const message =
+        err.response?.data?.message || err.message || "Hotel details failed";
+
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+
+  {
+    condition: (hotelId, { getState }) => {
+      const state = getState();
+
+      const selectedHotel = state.auth.selectedHotel;
+      const selectedHotelStatus = state.auth.selectedHotelStatus;
+
+      if (selectedHotelStatus === "loading") {
+        return false;
+      }
+
+      if (
+        selectedHotel &&
+        (selectedHotel._id === hotelId || selectedHotel.id === hotelId)
+      ) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+);
+
 // DATA Retrieval Thunk
 export const paginatedHotels = createAsyncThunk(
   "auth/paginatedHotels",
