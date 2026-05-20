@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 
 const DESTINATION_BG =
   'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt8MEL-c-9eNtjj4KkKjZm3lOuwhUg9NYppUFuKVQsfCpLZlyDQpRQ2PqpFhuDW4sW8gkCVr5ZmaNez-FUECTWoHLT72mEgGwX83dmUsdsCeeYt2w2nInXv6s1b-bX5PHdlWr2GI97ZPkMsxmJkxRRlF1B3g0fmFIei8ISXMhYKASZ07LZ9ijOr5e3lYcVsLmA4qHF210pOCjuk1CfNA58BqSWWaQjVSnjykk0qk3z9XrMx0AyyPTmZXMqFH-k-o4yi4J-HE6--x4")';
@@ -32,70 +32,12 @@ const featured = [
 ];
 
 function Index() {
-  // const dispatch = useDispatch();
-  // const isAuthed = useSelector(selectIsAuthed);
-  // const userData = useSelector(selectUser);
-  const navigate = useNavigate();
-  const [destination, setDestination] = useState("");
-  const [destinationError, setDestinationError] = useState(false);
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState("2");
   const [email, setEmail] = useState("");
-
-  // useEffect(() => {
-  //   dispatch(fetchMe());
-  // }, [dispatch]);
 
   // Note: Your original HTML uses <html class="dark">.
   // To keep dark mode, add class="dark" on <html> in public/index.html (or toggle it yourself).
 
   const heroStyle = useMemo(() => ({ backgroundImage: DESTINATION_BG }), []);
-
-  // small example country list (expand or use a proper dataset/API)
-  const countries = new Set([
-    "france",
-    "united kingdom",
-    "usa",
-    "united states",
-    "germany",
-    "spain",
-  ]);
-
-  function decideCityOrCountry(text) {
-    const normalized = text.toLowerCase().trim();
-    if (countries.has(normalized)) return { country: text };
-    return { city: text };
-  }
-
-  const onSearch = (e) => {
-    e.preventDefault();
-
-    const dest = destination.trim();
-
-    if (!dest || !/^[A-Za-z\s-]+$/.test(dest)) {
-      setDestinationError(true);
-
-      // Auto-remove error after 3 seconds
-      setTimeout(() => {
-        setDestinationError(false);
-      }, 3000);
-
-      return;
-    }
-
-    setDestinationError(false);
-
-    const params = new URLSearchParams();
-    const which = decideCityOrCountry(dest);
-
-    if (which.city) params.set("city", which.city.toLowerCase());
-    if (which.country) params.set("country", which.country.toLowerCase());
-
-    params.set("page", "1");
-
-    navigate(`/search?${params.toString()}`);
-  };
 
   function onSubscribe(e) {
     e.preventDefault();
@@ -115,107 +57,10 @@ function Index() {
               </p>
             </div>
           </div>
-
-          {/* Hotel Search Bar */}
-          <div className="heroSearch" aria-label="Hotel search bar">
-            <div className="container heroSearch__container">
-              <form className="searchCard" onSubmit={onSearch}>
-                <div className="searchRow">
-                  <div className="searchCell searchCell--location">
-                    <label className="fieldRow">
-                      <span
-                        className="material-symbols-outlined fieldRow__icon"
-                        aria-hidden="true"
-                      >
-                        location_on
-                      </span>
-
-                      <input
-                        className={`input input--ghost ${destinationError ? "input-error" : ""}`}
-                        placeholder="Destination, city, hotel"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                      />
-                    </label>
-
-                    {destinationError && (
-                      <p className="error-text">
-                        A destination must be provided.
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="searchCell">
-                    <label className="fieldRow">
-                      <span
-                        className="material-symbols-outlined fieldRow__icon"
-                        aria-hidden="true"
-                      >
-                        calendar_month
-                      </span>
-                      <input
-                        className="input input--ghost"
-                        type="date"
-                        value={checkIn}
-                        onChange={(e) => setCheckIn(e.target.value)}
-                        aria-label="Check-in date"
-                      />
-                    </label>
-                  </div>
-
-                  <div className="searchCell">
-                    <label className="fieldRow">
-                      <span
-                        className="material-symbols-outlined fieldRow__icon"
-                        aria-hidden="true"
-                      >
-                        calendar_month
-                      </span>
-                      <input
-                        className="input input--ghost"
-                        type="date"
-                        value={checkOut}
-                        onChange={(e) => setCheckOut(e.target.value)}
-                        aria-label="Check-out date"
-                      />
-                    </label>
-                  </div>
-
-                  <div className="searchCell">
-                    <label className="fieldRow">
-                      <span
-                        className="material-symbols-outlined fieldRow__icon"
-                        aria-hidden="true"
-                      >
-                        group
-                      </span>
-                      <select
-                        className="select select--ghost"
-                        value={guests}
-                        onChange={(e) => setGuests(e.target.value)}
-                        aria-label="Guests"
-                      >
-                        <option>2 guests</option>
-                        <option>1 guest</option>
-                        <option>3 guests</option>
-                        <option>4 guests</option>
-                      </select>
-                    </label>
-                  </div>
-
-                  <div className="searchCell searchCell--cta">
-                    <button
-                      className="btn btn--primary btn--search"
-                      type="submit"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
         </section>
+        <div className="index-search--holder">
+          <SearchComponent />
+        </div>
 
         {/* Value Proposition Section */}
         <section className="section section--spacious">

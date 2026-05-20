@@ -16,13 +16,18 @@ function normalizeUser(payload) {
 
 const initialState = {
   user: null,
-  data: null,
+  bootstrapped: false,
 
-  status: "idle", // idle | loading | succeeded | failed
-  bootstrapped: false, // ✅ so routes know when /me check finished
-  error: null,
+  authStatus: "idle",
+  authError: null,
 
-  //states for single Hotel
+  hotels: [],
+  hotelsStatus: "idle",
+  hotelsError: null,
+  totalPages: 1,
+  currentPage: 1,
+  results: 0,
+
   selectedHotel: null,
   selectedHotelStatus: "idle",
   selectedHotelError: null,
@@ -33,13 +38,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     clearAuthError(state) {
-      state.error = null;
+      state.authError = null;
     },
     setUser(state, action) {
       state.user = action.payload;
     },
     setData(state, action) {
-      state.data = action.payload;
+      state.hotels = action.payload;
     },
     setSelectedHotel(state, action) {
       state.selectedHotel = action.payload;
@@ -48,43 +53,44 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     // ME
     builder.addCase(fetchMe.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
+      state.authStatus = "loading";
+      state.authError = null;
     });
     builder.addCase(fetchMe.fulfilled, (state, action) => {
-      state.status = "succeeded";
+      state.authStatus = "succeeded";
       state.user = normalizeUser(action.payload);
-      state.bootstrapped = true; // bootstrap complete
+      state.bootstrapped = true;
     });
     builder.addCase(fetchMe.rejected, (state) => {
-      state.status = "idle";
-      state.user = null; // not logged in
+      state.authStatus = "idle";
+      state.user = null;
       state.bootstrapped = true;
-      state.error = null; // don't show "not logged in" as an error
+      state.authError = null;
     });
 
     // DATA
     builder.addCase(paginatedHotels.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
+      state.hotelsStatus = "loading";
+      state.hotelsError = null;
     });
     builder.addCase(paginatedHotels.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.data = action.payload.hotels;
+      state.hotelsStatus = "succeeded";
+      state.hotels = action.payload.hotels;
       state.totalPages = action.payload.totalPages;
       state.currentPage = action.payload.currentPage;
       state.results = action.payload.results;
-      state.error = null;
+      state.hotelsError = null;
     });
     builder.addCase(paginatedHotels.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.payload || "Failed to Load Hotels";
+      state.hotelsStatus = "failed";
+      state.hotelsError = action.payload || "Failed to Load Hotels";
     });
 
     // SINGLE HOTEL DETAILS
     builder.addCase(hotelDetails.pending, (state) => {
       state.selectedHotelStatus = "loading";
       state.selectedHotelError = null;
+      state.selectedHotel = null;
     });
 
     builder.addCase(hotelDetails.fulfilled, (state, action) => {
@@ -98,49 +104,50 @@ const authSlice = createSlice({
       state.selectedHotelError =
         action.payload || "Failed to load hotel details";
 
-      if (!state.selectedHotel) {
-        state.selectedHotel = null;
-      }
+      // if (!state.selectedHotel) {
+      //   state.selectedHotel = null;
+      // }
     });
 
     // LOGIN
     builder.addCase(loginThunk.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
+      state.authStatus = "loading";
+      state.authError = null;
     });
     builder.addCase(loginThunk.fulfilled, (state, action) => {
-      state.status = "succeeded";
+      state.authStatus = "succeeded";
       state.user = normalizeUser(action.payload);
-      state.error = null;
+      state.authError = null;
     });
     builder.addCase(loginThunk.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.payload || "Login failed";
+      state.authStatus = "failed";
+      state.authError = action.payload || "Login failed";
     });
 
     // REGISTER
     builder.addCase(registerThunk.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
+      state.authStatus = "loading";
+      state.authError = null;
     });
     builder.addCase(registerThunk.fulfilled, (state, action) => {
-      state.status = "succeeded";
+      state.authStatus = "succeeded";
       state.user = normalizeUser(action.payload);
-      state.error = null;
+      state.authError = null;
     });
     builder.addCase(registerThunk.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.payload || "Registration failed";
+      state.authStatus = "failed";
+      state.authError = action.payload || "Registration failed";
     });
 
     // LOGOUT
     builder.addCase(logoutThunk.fulfilled, (state) => {
       state.user = null;
-      state.status = "idle";
-      state.error = null;
+      state.authStatus = "idle";
+      state.authError = null;
     });
     builder.addCase(logoutThunk.rejected, (state, action) => {
-      state.error = action.payload || "Logout failed";
+      state.authStatus = "failed";
+      state.authError = action.payload || "Logout failed";
     });
   },
 });

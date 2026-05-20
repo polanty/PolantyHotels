@@ -68,24 +68,54 @@ export const hotelDetails = createAsyncThunk(
 );
 
 // DATA Retrieval Thunk
+// export const paginatedHotels = createAsyncThunk(
+//   "auth/paginatedHotels",
+//   async (params, thunkApi) => {
+//     try {
+//       const res = await authApi.paginatedHotels(params);
+//       const payload = res.data;
+
+//       return {
+//         hotels: payload?.data?.data?.allHotels ?? [],
+//         totalPages: payload?.totalPages ?? 1,
+//         currentPage: payload?.currentPage ?? 1,
+//         results: payload?.results ?? 0,
+//         raw: payload, // optional for debugging
+//       };
+//     } catch (err) {
+//       const message =
+//         err.response?.data?.message || err.message || "Hotels failed";
+//       return thunkApi.rejectWithValue(message);
+//     }
+//   },
+// );
 export const paginatedHotels = createAsyncThunk(
-  "auth/paginatedHotels",
-  async (params, thunkApi) => {
+  "hotels/paginatedHotels",
+  async (params = {}, { rejectWithValue, signal }) => {
     try {
-      const res = await authApi.paginatedHotels(params);
-      const payload = res.data;
+      const response = await authApi.paginatedHotels(params, { signal });
+      const payload = response.data;
+
+      const apiHotels = Array.isArray(payload?.data?.data?.allHotels)
+        ? payload.data.data.allHotels
+        : [];
 
       return {
-        hotels: payload?.data?.data?.allHotels ?? [],
-        totalPages: payload?.totalPages ?? 1,
-        currentPage: payload?.currentPage ?? 1,
-        results: payload?.results ?? 0,
-        raw: payload, // optional for debugging
+        hotels: apiHotels,
+        totalPages: Number(payload?.totalPages ?? 1),
+        currentPage: Number(payload?.currentPage ?? params.page ?? 1),
+        results: Number(payload?.results ?? apiHotels.length),
       };
-    } catch (err) {
-      const message =
-        err.response?.data?.message || err.message || "Hotels failed";
-      return thunkApi.rejectWithValue(message);
+    } catch (error) {
+      if (error.name === "CanceledError" || error.name === "AbortError") {
+        return rejectWithValue(null);
+      }
+
+      return rejectWithValue(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to load hotels",
+      );
     }
   },
 );
