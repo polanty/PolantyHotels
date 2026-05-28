@@ -103,3 +103,51 @@
   font-weight: 700;
   color: #137fec;
 }
+
+@media (min-width: 680px) and (max-width: 1023px) {
+  .hotelInfoCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 679px) {
+  .hotelInfoCards {
+    margin: 28px auto;
+    padding: 0;
+  }
+
+  .hotelInfoCard {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .modalOverlay {
+    align-items: flex-end;
+    padding: 12px;
+  }
+
+  .reviewsModal {
+    max-height: 88vh;
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .modalHeader {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hotelInfoCard h3 {
+    font-size: 16px;
+  }
+
+  .hotelInfoCard p,
+  .hotelInfoCard li {
+    font-size: 13px;
+  }
+
+  .reviewsModal {
+    padding: 16px;
+  }
+}

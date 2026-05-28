@@ -9,7 +9,8 @@ import {
   paginatedHotelsStatus,
   paginatedHotelsTotalPages,
 } from "../../store/auth/auth.selectors";
-import { Spinner, NormalizeAmenities } from "../../utils/utils";
+import { NormalizeAmenities } from "../../utils/utils";
+// import { Spinner, NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import HotelCard from "../../Components/HotelCard/HotelCard";
 import "./HotelSearchResults.css";
@@ -321,8 +322,8 @@ export default function HotelSearchResults() {
 
               {city && loading && (
                 <>
-                  <Spinner />
-
+                  {/* <Spinner /> */}{" "}
+                  {/* You can replace this with any loading indicator you prefer */}
                   <div className="cardsGrid">
                     {Array.from({ length: 6 }).map((_, index) => (
                       <HotelCardSkeleton key={index} />

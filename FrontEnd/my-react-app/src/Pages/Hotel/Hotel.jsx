@@ -1,7 +1,7 @@
 // Encrypt the hotel ID so not to expose the ID
 // Return each individual hotel along with its mapped location
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -221,6 +221,12 @@ export default function HotelDetailsPage() {
   const dispatch = useDispatch();
 
   const [showPaymentCancelled, setShowPaymentCancelled] = useState(false);
+  const [availabilityCheckIn, setAvailabilityCheckIn] = useState("");
+  const [availabilityCheckOut, setAvailabilityCheckOut] = useState("");
+  const [availabilityRooms, setAvailabilityRooms] = useState("2 rooms");
+  const [showAvailabilityDateError, setShowAvailabilityDateError] =
+    useState(false);
+  const availabilitySectionRef = useRef(null);
 
   const isAuthed = useSelector(selectIsAuthed);
   const userData = useSelector(selectUser);
@@ -269,7 +275,42 @@ export default function HotelDetailsPage() {
     return Math.max(...rooms.map((room) => room.capacity || 0));
   }, [rooms]);
 
+  const updateAvailabilityCheckIn = (value) => {
+    setAvailabilityCheckIn(value);
+
+    if (value && availabilityCheckOut) {
+      setShowAvailabilityDateError(false);
+    }
+  };
+
+  const updateAvailabilityCheckOut = (value) => {
+    setAvailabilityCheckOut(value);
+
+    if (availabilityCheckIn && value) {
+      setShowAvailabilityDateError(false);
+    }
+  };
+
+  const validateAvailabilityDates = () => {
+    if (availabilityCheckIn && availabilityCheckOut) {
+      setShowAvailabilityDateError(false);
+      return true;
+    }
+
+    setShowAvailabilityDateError(true);
+    availabilitySectionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    return false;
+  };
+
   const bookHotel = () => {
+    if (!validateAvailabilityDates()) {
+      return;
+    }
+
     if (!isAuthed) {
       navigate("/login", {
         state: { from: location },
@@ -289,11 +330,20 @@ export default function HotelDetailsPage() {
         hotel,
         room: firstAvailableRoom,
         user: userData,
+        dates: {
+          checkIn: availabilityCheckIn,
+          checkOut: availabilityCheckOut,
+        },
+        rooms: availabilityRooms,
       },
     });
   };
 
   const handleRoomReserve = (room) => {
+    if (!validateAvailabilityDates()) {
+      return;
+    }
+
     if (!isAuthed) {
       navigate("/login", {
         state: { from: location },
@@ -307,6 +357,11 @@ export default function HotelDetailsPage() {
         hotel,
         room,
         user: userData,
+        dates: {
+          checkIn: availabilityCheckIn,
+          checkOut: availabilityCheckOut,
+        },
+        rooms: availabilityRooms,
       },
     });
   };
@@ -341,6 +396,7 @@ export default function HotelDetailsPage() {
           <div className="hotelDetailsStateCard" role="alert">
             <h2>Unable to load hotel</h2>
             <p>{error}</p>
+            <p>{error.message}</p>
           </div>
         </div>
       </div>
@@ -525,8 +581,26 @@ export default function HotelDetailsPage() {
               </div>
             </section>
 
-            <section className="hotelCalenderSection">
-              <AvailabilitySearchComponent />
+            <section
+              ref={availabilitySectionRef}
+              className={`hotelCalenderSection ${
+                showAvailabilityDateError ? "hotelCalenderSection--error" : ""
+              }`}
+            >
+              <AvailabilitySearchComponent
+                checkIn={availabilityCheckIn}
+                setCheckIn={updateAvailabilityCheckIn}
+                checkOut={availabilityCheckOut}
+                setCheckOut={updateAvailabilityCheckOut}
+                rooms={availabilityRooms}
+                setRooms={setAvailabilityRooms}
+                showDateError={showAvailabilityDateError}
+              />
+              {showAvailabilityDateError && (
+                <p className="availabilityDateError" role="alert">
+                  Please select your check-in and check-out dates first.
+                </p>
+              )}
             </section>
 
             <section className="hotelSection">

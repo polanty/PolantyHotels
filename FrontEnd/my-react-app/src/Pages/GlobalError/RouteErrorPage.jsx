@@ -1,4 +1,5 @@
 import { isRouteErrorResponse, useRouteError, Link } from "react-router-dom";
+import "./RouteErrorPage.css";
 
 export default function RouteErrorPage() {
   const error = useRouteError();
@@ -17,10 +18,12 @@ export default function RouteErrorPage() {
   }
 
   return (
-    <main style={{ padding: "2rem" }}>
-      <h1>{title}</h1>
-      <p>{message}</p>
-      <Link to="/">Go back home</Link>
+    <main className="routeErrorPage">
+      <section className="routeErrorCard">
+        <h1>{title}</h1>
+        <p>{message}</p>
+        <Link to="/">Go back home</Link>
+      </section>
     </main>
   );
 }

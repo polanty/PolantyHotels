@@ -62,7 +62,7 @@ export const getOneHotel = catchAsync(async (req, res, next) => {
   });
 
   // Testing email sending on hotel retrieval - this is just for testing purposes, in a real application you would not send an email every time a hotel is retrieved
-  await emailService.sendSignupEmail("admin@example.com", "Admin");
+  //await emailService.sendSignupEmail("admin@example.com", "Admin");
 
   if (!hotel) {
     return next(new AppError("Hotel not found 💥", 404));

@@ -303,6 +303,7 @@ html.dark .btn--muted:hover {
 /* ===== Hero Search Card (absolute bottom) ===== */
 .heroSearch {
   width: 100%;
+  margin-top: 2rem;
   /* position: absolute;
   left: 0;
   right: 0;
@@ -317,7 +318,7 @@ html.dark .btn--muted:hover {
   position: relative;
   width: 100%;
   height: 100px;
-  background-color: red;
+  /* background-color: red; */
 }
 .searchCard {
   border-radius: var(--radius);
@@ -763,4 +764,186 @@ html.dark .footerBottom {
   height: 300px;
   border-radius: 8px;
   overflow: hidden;
+}
+
+/* ===== Responsive refinements ===== */
+@media (max-width: 1023px) {
+  .container {
+    max-width: 760px;
+  }
+
+  .topbar__inner {
+    gap: 16px;
+  }
+
+  .hero {
+    min-height: 520px;
+    padding: 72px 0;
+  }
+
+  .heroSearch {
+    padding: 0 16px;
+  }
+
+  .searchCard {
+    padding: 12px;
+  }
+
+  .searchRow {
+    border-radius: var(--radius);
+  }
+
+  .searchCell,
+  .searchCell--location,
+  .searchCell--cta {
+    border-radius: 0;
+  }
+
+  .searchCell:first-child {
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .searchCell:last-child,
+  .btn--search {
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .section--spacious {
+    padding: 88px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .topbar__inner {
+    padding: 12px 0;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand__name {
+    font-size: 18px;
+  }
+
+  .topbar__actions {
+    gap: 6px;
+  }
+
+  .btn {
+    min-width: auto;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .hero {
+    min-height: 480px;
+    padding: 64px 0 96px;
+  }
+
+  .hero__title {
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .hero__subtitle {
+    font-size: 16px;
+  }
+
+  .index-search--holder {
+    height: auto;
+    min-height: 0;
+  }
+
+  .heroSearch {
+    margin-top: 1rem;
+  }
+
+  .fieldRow {
+    height: 58px;
+  }
+
+  .fieldRow__icon {
+    padding-left: 12px;
+    font-size: 22px;
+  }
+
+  .input,
+  .select {
+    min-width: 0;
+    font-size: 15px;
+    padding-left: 10px;
+  }
+
+  .btn--search {
+    width: 100%;
+    height: 58px;
+    font-size: 16px;
+  }
+
+  .valueGrid {
+    gap: 32px;
+  }
+
+  .sectionHead {
+    margin-bottom: 32px;
+  }
+
+  .sectionHead__title,
+  .ctaCard__title {
+    font-size: 28px;
+  }
+
+  .sectionHead__subtitle,
+  .ctaCard__text {
+    font-size: 16px;
+  }
+
+  .featuredCard__img {
+    height: 260px;
+  }
+
+  .ctaCard {
+    padding: 32px 20px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .hero__title {
+    font-size: 34px;
+  }
+
+  .searchCard {
+    padding: 8px;
+  }
+
+  .fieldRow {
+    height: 54px;
+  }
+
+  .input,
+  .select {
+    font-size: 14px;
+  }
+
+  .featuredCard__content {
+    padding: 18px;
+  }
 }

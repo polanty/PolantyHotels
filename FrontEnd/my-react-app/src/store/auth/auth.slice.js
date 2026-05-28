@@ -24,6 +24,7 @@ const initialState = {
   hotels: [],
   hotelsStatus: "idle",
   hotelsError: null,
+  hotelsRequestId: null,
   totalPages: 1,
   currentPage: 1,
   results: 0,
@@ -69,19 +70,33 @@ const authSlice = createSlice({
     });
 
     // DATA
-    builder.addCase(paginatedHotels.pending, (state) => {
+    builder.addCase(paginatedHotels.pending, (state, action) => {
       state.hotelsStatus = "loading";
       state.hotelsError = null;
+      state.hotelsRequestId = action.meta.requestId;
     });
     builder.addCase(paginatedHotels.fulfilled, (state, action) => {
+      if (state.hotelsRequestId !== action.meta.requestId) return;
+
       state.hotelsStatus = "succeeded";
       state.hotels = action.payload.hotels;
       state.totalPages = action.payload.totalPages;
       state.currentPage = action.payload.currentPage;
       state.results = action.payload.results;
       state.hotelsError = null;
+      state.hotelsRequestId = null;
     });
     builder.addCase(paginatedHotels.rejected, (state, action) => {
+      if (state.hotelsRequestId !== action.meta.requestId) return;
+
+      state.hotelsRequestId = null;
+
+      if (action.meta.aborted || action.payload === null) {
+        state.hotelsStatus = "idle";
+        state.hotelsError = null;
+        return;
+      }
+
       state.hotelsStatus = "failed";
       state.hotelsError = action.payload || "Failed to Load Hotels";
     });

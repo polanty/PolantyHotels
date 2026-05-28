@@ -208,3 +208,76 @@
     align-items: center;
   }
 }
+
+@media (min-width: 1024px) {
+  .auth-container {
+    flex-direction: row;
+  }
+
+  .auth-form-wrapper {
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 1023px) {
+  .auth-page {
+    background:
+      linear-gradient(rgba(15, 20, 26, 0.7), rgba(15, 20, 26, 0.88)),
+      url("https://lh3.googleusercontent.com/aida-public/AB6AXuDX1KBSZjpVZBvnSpUx0krqZTD1g0Sl_BS4j-1MEM4L7tzu2OIgdKc8VBz55MUbBRPbK47twGCyvvLLSdsr4I1gwfJ0UL2UNckGK3lyKoa-eMxujOYmkn_XDwdVX4nT8ORrVNv_9Y-AfUHy0lQmZrQiFTYpI8ELnd7P1rPXHy9cfbodDUNkeAL8Yu6xKZtAhZWKL8p_n0eq-5ECUeJ91nkvorsVcwM87zUnni4x9oaMfJEIJez2vYSAK7dxFqx2TY8BlBYBPlm2zzc")
+        center / cover;
+  }
+
+  .auth-container {
+    justify-content: center;
+    padding: 32px 18px;
+  }
+
+  .auth-form-wrapper {
+    width: min(100%, 520px);
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  }
+
+  .auth-error {
+    width: min(100%, 520px);
+    margin: 0 auto 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-container {
+    padding: 20px 12px;
+  }
+
+  .auth-form-wrapper {
+    padding: 2rem 1.25rem;
+    border-radius: 12px;
+  }
+
+  .auth-header h2 {
+    font-size: 1.55rem;
+  }
+
+  .auth-header p {
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-toggle {
+    margin-bottom: 1.5rem;
+  }
+
+  .password-field input {
+    width: 100%;
+    padding-right: 4.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .auth-form-wrapper {
+    padding: 1.5rem 1rem;
+  }
+
+  .divider span {
+    padding: 0 0.75rem;
+  }
+}

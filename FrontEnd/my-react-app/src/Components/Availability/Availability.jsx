@@ -5,12 +5,17 @@ export default function AvailabilitySearch({
   setCheckOut,
   rooms,
   setRoomNumber,
-  onSearch,
+  showDateError = false,
 }) {
   return (
-    <div className="heroSearch" aria-label="Hotel search bar">
+    <div
+      className={`heroSearch availabilitySearch ${
+        showDateError ? "availabilitySearch--error" : ""
+      }`}
+      aria-label="Hotel availability search"
+    >
       <div className="heroSearch__container">
-        <form className="searchCard" onSubmit={onSearch}>
+        <form className="searchCard">
           <div className="searchRow">
             {/* Check-in */}
             <div className="searchCell">
@@ -26,6 +31,7 @@ export default function AvailabilitySearch({
                   type="date"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
+                  aria-invalid={showDateError && !checkIn}
                   aria-label="Check-in date"
                 />
               </label>
@@ -45,6 +51,7 @@ export default function AvailabilitySearch({
                   type="date"
                   value={checkOut}
                   onChange={(e) => setCheckOut(e.target.value)}
+                  aria-invalid={showDateError && !checkOut}
                   aria-label="Check-out date"
                 />
               </label>
@@ -74,11 +81,11 @@ export default function AvailabilitySearch({
             </div>
 
             {/* CTA */}
-            <div className="searchCell searchCell--cta">
+            {/* <div className="searchCell searchCell--cta">
               <button className="btn btn--primary btn--search" type="submit">
                 change search
               </button>
-            </div>
+            </div> */}
           </div>
         </form>
       </div>

@@ -640,3 +640,187 @@
   padding: 1.5rem 0;
   /* background-color: red; */
 }
+
+.hotelCalenderSection .searchCard {
+  border: 1px solid transparent;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.hotelCalenderSection--error .searchCard,
+.availabilitySearch--error .searchCard {
+  border-color: #ef4444;
+  box-shadow:
+    0 0 0 3px rgba(239, 68, 68, 0.24),
+    var(--shadow-xl);
+}
+
+.availabilitySearch--error input[aria-invalid="true"] {
+  color: #fecaca;
+}
+
+.availabilityDateError {
+  margin: 10px 0 0;
+  color: #fecaca;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .hotelDetailsShell {
+    width: min(100% - 28px, 980px);
+  }
+
+  .hotelBreadcrumbs {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 820px) {
+  .hotelDetailsShell {
+    padding-bottom: 36px;
+  }
+
+  .hotelTitleRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hotelAddressRow {
+    align-items: flex-start;
+  }
+
+  .hotelQuickFacts {
+    gap: 8px;
+  }
+
+  .quickFactChip {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+  }
+
+  .hotelHeroActions {
+    flex-wrap: wrap;
+  }
+
+  .galleryGrid {
+    gap: 10px;
+  }
+
+  .gallerySide {
+    gap: 10px;
+  }
+
+  .bookingSidebar {
+    width: 100%;
+  }
+
+  .statCard,
+  .amenityCard {
+    align-items: flex-start;
+  }
+
+  .roomsTableWrap {
+    margin: 0 -8px;
+    padding: 0 8px 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hotelBreadcrumbs {
+    margin-top: 32px;
+    font-size: 13px;
+  }
+
+  .hotelTitle {
+    font-size: 30px;
+  }
+
+  .hotelRatingBadge {
+    border-radius: 12px;
+    padding: 7px 10px;
+  }
+
+  .quickFactChip {
+    flex: 1 1 100%;
+  }
+
+  .galleryMain {
+    border-radius: 16px;
+  }
+
+  .gallerySide {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .galleryThumbBtn {
+    border-radius: 14px;
+  }
+
+  .bookingPrice {
+    font-size: 28px;
+  }
+
+  .sectionTitle {
+    font-size: 21px;
+  }
+
+  .roomsTable {
+    min-width: 720px;
+  }
+
+  .paymentCancelledBanner {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .hotelDetailsShell {
+    width: min(100% - 16px, 100%);
+  }
+
+  .hotelHeroHeader {
+    gap: 16px;
+  }
+
+  .hotelTitle {
+    font-size: 26px;
+  }
+
+  .hotelAddressRow,
+  .overviewText,
+  .mutedText,
+  .infoList,
+  .sidebarList {
+    font-size: 14px;
+  }
+
+  .galleryMain {
+    min-height: 220px;
+  }
+
+  .galleryThumbBtn {
+    min-height: 96px;
+  }
+
+  .hotelSection,
+  .bookingCard,
+  .sidebarInfoCard,
+  .infoPanel {
+    padding: 16px;
+  }
+
+  .statCard,
+  .amenityCard {
+    padding: 14px;
+  }
+
+  .paymentCancelledBanner {
+    gap: 10px;
+  }
+
+  .paymentCancelledClose {
+    margin-left: auto;
+  }
+}

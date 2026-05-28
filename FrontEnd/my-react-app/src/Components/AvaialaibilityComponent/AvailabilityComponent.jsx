@@ -1,18 +1,15 @@
 // import SearchBar from "../components/SearchBar";
 import AvailabilitySearch from "../Availability/Availability";
-import { useState } from "react";
 
-export default function AvailabilitySearchComponent() {
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [rooms, setRooms] = useState("2");
-
-  const onSearch = (e) => {
-    e.preventDefault();
-
-    //Go to Booking page from Here
-  };
-
+export default function AvailabilitySearchComponent({
+  checkIn,
+  setCheckIn,
+  checkOut,
+  setCheckOut,
+  rooms,
+  setRooms,
+  showDateError,
+}) {
   return (
     <AvailabilitySearch
       checkIn={checkIn}
@@ -20,8 +17,8 @@ export default function AvailabilitySearchComponent() {
       checkOut={checkOut}
       setCheckOut={setCheckOut}
       rooms={rooms}
-      setRooms={setRooms}
-      onSearch={onSearch}
+      setRoomNumber={setRooms}
+      showDateError={showDateError}
     />
   );
 }
