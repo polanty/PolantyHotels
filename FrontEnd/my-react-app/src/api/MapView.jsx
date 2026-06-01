@@ -17,6 +17,12 @@ function Map({ lat, lon, zoom = 12 }) {
       container: mapContainerRef.current,
       center: [lon, lat], // dynamic coords
       zoom,
+      interactive: false,
+      dragPan: false,
+      scrollZoom: false,
+      doubleClickZoom: false,
+      touchZoomRotate: false,
+      keyboard: false,
     });
 
     // Add marker
