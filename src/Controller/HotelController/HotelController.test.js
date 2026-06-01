@@ -65,7 +65,7 @@ describe("HotelController", () => {
       expect(apiFeaturesInstance.sort).toHaveBeenCalled();
       expect(apiFeaturesInstance.pagination).toHaveBeenCalled();
       expect(Location.countDocuments).toHaveBeenCalledWith(
-        apiFeaturesInstance.filter
+        apiFeaturesInstance.filter,
       );
 
       expect(res.status).toHaveBeenCalledWith(200);
@@ -142,7 +142,9 @@ describe("HotelController", () => {
       const mockHotel = { _id: "123", name: "Hotel A" };
       req.params.id = "123";
 
-      Location.findById.mockResolvedValue(mockHotel);
+      Location.findById.mockReturnValue({
+        populate: jest.fn().mockResolvedValue(mockHotel),
+      });
 
       await getOneHotel(req, res, next);
 
@@ -159,20 +161,24 @@ describe("HotelController", () => {
 
     it("should call next with AppError when hotel not found", async () => {
       req.params.id = "123";
-      Location.findById.mockResolvedValue(null);
+      Location.findById.mockReturnValue({
+        populate: jest.fn().mockResolvedValue(null),
+      });
 
       await getOneHotel(req, res, next);
 
       expect(Location.findById).toHaveBeenCalledWith("123");
       expect(next).toHaveBeenCalledWith(
-        new AppError("Hotel not found 💥", 404)
+        new AppError("Hotel not found 💥", 404),
       );
       expect(res.status).not.toHaveBeenCalled();
     });
 
     it("should call next on DB error", async () => {
       req.params.id = "123";
-      Location.findById.mockRejectedValue(new Error("DB error"));
+      Location.findById.mockReturnValue({
+        populate: jest.fn().mockRejectedValue(new Error("DB error")),
+      });
 
       await getOneHotel(req, res, next);
 
@@ -222,8 +228,8 @@ describe("HotelController", () => {
       expect(next).toHaveBeenCalledWith(
         new AppError(
           "Invalid updates! You can only update name and address.",
-          400
-        )
+          400,
+        ),
       );
       expect(res.status).not.toHaveBeenCalled();
     });
