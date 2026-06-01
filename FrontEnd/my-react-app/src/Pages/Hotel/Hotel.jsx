@@ -45,20 +45,38 @@ function getAmenityIcon(name) {
   return "check_circle";
 }
 
+function getImageUrl(image) {
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+
+  if (typeof image === "string") {
+    if (image.startsWith("/uploads/")) return `${apiBaseUrl}${image}`;
+    return image;
+  }
+
+  if (image?.url) {
+    if (image.url.startsWith("/uploads/")) return `${apiBaseUrl}${image.url}`;
+    return image.url;
+  }
+
+  if (image?.secure_url) {
+    if (image.secure_url.startsWith("/uploads/")) {
+      return `${apiBaseUrl}${image.secure_url}`;
+    }
+
+    return image.secure_url;
+  }
+
+  return null;
+}
+
 function buildGalleryImages(hotel) {
   const roomImages =
     hotel?.RoomRef?.flatMap((room) =>
       Array.isArray(room.images) ? room.images : [],
     ) || [];
 
-  const normalizedRoomImages = roomImages
-    .map((img) => {
-      if (typeof img === "string") return img;
-      if (img?.url) return img.url;
-      if (img?.secure_url) return img.secure_url;
-      return null;
-    })
-    .filter(Boolean);
+  const normalizedRoomImages = roomImages.map(getImageUrl).filter(Boolean);
 
   if (normalizedRoomImages.length >= 5) {
     return normalizedRoomImages.slice(0, 5);

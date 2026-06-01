@@ -32,17 +32,62 @@ function HotelCardSkeleton() {
   );
 }
 
+function getImageUrl(image) {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+
+  if (typeof image === "string") {
+    if (image.startsWith("/uploads/")) return `${apiBaseUrl}${image}`;
+    return image;
+  }
+
+  if (image?.url) {
+    if (image.url.startsWith("/uploads/")) return `${apiBaseUrl}${image.url}`;
+    return image.url;
+  }
+
+  if (image?.secure_url) {
+    if (image.secure_url.startsWith("/uploads/")) {
+      return `${apiBaseUrl}${image.secure_url}`;
+    }
+
+    return image.secure_url;
+  }
+
+  return null;
+}
+
+function getRoomPreviewImages(roomRef) {
+  if (!Array.isArray(roomRef)) return [];
+
+  const imageUrls = roomRef
+    .map((room) => {
+      const roomImages = Array.isArray(room?.images) ? room.images : [];
+      const roomTypeImages = Array.isArray(room?.room_type_id?.images)
+        ? room.room_type_id.images
+        : [];
+
+      return getImageUrl([...roomImages, ...roomTypeImages][0]);
+    })
+    .filter(Boolean);
+
+  return [...new Set(imageUrls)];
+}
+
 function mapHotelFromApi(item, likedHotelIds) {
   const id = item.id || item._id;
+  const fallbackImage =
+    item.image ||
+    item.thumbnail ||
+    item.photo ||
+    "https://via.placeholder.com/600x400?text=Hotel+Image";
+  const roomImages = getRoomPreviewImages(item.RoomRef || item.roomRef);
+  const images = roomImages.length > 0 ? roomImages : [fallbackImage];
 
   return {
     id,
     name: item.name || "Unnamed Hotel",
-    img:
-      item.image ||
-      item.thumbnail ||
-      item.photo ||
-      "https://via.placeholder.com/600x400?text=Hotel+Image",
+    img: images[0],
+    images,
     liked: likedHotelIds.includes(id),
     rating: Number(item.ratingsAverage ?? 0),
     locationText: [item.address, item.city, item.country]

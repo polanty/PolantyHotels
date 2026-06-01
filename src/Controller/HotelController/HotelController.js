@@ -19,6 +19,13 @@ export const getAllHotels = catchAsync(async (req, res, next) => {
     .sort()
     .pagination();
 
+  if (typeof apiFeatures.query.populate === "function") {
+    apiFeatures.query = apiFeatures.query.populate({
+      path: "RoomRef",
+      select: "images isAvailable",
+    });
+  }
+
   //whatever the requeste is we must limit the return data for performance
   //i can use the .explain method to measure statistics
   // expecially when i need to index my model for optimized query

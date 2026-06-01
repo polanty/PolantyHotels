@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NormalizeAmenities } from "../../utils/utils";
 
 //Small reusable star icon
@@ -56,9 +56,65 @@ function getAmenityIcon(amenity) {
 
 function HotelCard({ hotel, onToggleLike }) {
   const navigate = useNavigate();
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const carouselImages = useMemo(() => {
+    const images = Array.isArray(hotel?.images) ? hotel.images : [];
+    const normalizedImages = images.filter(Boolean);
+
+    if (normalizedImages.length > 0) {
+      return normalizedImages;
+    }
+
+    return [hotel.img || "https://placehold.net/600x600.png"];
+  }, [hotel]);
+
+  const hasMultipleImages = carouselImages.length > 1;
+  const activeImage = carouselImages[activeImageIndex] || carouselImages[0];
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [hotel.id]);
 
   const handleViewDeal = () => {
     navigate(`/hotels/${hotel.id}`);
+  };
+
+  const showPreviousImage = () => {
+    setActiveImageIndex((currentIndex) =>
+      currentIndex === 0 ? carouselImages.length - 1 : currentIndex - 1,
+    );
+  };
+
+  const showNextImage = () => {
+    setActiveImageIndex((currentIndex) =>
+      currentIndex === carouselImages.length - 1 ? 0 : currentIndex + 1,
+    );
+  };
+
+  const handleTouchStart = (event) => {
+    if (!hasMultipleImages) return;
+
+    setTouchStartX(event.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (event) => {
+    if (!hasMultipleImages || touchStartX === null) return;
+
+    const touchEndX = event.changedTouches[0].clientX;
+    const swipeDistance = touchStartX - touchEndX;
+    const minimumSwipeDistance = 40;
+
+    if (swipeDistance > minimumSwipeDistance) {
+      showNextImage();
+    }
+
+    if (swipeDistance < -minimumSwipeDistance) {
+      showPreviousImage();
+    }
+
+    setTouchStartX(null);
   };
 
   const amenityList = useMemo(
@@ -68,16 +124,57 @@ function HotelCard({ hotel, onToggleLike }) {
 
   return (
     <article className="hotelCard">
-      <div className="hotelCardMedia">
+      <div
+        className="hotelCardMedia"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <img
           className="hotelCardImg"
-          src={hotel.img}
-          alt={hotel.name}
+          src={activeImage}
+          alt={`${hotel.name} room ${activeImageIndex + 1}`}
           loading="lazy"
           onError={(e) => {
             e.currentTarget.src = "https://placehold.net/600x600.png";
           }}
         />
+
+        {hasMultipleImages && (
+          <>
+            <button
+              type="button"
+              className="hotelCarouselBtn hotelCarouselBtn--prev"
+              onClick={showPreviousImage}
+              aria-label={`Show previous ${hotel.name} room image`}
+            >
+              <span className="material-symbols-outlined" aria-hidden="true">
+                chevron_left
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className="hotelCarouselBtn hotelCarouselBtn--next"
+              onClick={showNextImage}
+              aria-label={`Show next ${hotel.name} room image`}
+            >
+              <span className="material-symbols-outlined" aria-hidden="true">
+                chevron_right
+              </span>
+            </button>
+
+            <div className="hotelCarouselDots" aria-hidden="true">
+              {carouselImages.map((image, index) => (
+                <span
+                  key={`${image}-${index}`}
+                  className={`hotelCarouselDot ${
+                    index === activeImageIndex ? "active" : ""
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
 
         <button
           type="button"
