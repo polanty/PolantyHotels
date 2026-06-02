@@ -15,6 +15,39 @@ import SearchComponent from "../../Components/SearchBarComponent/SearchBarCompon
 import HotelCard from "../../Components/HotelCard/HotelCard";
 import "./HotelSearchResults.css";
 
+const AMENITY_FILTERS = [
+  "WiFi",
+  "Air Conditioning",
+  "Flat Screen TV",
+  "Minibar",
+  "Coffee Maker",
+  "Safe",
+  "Hair Dryer",
+  "Bathrobes",
+  "Work Desk",
+  "Balcony",
+  "Smart TV",
+  "Espresso Machine",
+  "Restaurant",
+  "Bar",
+  "Gym",
+  "Swimming Pool",
+  "Spa",
+  "Business Center",
+  "Meeting Rooms",
+  "Parking",
+  "Room Service",
+  "Concierge",
+  "Airport Shuttle",
+  "Laundry Service",
+  "Pet Friendly",
+  "Sauna",
+];
+
+function normalizeAmenityValue(value) {
+  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
 function HotelCardSkeleton() {
   return (
     <article className="hotelCard skeletonCard" aria-hidden="true">
@@ -117,12 +150,15 @@ export default function HotelSearchResults() {
 
   const [price, setPrice] = useState(350);
   const [activeStars, setActiveStars] = useState(0);
-  const [amenities, setAmenities] = useState({
-    wifi: false,
-    pool: false,
-    local_parking: false,
-    pets: false,
-  });
+  const [amenities, setAmenities] = useState(() =>
+    AMENITY_FILTERS.reduce(
+      (selectedAmenities, amenity) => ({
+        ...selectedAmenities,
+        [amenity]: false,
+      }),
+      {},
+    ),
+  );
   const [sortBy, setSortBy] = useState("Popularity");
   const [likedHotelIds, setLikedHotelIds] = useState([]);
 
@@ -156,32 +192,19 @@ export default function HotelSearchResults() {
 
     const requiredAmenities = Object.entries(amenities)
       .filter(([, value]) => value)
-      .map(([key]) => key.toLowerCase());
+      .map(([key]) => normalizeAmenityValue(key));
 
     if (requiredAmenities.length > 0) {
       list = list.filter((hotel) => {
-        const hotelAmenities = hotel.amenities.map((amenity) =>
-          String(amenity).toLowerCase().trim(),
+        const hotelAmenities = hotel.amenities.flatMap((amenity) => [
+          normalizeAmenityValue(amenity.name),
+          normalizeAmenityValue(amenity.category),
+          normalizeAmenityValue(amenity.description),
+        ]);
+
+        return requiredAmenities.every((required) =>
+          hotelAmenities.includes(required),
         );
-
-        return requiredAmenities.some((required) => {
-          if (required === "local_parking") {
-            return (
-              hotelAmenities.includes("local_parking") ||
-              hotelAmenities.includes("parking")
-            );
-          }
-
-          if (required === "pets") {
-            return (
-              hotelAmenities.includes("pets") ||
-              hotelAmenities.includes("pet friendly") ||
-              hotelAmenities.includes("pet-friendly")
-            );
-          }
-
-          return hotelAmenities.includes(required);
-        });
       });
     }
 
@@ -284,41 +307,16 @@ export default function HotelSearchResults() {
                     <h3 className="filterLabel">Amenities</h3>
 
                     <div className="amenityChecks">
-                      <label className="checkRow">
-                        <input
-                          type="checkbox"
-                          checked={amenities.wifi}
-                          onChange={() => onToggleAmenity("wifi")}
-                        />
-                        <span>Free Wi-Fi</span>
-                      </label>
-
-                      <label className="checkRow">
-                        <input
-                          type="checkbox"
-                          checked={amenities.pool}
-                          onChange={() => onToggleAmenity("pool")}
-                        />
-                        <span>Swimming Pool</span>
-                      </label>
-
-                      <label className="checkRow">
-                        <input
-                          type="checkbox"
-                          checked={amenities.local_parking}
-                          onChange={() => onToggleAmenity("local_parking")}
-                        />
-                        <span>Parking</span>
-                      </label>
-
-                      <label className="checkRow">
-                        <input
-                          type="checkbox"
-                          checked={amenities.pets}
-                          onChange={() => onToggleAmenity("pets")}
-                        />
-                        <span>Pet Friendly</span>
-                      </label>
+                      {AMENITY_FILTERS.map((amenity) => (
+                        <label className="checkRow" key={amenity}>
+                          <input
+                            type="checkbox"
+                            checked={Boolean(amenities[amenity])}
+                            onChange={() => onToggleAmenity(amenity)}
+                          />
+                          <span>{amenity}</span>
+                        </label>
+                      ))}
                     </div>
 
                     <button

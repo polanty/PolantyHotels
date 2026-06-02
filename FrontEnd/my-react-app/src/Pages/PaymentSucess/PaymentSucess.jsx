@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
+import api from "../../api/axios";
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -12,26 +13,9 @@ export default function PaymentSuccess() {
   useEffect(() => {
     async function verifyPayment() {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/v1/bookings/checkout-session/${sessionId}`,
-          {
-            method: "GET",
-            credentials: "include",
-          },
+        const { data } = await api.get(
+          `/api/v1/bookings/checkout-session/${sessionId}`,
         );
-
-        const contentType = res.headers.get("content-type");
-
-        if (!contentType?.includes("application/json")) {
-          const text = await res.text();
-          throw new Error(text || "Server did not return JSON");
-        }
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.message || "Unable to verify payment");
-        }
 
         setSession(data.session);
       } catch (err) {

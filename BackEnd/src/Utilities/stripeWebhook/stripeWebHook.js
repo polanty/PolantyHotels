@@ -1,7 +1,6 @@
 //The following function is to safely handle the success of the payment and update the booking status accordingly. It will be called by the Stripe webhook when a payment is successful.
 // As recommended by Stripe, we will not rely on the client to update the booking status, but instead use a webhook to listen for successful payments and update the booking in our database accordingly.
 import Booking from "../../Models/bookingModels.js";
-import Room from "../../Models/roomModel.js";
 import User from "../../Models/userModel.js";
 import stripe from "../stripe.js";
 import emailService from "../email.js";
@@ -86,15 +85,6 @@ export const stripeWebhook = async (req, res) => {
 
         await booking.save();
 
-        await Room.updateOne(
-          { _id: booking.room },
-          {
-            $inc: {
-              isAvailable: 1,
-            },
-          },
-        );
-
         console.log("Expired booking released:", booking._id);
       }
     }
@@ -109,68 +99,3 @@ export const stripeWebhook = async (req, res) => {
     });
   }
 };
-
-// import stripe from "../stripe.js";
-// import Booking from "../../Models/bookingModels.js";
-
-// export const stripeWebhook = async (req, res) => {
-//   console.log("Inside stripeWebhook");
-
-//   let event;
-
-//   try {
-//     console.log(
-//       "Webhook secret exists:",
-//       Boolean(process.env.STRIPE_WEBHOOK_SECRET),
-//     );
-//     console.log(
-//       "Stripe signature exists:",
-//       Boolean(req.headers["stripe-signature"]),
-//     );
-//     console.log("Body is Buffer:", Buffer.isBuffer(req.body));
-
-//     event = stripe.webhooks.constructEvent(
-//       req.body,
-//       req.headers["stripe-signature"],
-//       process.env.STRIPE_WEBHOOK_SECRET,
-//     );
-//   } catch (err) {
-//     console.log("Webhook signature failed:", err.message);
-//     return res.status(400).send(`Webhook Error: ${err.message}`);
-//   }
-
-//   try {
-//     console.log("Stripe event type:", event.type);
-
-//     if (event.type === "checkout.session.completed") {
-//       const session = event.data.object;
-
-//       console.log("Checkout session metadata:", session.metadata);
-
-//       const booking = await Booking.findById(session.metadata.bookingId);
-
-//       console.log("Booking found:", Boolean(booking));
-
-//       if (!booking) {
-//         return res.status(200).json({ received: true });
-//       }
-
-//       booking.status = "confirmed";
-//       booking.paymentStatus = "paid";
-//       booking.paymentIntentId = session.payment_intent;
-
-//       await booking.save();
-
-//       console.log("Booking updated:", booking._id);
-//     }
-
-//     return res.status(200).json({ received: true });
-//   } catch (err) {
-//     console.log("Webhook handler failed:", err.message);
-//     console.log(err);
-//     return res.status(500).json({
-//       status: "error",
-//       message: err.message,
-//     });
-//   }
-// };

@@ -1,6 +1,5 @@
 import cron from "node-cron";
 import Booking from "../../Models/bookingModels.js";
-import Location from "../../Models/locationModel.js";
 
 export const startReleaseRoomsJob = () => {
   cron.schedule("0 1 * * *", async () => {
@@ -13,10 +12,6 @@ export const startReleaseRoomsJob = () => {
         roomReleased: false,
       });
       for (const booking of bookings) {
-        await Room.updateOne(
-          { _id: booking.room },
-          { $inc: { isAvailable: 1 } },
-        );
         booking.status = "completed";
         booking.roomReleased = true;
         await booking.save();

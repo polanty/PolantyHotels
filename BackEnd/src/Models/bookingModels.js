@@ -16,7 +16,7 @@ const BookingSchema = new mongoose.Schema(
 
     roomType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "RoomType",
+      ref: "RoomTypes",
       required: true,
     },
 
@@ -40,6 +40,13 @@ const BookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 1,
+    },
+
+    numberOfRooms: {
+      type: Number,
+      required: true,
+      min: 1,
+      default: 1,
     },
 
     totalPrice: {

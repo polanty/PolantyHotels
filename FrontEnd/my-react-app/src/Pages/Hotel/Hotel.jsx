@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
+import { selectIsAuthed } from "../../store/auth/auth.selectors";
 import {
   selectSelectedHotel,
   selectSelectedHotelStatus,
@@ -17,6 +17,7 @@ import { hotelDetails } from "../../store/auth/auth.thunks";
 import { NormalizeAmenities } from "../../utils/utils";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import Map from "../../api/MapView";
+import api from "../../api/axios";
 import HotelInfoCards from "../../Components/HotelInfo/HotelInfo";
 import AvailabilitySearchComponent from "../../Components/AvaialaibilityComponent/AvailabilityComponent";
 
@@ -104,6 +105,11 @@ function getLowestPrice(rooms) {
   if (prices.length === 0) return null;
 
   return Math.min(...prices);
+}
+
+function parseRoomCount(value) {
+  const match = String(value || "1").match(/\d+/);
+  return Number.parseInt(match?.[0] || "1", 10);
 }
 
 function mapRoom(room) {
@@ -244,10 +250,11 @@ export default function HotelDetailsPage() {
   const [availabilityRooms, setAvailabilityRooms] = useState("2 rooms");
   const [showAvailabilityDateError, setShowAvailabilityDateError] =
     useState(false);
+  const [bookingError, setBookingError] = useState("");
+  const [bookingRoomId, setBookingRoomId] = useState(null);
   const availabilitySectionRef = useRef(null);
 
   const isAuthed = useSelector(selectIsAuthed);
-  const userData = useSelector(selectUser);
 
   const hotel = useSelector(selectSelectedHotel);
   const hotelStatus = useSelector(selectSelectedHotelStatus);
@@ -324,64 +331,62 @@ export default function HotelDetailsPage() {
     return false;
   };
 
-  const bookHotel = () => {
+  const startStripeCheckout = async (room) => {
     if (!validateAvailabilityDates()) {
       return;
     }
 
     if (!isAuthed) {
-      navigate("/login", {
+      navigate("/auth", {
         state: { from: location },
       });
 
       return;
     }
 
-    const firstAvailableRoom = rooms.find((room) => room.isAvailable > 0);
+    const numberOfRooms = parseRoomCount(availabilityRooms);
 
-    if (!firstAvailableRoom) {
+    if (!room || room.isAvailable < numberOfRooms) {
+      setBookingError(
+        `Only ${Math.max(room?.isAvailable || 0, 0)} room(s) available for this room type.`,
+      );
       return;
     }
 
-    navigate(`/booking/${hotelId}`, {
-      state: {
-        hotel,
-        room: firstAvailableRoom,
-        user: userData,
-        dates: {
-          checkIn: availabilityCheckIn,
-          checkOut: availabilityCheckOut,
-        },
-        rooms: availabilityRooms,
-      },
-    });
+    setBookingError("");
+    setBookingRoomId(room.id);
+
+    try {
+      const { data } = await api.post("/api/v1/payments/create-checkout-session", {
+        hotelId,
+        roomId: room.id,
+        checkInDate: availabilityCheckIn,
+        checkOutDate: availabilityCheckOut,
+        numberOfRooms,
+      });
+
+      if (!data?.sessionUrl) {
+        throw new Error("Checkout session was not returned by the server.");
+      }
+
+      window.location.assign(data.sessionUrl);
+    } catch (err) {
+      setBookingError(err.message || "Unable to start checkout.");
+      setBookingRoomId(null);
+    }
+  };
+
+  const bookHotel = () => {
+    const requestedRooms = parseRoomCount(availabilityRooms);
+    const firstAvailableRoom = rooms.find(
+      (room) => room.isAvailable >= requestedRooms,
+    );
+
+    startStripeCheckout(firstAvailableRoom);
   };
 
   const handleRoomReserve = (room) => {
-    if (!validateAvailabilityDates()) {
-      return;
-    }
-
-    if (!isAuthed) {
-      navigate("/login", {
-        state: { from: location },
-      });
-
-      return;
-    }
-
-    navigate(`/booking/${hotelId}/${room.id}`, {
-      state: {
-        hotel,
-        room,
-        user: userData,
-        dates: {
-          checkIn: availabilityCheckIn,
-          checkOut: availabilityCheckOut,
-        },
-        rooms: availabilityRooms,
-      },
-    });
+    startStripeCheckout(room);
   };
 
   if (!hotelId) {
@@ -462,6 +467,28 @@ export default function HotelDetailsPage() {
               className="paymentCancelledClose"
               onClick={() => setShowPaymentCancelled(false)}
               aria-label="Dismiss payment cancellation message"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        )}
+
+        {bookingError && (
+          <div className="paymentCancelledBanner" role="alert">
+            <div className="paymentCancelledIcon">
+              <span className="material-symbols-outlined">error</span>
+            </div>
+
+            <div className="paymentCancelledContent">
+              <h2>Unable to reserve room</h2>
+              <p>{bookingError}</p>
+            </div>
+
+            <button
+              type="button"
+              className="paymentCancelledClose"
+              onClick={() => setBookingError("")}
+              aria-label="Dismiss booking error"
             >
               <span className="material-symbols-outlined">close</span>
             </button>
@@ -658,10 +685,17 @@ export default function HotelDetailsPage() {
                           <button
                             type="button"
                             className="roomSelectBtn"
-                            disabled={room.isAvailable < 1}
+                            disabled={
+                              room.isAvailable < parseRoomCount(availabilityRooms) ||
+                              bookingRoomId === room.id
+                            }
                             onClick={() => handleRoomReserve(room)}
                           >
-                            {room.isAvailable > 0 ? "Reserve" : "Sold out"}
+                            {bookingRoomId === room.id
+                              ? "Reserving..."
+                              : room.isAvailable >= parseRoomCount(availabilityRooms)
+                                ? "Reserve"
+                                : "Sold out"}
                           </button>
                         </td>
                       </tr>
