@@ -1,7 +1,7 @@
 import express from "express";
-import { protect } from "../../Controller/authentication/authenticationController";
-import Room from "../../Models/roomModel";
-import Booking from "../../Models/bookingModels";
+import { protect } from "../../Controller/authentication/authenticationController.js";
+import Room from "../../Models/roomModel.js";
+import Booking from "../../Models/bookingModels.js";
 
 const router = express.Router();
 

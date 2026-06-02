@@ -225,7 +225,7 @@ export default function HotelSearchResults() {
   };
 
   return (
-    <div className="pageRoot dark">
+    <div className="pageRoot">
       <div className="index-search--holder">
         <SearchComponent />
       </div>

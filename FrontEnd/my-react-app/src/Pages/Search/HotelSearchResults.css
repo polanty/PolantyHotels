@@ -7,8 +7,8 @@
     Roboto,
     Arial,
     sans-serif;
-  background: var(--bg-light);
-  color: var(--text);
+  background: #fff;
+  color: var(--text-light);
   min-height: 100vh;
   max-width: 1140px;
   margin: 0 auto;
