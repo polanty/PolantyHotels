@@ -15,6 +15,28 @@ function parseNumberOfRooms(value) {
   return parsed;
 }
 
+function formatCheckoutDate(date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+function getPublicBaseUrl(req) {
+  return (process.env.API_PUBLIC_URL || `${req.protocol}://${req.get("host")}`)
+    .replace(/\/$/, "");
+}
+
+function getCheckoutImageUrl(req, image) {
+  if (!image || typeof image !== "string") return null;
+
+  if (/^https?:\/\//i.test(image)) return image;
+
+  const imagePath = image.startsWith("/") ? image : `/${image}`;
+  return `${getPublicBaseUrl(req)}${imagePath}`;
+}
+
 async function countReservedRooms(roomId, checkIn, checkOut) {
   const [result] = await Booking.aggregate([
     {
@@ -134,6 +156,23 @@ export const createCheckoutSession = catchAsync(async (req, res, next) => {
     roomReleased: false,
   });
 
+  const roomImage = getCheckoutImageUrl(req, room.images?.[0]);
+  const stayDates = `${formatCheckoutDate(checkIn)} to ${formatCheckoutDate(
+    checkOut,
+  )}`;
+  const roomSummary = [
+    `${hotel.name} - ${roomType.name}`,
+    `${hotel.city}, ${hotel.country}`,
+    `${stayDates}`,
+    `${nights} night${nights === 1 ? "" : "s"}`,
+    `${numberOfRooms} room${numberOfRooms === 1 ? "" : "s"}`,
+    roomType.capacity ? `Sleeps up to ${roomType.capacity}` : null,
+    roomType.bed_configuration,
+    roomType.size_sqm ? `${roomType.size_sqm} sqm` : null,
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
@@ -145,9 +184,19 @@ export const createCheckoutSession = catchAsync(async (req, res, next) => {
         price_data: {
           currency: priceInfo.currency.toLowerCase(),
           product_data: {
-            name: roomType.name || "Hotel room booking",
-            description: roomType.description || "Room booking",
-            images: roomType.images?.length ? [roomType.images[0]] : [],
+            name: `${hotel.name} - ${roomType.name || "Hotel room"}`,
+            description: `${roomSummary}. ${roomType.description || ""}`.trim(),
+            images: roomImage ? [roomImage] : [],
+            metadata: {
+              hotelName: hotel.name,
+              roomTypeName: roomType.name || "Hotel room",
+              city: hotel.city,
+              country: hotel.country,
+              checkInDate,
+              checkOutDate,
+              nights: String(nights),
+              numberOfRooms: String(numberOfRooms),
+            },
           },
           unit_amount: Math.round(price * 100),
         },

@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
+import eiffelTowerImage from "../../assets/images/wp3948133-eiffel-tower-4k-wallpapers.jpg";
 
-const DESTINATION_BG =
-  'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt8MEL-c-9eNtjj4KkKjZm3lOuwhUg9NYppUFuKVQsfCpLZlyDQpRQ2PqpFhuDW4sW8gkCVr5ZmaNez-FUECTWoHLT72mEgGwX83dmUsdsCeeYt2w2nInXv6s1b-bX5PHdlWr2GI97ZPkMsxmJkxRRlF1B3g0fmFIei8ISXMhYKASZ07LZ9ijOr5e3lYcVsLmA4qHF210pOCjuk1CfNA58BqSWWaQjVSnjykk0qk3z9XrMx0AyyPTmZXMqFH-k-o4yi4J-HE6--x4")';
+const DESTINATION_BG = `linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("${eiffelTowerImage}")`;
 
 const featured = [
   {

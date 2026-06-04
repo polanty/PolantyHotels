@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <header className="topbar" role="banner">
       <nav className="container topbar__inner" aria-label="Top navigation">
-        <div className="brand">
+        <div className="brand brand--footer">
           <Link to="/" className="brand__link">
             <span
               className="material-symbols-outlined brand__icon"
@@ -37,10 +37,9 @@ export default function Navbar() {
 
         {isAuthed ? (
           <div className="topbar__actions">
-            <Link to="/dashboard">Dashboard</Link>
-
             {userData && (
-              <span className="user-greeting">
+              <span className="user-greeting" aria-label="User greeting">
+                {/* user-greeting" */}
                 Hi, {userData.user.first_name}
               </span>
             )}

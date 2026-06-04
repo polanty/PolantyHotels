@@ -29,7 +29,7 @@ export default function SearchBar({
                   className={`input input--ghost ${
                     destinationError ? "input-error" : ""
                   }`}
-                  placeholder="Destination, city, hotel"
+                  placeholder="Destinations, cities, or hotels"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                 />
@@ -52,6 +52,7 @@ export default function SearchBar({
                 <input
                   className="input input--ghost"
                   type="date"
+                  placeholder="Check-in"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
                   aria-label="Check-in date"
@@ -71,6 +72,7 @@ export default function SearchBar({
                 <input
                   className="input input--ghost"
                   type="date"
+                  placeholder="Check-out"
                   value={checkOut}
                   onChange={(e) => setCheckOut(e.target.value)}
                   aria-label="Check-out date"
@@ -93,10 +95,10 @@ export default function SearchBar({
                   onChange={(e) => setGuests(e.target.value)}
                   aria-label="Guests"
                 >
-                  <option>2 guests</option>
-                  <option>1 guest</option>
-                  <option>3 guests</option>
-                  <option>4 guests</option>
+                  <option>2 Guests</option>
+                  <option>1 Guest</option>
+                  <option>3 Guests</option>
+                  <option>4 Guests</option>
                 </select>
               </label>
             </div>

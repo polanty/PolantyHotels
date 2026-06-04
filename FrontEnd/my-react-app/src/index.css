@@ -146,9 +146,27 @@ html.dark .brand {
   font-size: 32px;
 }
 .brand__name {
-  margin: 0;
+  margin-left: 10px;
   font-size: 20px;
   font-weight: 700;
+}
+
+.brand--footer {
+  flex-direction: row;
+}
+
+.brand--footer .brand__icon {
+  font-size: 24px;
+}
+
+.brand--footer .brand__name {
+  font-size: 16px;
+}
+
+.brand__link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .navlinks {
@@ -185,6 +203,7 @@ html.dark .navlinks {
 
 /* ===== Buttons ===== */
 .btn {
+  text-decoration: none;
   height: 40px;
   min-width: 84px;
   padding: 0 16px;
@@ -223,6 +242,8 @@ html.dark .btn--muted:hover {
 .btn--primary {
   background: var(--primary);
   color: #fff;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 .btn--primary:hover {
   filter: brightness(0.96);
@@ -249,6 +270,14 @@ html.dark .btn--muted:hover {
   .btn--search {
     border-radius: 0 var(--radius) var(--radius) 0;
   }
+}
+
+.user-greeting {
+  font-size: 14px;
+  color: var(--muted-light);
+}
+html.dark .user-greeting {
+  color: var(--muted-dark);
 }
 
 /* ===== Hero ===== */
@@ -304,11 +333,6 @@ html.dark .btn--muted:hover {
 .heroSearch {
   width: 100%;
   margin-top: 2rem;
-  /* position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -64px;
-  padding: 0 24px; */
 }
 .heroSearch__container {
   max-width: 1120px;
@@ -322,8 +346,8 @@ html.dark .btn--muted:hover {
 }
 .searchCard {
   border-radius: var(--radius);
-  padding: 16px;
-  background: #e5e7eb; /* gray-200 */
+  border: 1px solid var(--border-light);
+  padding: 10px;
   box-shadow: var(--shadow-xl);
 }
 html.dark .searchCard {
@@ -345,7 +369,7 @@ html.dark .searchCard {
 }
 
 .searchCell {
-  background: var(--bg-light);
+  background: var(--panel);
 }
 html.dark .searchCell {
   background: var(--bg-dark);
@@ -395,7 +419,13 @@ html.dark .fieldRow__icon {
   background: transparent;
   font-size: 16px;
   padding: 0 12px;
-  color: #111827;
+  color: var(--muted-light);
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
 }
 
 .input-error {
