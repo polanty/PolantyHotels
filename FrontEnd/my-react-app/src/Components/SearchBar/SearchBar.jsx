@@ -1,3 +1,8 @@
+import MotionCalendar from "../MotionCalendar/MotionCalendar";
+import MotionSelect from "../MotionSelect/MotionSelect";
+
+const GUEST_OPTIONS = ["2 Guests", "1 Guest", "3 Guests", "4 Guests"];
+
 export default function SearchBar({
   destination,
   setDestination,
@@ -42,65 +47,57 @@ export default function SearchBar({
 
             {/* Check-in */}
             <div className="searchCell">
-              <label className="fieldRow">
+              <div className="fieldRow">
                 <span
                   className="material-symbols-outlined fieldRow__icon"
                   aria-hidden="true"
                 >
                   calendar_month
                 </span>
-                <input
-                  className="input input--ghost"
-                  type="date"
-                  placeholder="Check-in"
+                <MotionCalendar
                   value={checkIn}
-                  onChange={(e) => setCheckIn(e.target.value)}
+                  onChange={setCheckIn}
+                  placeholder="Check-in"
                   aria-label="Check-in date"
                 />
-              </label>
+              </div>
             </div>
 
             {/* Check-out */}
             <div className="searchCell">
-              <label className="fieldRow">
+              <div className="fieldRow">
                 <span
                   className="material-symbols-outlined fieldRow__icon"
                   aria-hidden="true"
                 >
                   calendar_month
                 </span>
-                <input
-                  className="input input--ghost"
-                  type="date"
-                  placeholder="Check-out"
+                <MotionCalendar
                   value={checkOut}
-                  onChange={(e) => setCheckOut(e.target.value)}
+                  onChange={setCheckOut}
+                  placeholder="Check-out"
                   aria-label="Check-out date"
+                  minDate={checkIn}
                 />
-              </label>
+              </div>
             </div>
 
             {/* Guests */}
             <div className="searchCell">
-              <label className="fieldRow">
+              <div className="fieldRow">
                 <span
                   className="material-symbols-outlined fieldRow__icon"
                   aria-hidden="true"
                 >
                   group
                 </span>
-                <select
-                  className="select select--ghost"
+                <MotionSelect
                   value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
+                  onChange={setGuests}
+                  options={GUEST_OPTIONS}
                   aria-label="Guests"
-                >
-                  <option>2 Guests</option>
-                  <option>1 Guest</option>
-                  <option>3 Guests</option>
-                  <option>4 Guests</option>
-                </select>
-              </label>
+                />
+              </div>
             </div>
 
             {/* CTA */}

@@ -656,7 +656,7 @@
     var(--shadow-xl);
 }
 
-.availabilitySearch--error input[aria-invalid="true"] {
+.availabilitySearch--error [aria-invalid="true"] {
   color: #fecaca;
 }
 
