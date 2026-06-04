@@ -44,9 +44,6 @@ export default function MotionSelect({ value, onChange, options, ariaLabel }) {
         aria-haspopup="listbox"
       >
         <span>{value}</span>
-        <span className="material-symbols-outlined motionSelect__chevron">
-          expand_more
-        </span>
       </button>
 
       {isOpen && (

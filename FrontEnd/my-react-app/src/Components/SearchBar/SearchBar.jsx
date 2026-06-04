@@ -37,12 +37,10 @@ export default function SearchBar({
                   placeholder="Destinations, cities, or hotels"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
+                  aria-invalid={destinationError}
+                  aria-describedby="destination-error"
                 />
               </label>
-
-              {destinationError && (
-                <p className="error-text">A destination must be provided.</p>
-              )}
             </div>
 
             {/* Check-in */}
@@ -107,6 +105,17 @@ export default function SearchBar({
               </button>
             </div>
           </div>
+
+          <p
+            id="destination-error"
+            className={`error-text ${destinationError ? "is-visible" : ""}`}
+            aria-live="polite"
+          >
+            <span className="material-symbols-outlined error-text__icon" aria-hidden="true">
+              error
+            </span>
+            <span>A destination must be provided.</span>
+          </p>
         </form>
       </div>
     </div>
