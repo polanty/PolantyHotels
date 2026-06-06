@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function Footer() {
   return (
     <footer className="footer" role="contentinfo">
@@ -82,10 +84,28 @@ export default function Footer() {
 
 // Reusable component for footer columns
 function FooterColumn({ title, links }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const listId = `footer-list-${title.toLowerCase().replace(/\s+/g, "-")}`;
+
   return (
-    <div className="footerCol">
-      <h4 className="footerCol__title">{title}</h4>
-      <ul className="footerList">
+    <div className={`footerCol ${isOpen ? "footerCol--open" : ""}`}>
+      <button
+        type="button"
+        className="footerCol__title"
+        aria-expanded={isOpen}
+        aria-controls={listId}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span>{title}</span>
+        <span
+          className="material-symbols-outlined footerCol__toggleIcon"
+          aria-hidden="true"
+        >
+          keyboard_arrow_down
+        </span>
+      </button>
+
+      <ul id={listId} className="footerList">
         {links.map((link, index) => (
           <li key={`${title}-${index}`}>
             <a className="footerLink" href={link.href}>

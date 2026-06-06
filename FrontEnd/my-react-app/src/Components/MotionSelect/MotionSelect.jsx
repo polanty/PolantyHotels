@@ -37,7 +37,7 @@ export default function MotionSelect({ value, onChange, options, ariaLabel }) {
     <div className="motionSelect" ref={wrapperRef}>
       <button
         type="button"
-        className="motionSelect__trigger select select--ghost"
+        className="motionSelect__trigger"
         onClick={() => setIsOpen((current) => !current)}
         aria-label={ariaLabel}
         aria-expanded={isOpen}

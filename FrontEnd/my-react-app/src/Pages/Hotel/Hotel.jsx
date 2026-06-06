@@ -23,6 +23,14 @@ import AvailabilitySearchComponent from "../../Components/AvaialaibilityComponen
 
 import "./Hotel.css";
 
+const ROOM_IMAGE_FALLBACKS = [
+  "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1200&q=80",
+];
+
 function formatAmenityName(value) {
   return String(value || "")
     .replaceAll("_", " ")
@@ -83,15 +91,7 @@ function buildGalleryImages(hotel) {
     return normalizedRoomImages.slice(0, 5);
   }
 
-  const fallback = [
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1200&q=80",
-  ];
-
-  return [...normalizedRoomImages, ...fallback].slice(0, 5);
+  return [...normalizedRoomImages, ...ROOM_IMAGE_FALLBACKS].slice(0, 5);
 }
 
 function getLowestPrice(rooms) {
@@ -115,6 +115,9 @@ function parseRoomCount(value) {
 function mapRoom(room) {
   const roomType = room?.room_type_id || {};
   const firstPrice = roomType?.pricing?.[0];
+  const images = (Array.isArray(room?.images) ? room.images : [])
+    .map(getImageUrl)
+    .filter(Boolean);
 
   return {
     id: room?.id || room?._id,
@@ -126,6 +129,7 @@ function mapRoom(room) {
     price: Number(firstPrice?.base_price_per_night || 0),
     currency: firstPrice?.currency || "GBP",
     isAvailable: Number(room?.isAvailable || 0),
+    images,
   };
 }
 
@@ -237,6 +241,201 @@ function BookingCard({ hotel, rooms, lowestPrice, onBook }) {
   );
 }
 
+function RoomDetailsModal({
+  room,
+  hotelName,
+  fallbackImages,
+  amenities,
+  onClose,
+}) {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const images =
+    room?.images?.length || fallbackImages?.length
+      ? room?.images?.length
+        ? room.images
+        : fallbackImages
+      : ROOM_IMAGE_FALLBACKS;
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [room?.id]);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+
+  if (!room) return null;
+
+  const activeImage =
+    images[activeImageIndex] || fallbackImages[0] || ROOM_IMAGE_FALLBACKS[0];
+  const hasMultipleImages = images.length > 1;
+
+  const goToPreviousImage = () => {
+    setActiveImageIndex((index) =>
+      index === 0 ? images.length - 1 : index - 1,
+    );
+  };
+
+  const goToNextImage = () => {
+    setActiveImageIndex((index) =>
+      index === images.length - 1 ? 0 : index + 1,
+    );
+  };
+
+  return (
+    <div className="roomModalBackdrop" onMouseDown={onClose}>
+      <section
+        className="roomModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="roomDetailsTitle"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="roomModalMedia">
+          <div className="roomModalImageFrame">
+            <img
+              src={activeImage}
+              alt={`${hotelName} ${room.name}`}
+              className="roomModalImage"
+            />
+
+            {hasMultipleImages && (
+              <>
+                <button
+                  type="button"
+                  className="roomModalCarouselBtn roomModalCarouselBtn--prev"
+                  onClick={goToPreviousImage}
+                  aria-label="Show previous room image"
+                >
+                  <span className="material-symbols-outlined">
+                    chevron_left
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className="roomModalCarouselBtn roomModalCarouselBtn--next"
+                  onClick={goToNextImage}
+                  aria-label="Show next room image"
+                >
+                  <span className="material-symbols-outlined">
+                    chevron_right
+                  </span>
+                </button>
+              </>
+            )}
+          </div>
+
+          {hasMultipleImages && (
+            <div className="roomModalDots" aria-label="Room image carousel">
+              {images.map((image, index) => (
+                <button
+                  key={`${image}-${index}`}
+                  type="button"
+                  className={`roomModalDot ${
+                    activeImageIndex === index ? "active" : ""
+                  }`}
+                  onClick={() => setActiveImageIndex(index)}
+                  aria-label={`Show room image ${index + 1}`}
+                  aria-current={activeImageIndex === index}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="roomModalDetails">
+          <div className="roomModalHeader">
+            <div>
+              <p className="roomModalEyebrow">Room details</p>
+              <h2 id="roomDetailsTitle">{room.name}</h2>
+            </div>
+
+            <button
+              type="button"
+              className="roomModalClose"
+              onClick={onClose}
+              aria-label="Close room details"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <p className="roomModalDescription">{room.description}</p>
+
+          <dl className="roomDetailsGrid">
+            <div>
+              <dt>Sleeps</dt>
+              <dd>{room.capacity || "-"} people</dd>
+            </div>
+
+            <div>
+              <dt>Bed type</dt>
+              <dd>{room.bedConfiguration}</dd>
+            </div>
+
+            <div>
+              <dt>Room size</dt>
+              <dd>{room.size ? `${room.size} m²` : "Not listed"}</dd>
+            </div>
+
+            <div>
+              <dt>Nightly price</dt>
+              <dd>{room.price > 0 ? `£${room.price}` : "Check rate"}</dd>
+            </div>
+
+            <div>
+              <dt>Available rooms</dt>
+              <dd>{room.isAvailable}</dd>
+            </div>
+
+            <div>
+              <dt>Smoking</dt>
+              <dd>No smoking</dd>
+            </div>
+          </dl>
+
+          <div className="roomModalInfoBlock">
+            <h3>Good to know</h3>
+            <ul>
+              <li>Private bathroom included</li>
+              <li>Clean towels and daily housekeeping</li>
+              <li>Secure online booking through Stripe checkout</li>
+            </ul>
+          </div>
+
+          <div className="roomModalInfoBlock">
+            <h3>Facilities</h3>
+
+            {amenities.length > 0 ? (
+              <div className="roomFacilitiesGrid">
+                {amenities.map((amenity) => (
+                  <span key={amenity.id} className="roomFacilityPill">
+                    <span className="material-symbols-outlined">
+                      {getAmenityIcon(amenity.name)}
+                    </span>
+                    {formatAmenityName(amenity.name)}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="mutedText">No facilities listed yet.</p>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function HotelDetailsPage() {
   const { hotelId } = useParams();
 
@@ -252,6 +451,7 @@ export default function HotelDetailsPage() {
     useState(false);
   const [bookingError, setBookingError] = useState("");
   const [bookingRoomId, setBookingRoomId] = useState(null);
+  const [activeRoomDetails, setActiveRoomDetails] = useState(null);
   const availabilitySectionRef = useRef(null);
 
   const isAuthed = useSelector(selectIsAuthed);
@@ -444,9 +644,7 @@ export default function HotelDetailsPage() {
   return (
     <div className="hotelDetailsPage dark">
       <div className="hotelDetailsShell">
-        <div className="index-search--holder">
-          <SearchComponent />
-        </div>
+        <SearchComponent />
 
         {showPaymentCancelled && (
           <div className="paymentCancelledBanner" role="alert">
@@ -655,11 +853,8 @@ export default function HotelDetailsPage() {
                   <thead>
                     <tr>
                       <th>Room type</th>
-                      <th>Sleeps</th>
-                      <th>Beds</th>
-                      <th>Size</th>
-                      <th>Price</th>
-                      <th></th>
+                      <th>Guests</th>
+                      <th>Reserve</th>
                     </tr>
                   </thead>
 
@@ -668,17 +863,28 @@ export default function HotelDetailsPage() {
                       <tr key={room.id}>
                         <td>
                           <div className="roomNameCell">
-                            <strong>{room.name}</strong>
+                            <button
+                              type="button"
+                              className="roomTypeButton"
+                              onClick={() => setActiveRoomDetails(room)}
+                            >
+                              {room.name}
+                            </button>
+                            <p className="roomBedText">
+                              {room.bedConfiguration}
+                            </p>
                             <p>{room.description}</p>
                           </div>
                         </td>
 
-                        <td>{room.capacity || "-"}</td>
-                        <td>{room.bedConfiguration}</td>
-                        <td>{room.size ? `${room.size} m²` : "-"}</td>
-
-                        <td className="roomPriceCell">
-                          {room.price > 0 ? `£${room.price}` : "Check rate"}
+                        <td className="roomGuestsCell">
+                          <span className="material-symbols-outlined">
+                            groups
+                          </span>
+                          <strong>{room.capacity || "-"}</strong>
+                          <span>
+                            {room.capacity === 1 ? "person" : "people"}
+                          </span>
                         </td>
 
                         <td>
@@ -766,6 +972,14 @@ export default function HotelDetailsPage() {
           />
         </div>
       </div>
+
+      <RoomDetailsModal
+        room={activeRoomDetails}
+        hotelName={hotel.name}
+        fallbackImages={galleryImages}
+        amenities={amenityList}
+        onClose={() => setActiveRoomDetails(null)}
+      />
     </div>
   );
 }

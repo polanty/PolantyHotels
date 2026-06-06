@@ -5,7 +5,7 @@
 }
 
 .hotelDetailsShell {
-  width: min(1280px, calc(100% - 32px));
+  width: min(1120px, calc(100% - 48px));
   margin: 0 auto;
   padding: 24px 0 48px;
 }
@@ -382,7 +382,7 @@
 .roomsTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 880px;
+  min-width: 640px;
 }
 
 .roomsTable th,
@@ -395,8 +395,12 @@
 
 .roomsTable th {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+}
+
+.roomsTable td {
+  font-size: 0.9rem;
 }
 
 .roomNameCell strong {
@@ -404,10 +408,68 @@
   margin-bottom: 6px;
 }
 
+.roomTypeButton {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: #113e7a;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+  text-decoration: none;
+}
+
+.roomTypeButton:hover,
+.roomTypeButton:focus-visible {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.roomTypeButton:focus-visible,
+.roomModalClose:focus-visible,
+.roomModalCarouselBtn:focus-visible,
+.roomModalDot:focus-visible {
+  outline: 3px solid rgba(19, 127, 236, 0.35);
+  outline-offset: 3px;
+}
+
 .roomNameCell p {
   margin: 0;
   color: var(--muted);
+  font-size: 0.86rem;
   line-height: 1.5;
+}
+
+.roomBedText {
+  margin: 6px 0 4px !important;
+  color: var(--text) !important;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.roomGuestsCell {
+  min-width: 130px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.roomGuestsCell .material-symbols-outlined {
+  margin-right: 8px;
+  color: #113e7a;
+  font-size: 19px;
+  vertical-align: middle;
+}
+
+.roomGuestsCell strong {
+  margin-right: 4px;
 }
 
 .roomPriceCell {
@@ -418,11 +480,255 @@
 .roomSelectBtn {
   padding: 10px 14px;
   min-width: 110px;
+  font-size: 0.95rem;
 }
 
 .roomSelectBtn:disabled {
-  background: rgba(255, 255, 255, 0.12);
+  background: #d1d5db;
+  color: #4b5563;
   cursor: not-allowed;
+}
+
+.roomModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(8px);
+  animation: roomModalFade 180ms ease;
+}
+
+.roomModal {
+  width: min(1120px, 100%);
+  max-height: min(820px, calc(100vh - 56px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+  overflow: hidden;
+  background: #fff;
+  color: #0f172a;
+  border-radius: 20px;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.32);
+  animation: roomModalRise 220ms ease;
+}
+
+.roomModalMedia {
+  position: relative;
+  min-height: 560px;
+  padding: 28px;
+  background: #f8fafc;
+  border-right: 1px solid #e5e7eb;
+}
+
+.roomModalImageFrame {
+  position: relative;
+  width: 100%;
+  height: min(380px, 52vh);
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e2e8f0;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.16);
+}
+
+.roomModalImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.roomModalCarouselBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #113e7a;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2);
+}
+
+.roomModalCarouselBtn--prev {
+  left: 16px;
+}
+
+.roomModalCarouselBtn--next {
+  right: 16px;
+}
+
+.roomModalDots {
+  position: static;
+  left: 50%;
+  bottom: auto;
+  transform: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 16px auto 0;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.roomModalDot {
+  width: 9px;
+  height: 9px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.roomModalDot.active {
+  background: #fff;
+  transform: scale(1.35);
+}
+
+.roomModalDetails {
+  overflow-y: auto;
+  padding: 30px;
+  font-size: 0.94rem;
+}
+
+.roomModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.roomModalEyebrow {
+  margin: 0 0 6px;
+  color: #113e7a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roomModalHeader h2 {
+  margin: 0;
+  font-size: clamp(1.42rem, 2.4vw, 1.85rem);
+  line-height: 1.12;
+}
+
+.roomModalClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  background: #fff;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.roomModalDescription {
+  margin: 0 0 20px;
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.roomDetailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.roomDetailsGrid div {
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.roomDetailsGrid dt {
+  margin-bottom: 5px;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.roomDetailsGrid dd {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.roomModalInfoBlock {
+  margin-top: 22px;
+}
+
+.roomModalInfoBlock h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.roomModalInfoBlock ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  display: grid;
+  font-size: 0.9rem;
+  gap: 8px;
+}
+
+.roomFacilitiesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.roomFacilityPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #113e7a;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.roomFacilityPill .material-symbols-outlined {
+  font-size: 18px;
+}
+
+@keyframes roomModalFade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes roomModalRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
 }
 
 .twoColSection {
@@ -512,6 +818,27 @@
 
   .galleryThumbBtn {
     min-height: 180px;
+  }
+
+  .roomModal {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .roomModalMedia {
+    min-height: 360px;
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .roomModalImageFrame {
+    height: 320px;
+    min-height: 280px;
+  }
+
+  .roomModalDetails {
+    overflow: visible;
   }
 }
 
@@ -638,14 +965,49 @@
 .hotelCalenderSection {
   width: 100%;
   padding: 1.5rem 0;
-  /* background-color: red; */
 }
 
 .hotelCalenderSection .searchCard {
+  background: #fff;
   border: 1px solid transparent;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
+}
+
+.hotelCalenderSection .searchRow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hotelCalenderSection .searchCell {
+  background: #fff;
+  border-radius: var(--radius);
+}
+
+.hotelCalenderSection .fieldRow__icon {
+  color: var(--subtle-light);
+}
+
+.hotelCalenderSection .motionCalendar__trigger,
+.hotelCalenderSection .motionSelect__trigger {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--text-light);
+  outline: 0;
+}
+
+.hotelCalenderSection .motionCalendar__trigger:not(.hasValue),
+.hotelCalenderSection .motionSelect__trigger:not(.hasValue) {
+  color: var(--text-light);
+}
+
+.hotelCalenderSection .motionCalendar__trigger:focus-visible,
+.hotelCalenderSection .motionSelect__trigger:focus-visible {
+  border: 0;
+  box-shadow: none;
+  outline: 0;
 }
 
 .hotelCalenderSection--error .searchCard,
@@ -680,6 +1042,10 @@
 @media (max-width: 820px) {
   .hotelDetailsShell {
     padding-bottom: 36px;
+  }
+
+  .hotelCalenderSection .searchRow {
+    grid-template-columns: 1fr;
   }
 
   .hotelTitleRow {
@@ -767,11 +1133,37 @@
   }
 
   .roomsTable {
-    min-width: 720px;
+    min-width: 620px;
   }
 
   .paymentCancelledBanner {
     align-items: flex-start;
+  }
+
+  .roomModalBackdrop {
+    padding: 14px;
+  }
+
+  .roomModal {
+    border-radius: 16px;
+  }
+
+  .roomModalMedia {
+    min-height: 280px;
+    padding: 20px;
+  }
+
+  .roomModalImageFrame {
+    height: 260px;
+    min-height: 230px;
+  }
+
+  .roomModalDetails {
+    padding: 20px;
+  }
+
+  .roomDetailsGrid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -822,5 +1214,28 @@
 
   .paymentCancelledClose {
     margin-left: auto;
+  }
+
+  .roomModalBackdrop {
+    padding: 8px;
+  }
+
+  .roomModal {
+    max-height: calc(100vh - 16px);
+  }
+
+  .roomModalMedia {
+    min-height: 230px;
+    padding: 14px;
+  }
+
+  .roomModalImageFrame {
+    height: 220px;
+    min-height: 200px;
+  }
+
+  .roomModalCarouselBtn {
+    width: 36px;
+    height: 36px;
   }
 }

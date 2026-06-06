@@ -161,6 +161,7 @@ export default function HotelSearchResults() {
   );
   const [sortBy, setSortBy] = useState("Popularity");
   const [likedHotelIds, setLikedHotelIds] = useState([]);
+  const [filtersExpanded, setFiltersExpanded] = useState(false);
 
   useEffect(() => {
     if (!city) return;
@@ -249,15 +250,39 @@ export default function HotelSearchResults() {
 
   return (
     <div className="pageRoot">
-      <div className="index-search--holder">
-        <SearchComponent />
-      </div>
+      <SearchComponent />
 
       <div className="pageShell">
         <main className="layout">
           <div className="columns">
             <aside className="leftCol">
-              <div className="sticky">
+              <button
+                type="button"
+                className="filterToggle"
+                aria-expanded={filtersExpanded}
+                aria-controls="search-filter-panel"
+                onClick={() => setFiltersExpanded((expanded) => !expanded)}
+              >
+                <span>Filter By</span>
+                <span className="filterToggleHint">
+                  {filtersExpanded ? "Collapse" : "Expand below"}
+                </span>
+                <span
+                  className={`material-symbols-outlined filterToggleIcon ${
+                    filtersExpanded ? "open" : ""
+                  }`}
+                  aria-hidden="true"
+                >
+                  keyboard_arrow_down
+                </span>
+              </button>
+
+              <div
+                id="search-filter-panel"
+                className={`sticky filterPanel ${
+                  filtersExpanded ? "filterPanel--open" : ""
+                }`}
+              >
                 <section className="filterCard" aria-label="Filter by">
                   <h2 className="filterTitle">Filter By</h2>
 

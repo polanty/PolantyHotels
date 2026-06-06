@@ -54,17 +54,19 @@ export default function SearchComponent() {
   };
 
   return (
-    <SearchBar
-      destination={destination}
-      setDestination={setDestination}
-      destinationError={destinationError}
-      checkIn={checkIn}
-      setCheckIn={setCheckIn}
-      checkOut={checkOut}
-      setCheckOut={setCheckOut}
-      guests={guests}
-      setGuests={setGuests}
-      onSearch={onSearch}
-    />
+    <div className="index-search--holder">
+      <SearchBar
+        destination={destination}
+        setDestination={setDestination}
+        destinationError={destinationError}
+        checkIn={checkIn}
+        setCheckIn={setCheckIn}
+        checkOut={checkOut}
+        setCheckOut={setCheckOut}
+        guests={guests}
+        setGuests={setGuests}
+        onSearch={onSearch}
+      />
+    </div>
   );
 }

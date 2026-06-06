@@ -58,9 +58,7 @@ function Index() {
             </div>
           </div>
         </section>
-        <div className="index-search--holder">
-          <SearchComponent />
-        </div>
+        <SearchComponent />
 
         {/* Value Proposition Section */}
         <section className="section section--spacious">
