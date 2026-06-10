@@ -10,7 +10,11 @@ import {
 
 function normalizeUser(payload) {
   if (!payload) return null;
-  const user = payload.data || payload;
+  if (Object.prototype.hasOwnProperty.call(payload, "user") && !payload.user) {
+    return null;
+  }
+
+  const user = payload?.data?.user || payload?.user || payload?.data || payload;
   return { ...user, first_name: user.first_name || user.name || "" };
 }
 

@@ -4,16 +4,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuthed, selectUser } from "../../store/auth/auth.selectors";
 import { logoutThunk } from "../../store/auth/auth.thunks";
 
+const apiBaseUrl = (
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+).replace(/\/$/, "");
+
+const fallbackProfileImages = new Set(["profile.jpeg", "default.jpg"]);
+
+function resolveProfileImage(userData) {
+  const image = userData?.profile_image || userData?.user?.profile_image;
+
+  if (!image || fallbackProfileImages.has(image)) return "";
+  if (image.startsWith("http://") || image.startsWith("https://")) return image;
+  if (image.startsWith("/uploads/")) return `${apiBaseUrl}${image}`;
+
+  return `${apiBaseUrl}/uploads/${image}`;
+}
+
 export default function Navbar() {
   const dispatch = useDispatch();
   const isAuthed = useSelector(selectIsAuthed);
   const userData = useSelector(selectUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [profileImageFailed, setProfileImageFailed] = useState(false);
   const profileMenuRef = useRef(null);
 
   const firstName =
     userData?.user?.first_name || userData?.first_name || userData?.name || "";
+  const profileImageUrl = resolveProfileImage(userData);
+  const showProfileImage =
+    isAuthed && profileImageUrl && !profileImageFailed;
 
   const closeMenu = () => setIsMenuOpen(false);
   const closeProfileMenu = () => setIsProfileMenuOpen(false);
@@ -82,6 +102,10 @@ export default function Navbar() {
     };
   }, [isProfileMenuOpen]);
 
+  useEffect(() => {
+    setProfileImageFailed(false);
+  }, [profileImageUrl]);
+
   return (
     <header className="topbar" role="banner">
       <nav className="container topbar__inner" aria-label="Top navigation">
@@ -120,7 +144,16 @@ export default function Navbar() {
                 onClick={() => setIsProfileMenuOpen((open) => !open)}
               >
                 <span className="profileMenu__avatar" aria-hidden="true">
-                  <span className="material-symbols-outlined">person</span>
+                  {showProfileImage ? (
+                    <img
+                      src={profileImageUrl}
+                      alt=""
+                      className="profileMenu__avatarImage"
+                      onError={() => setProfileImageFailed(true)}
+                    />
+                  ) : (
+                    <span className="material-symbols-outlined">person</span>
+                  )}
                 </span>
                 <span className="user-greeting">Welcome {firstName}</span>
                 <span

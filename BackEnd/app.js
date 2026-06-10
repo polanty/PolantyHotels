@@ -30,12 +30,29 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+].filter(Boolean);
+
 // app.use((req, res, next) => {
 //   console.log(process.env);
 
 //   next();
 // });
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new AppError("Not allowed by CORS", 403));
+    },
+    credentials: true,
+  }),
+);
 
 // Stripe Webhook Route (Unprotected, must be defined before any authentication middleware)
 // This route is used by Stripe to send event notifications (e.g., payment success, payment failure), Do NOT use express.json() for this route or signature verification will fail.

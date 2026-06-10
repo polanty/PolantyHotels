@@ -10,7 +10,16 @@ import {
 
 const router = express.Router();
 
-router.route("/me").get(protect, (req, res) => {
+router.route("/me").get((req, res, next) => {
+  if (!req.cookies?.token && !req.headers.authorization) {
+    return res.json({
+      success: true,
+      user: null,
+    });
+  }
+
+  return protect(req, res, next);
+}, (req, res) => {
   res.json({
     success: true,
     user: {
@@ -18,6 +27,7 @@ router.route("/me").get(protect, (req, res) => {
       last_name: req.user.last_name,
       email: req.user.email,
       role: req.user.role,
+      profile_image: req.user.profile_image,
       last_login: req.user.last_login,
     },
   });
@@ -31,5 +41,12 @@ router.route("/login").post(Login);
 router.route("/forgot-password").post(forgotPassword);
 
 router.route("/reset-password/:token").patch(resetPassword);
+
+router.route("/profile").patch(protect, (req, res) => {
+  res.json({
+    success: true,
+    user: "This is the protected profile route to Update User",
+  });
+});
 
 export default router;

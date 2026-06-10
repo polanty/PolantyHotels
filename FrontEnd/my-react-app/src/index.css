@@ -529,6 +529,14 @@ html.dark .profileMenu__trigger {
   color: var(--primary);
 }
 
+.profileMenu__avatarImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
 .profileMenu__avatar .material-symbols-outlined {
   font-size: 20px;
 }
@@ -1569,7 +1577,13 @@ html.dark .footerBottom {
     padding: 72px 0;
   }
 
+  .index-search--holder {
+    height: auto;
+    min-height: 0;
+  }
+
   .heroSearch {
+    margin-top: 1rem;
     padding: 0 16px;
   }
 
@@ -1602,6 +1616,48 @@ html.dark .footerBottom {
 
   .section--spacious {
     padding: 88px 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .input,
+  .select,
+  .motionCalendar__trigger,
+  .motionSelect__trigger {
+    font-size: 15px;
+  }
+
+  .fieldRow__icon {
+    font-size: 22px;
+  }
+
+  .btn--search {
+    font-size: 16px;
+  }
+
+  .footerBrand__text,
+  .footerList,
+  .footerBottom {
+    font-size: 13px;
+  }
+
+  .footerCol__title {
+    font-size: 14px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1.2fr repeat(4, minmax(0, 1fr));
+    align-items: start;
+    gap: 14px;
+  }
+
+  .footerBrand {
+    align-self: start;
+    padding-left: 12px;
+  }
+
+  .footerBrand .brand {
+    align-items: flex-start;
   }
 }
 
@@ -1645,15 +1701,6 @@ html.dark .footerBottom {
 
   .hero__subtitle {
     font-size: 16px;
-  }
-
-  .index-search--holder {
-    height: auto;
-    min-height: 0;
-  }
-
-  .heroSearch {
-    margin-top: 1rem;
   }
 
   .fieldRow {
@@ -1737,5 +1784,17 @@ html.dark .footerBottom {
 
   .featuredCard__content {
     padding: 18px;
+  }
+}
+
+@media (max-width: 500px) {
+  .motionCalendar__popover,
+  .searchCell:nth-child(3) .motionCalendar__popover {
+    left: 50%;
+    right: auto;
+    width: min(292px, calc(100vw - 28px));
+    padding: 12px;
+    transform: translateX(-50%);
+    transform-origin: top center;
   }
 }

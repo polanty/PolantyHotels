@@ -9,6 +9,13 @@ import { sendEmail } from "../../Utilities/email.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+const getCookieOptions = () => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+  maxAge: 24 * 60 * 60 * 1000,
+});
+
 //This controller will be responsible for getting a Json web token n verifing if it is active before granting access to the route
 export const protect = catchAsync(async (req, res, next) => {
   //check if a jwebtoken exist, if not immediately return an error
@@ -135,12 +142,7 @@ export const Login = catchAsync(async (req, res, next) => {
   // Input statistics for admin analytics later on
 
   //Send json web token as cookie to the browser
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "development" ? false : true,
-    sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
-    maxAge: 24 * 60 * 60 * 1000,
-  }); // 1 day
+  res.cookie("token", token, getCookieOptions()); // 1 day
 
   res.status(200).json({
     token,
@@ -151,6 +153,7 @@ export const Login = catchAsync(async (req, res, next) => {
         last_name: currentUser.last_name,
         email: currentUser.email,
         role: currentUser.role,
+        profile_image: currentUser.profile_image,
         last_login: currentUser.last_login,
       },
     },
@@ -168,12 +171,14 @@ export const signUp = catchAsync(async (req, res, next) => {
     date_of_birth: req.body.date_of_birth,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    profile_image: req.file ? req.file.filename : undefined,
+    profile_image: req.file ? `/uploads/${req.file.filename}` : undefined,
   });
 
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_TOKEN, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+
+  res.cookie("token", token, getCookieOptions()); // 1 day
 
   // Input statistics for admin analytics later on
   res.status(201).json({
