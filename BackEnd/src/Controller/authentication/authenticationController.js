@@ -73,6 +73,16 @@ export const protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+export const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError("You do not have permission", 403));
+    }
+
+    next();
+  };
+};
+
 // Only for rendered pages, middleware will never have error
 //this will only work with Server rendered pages like pug
 export const isLoggedIn = catchAsync(async (req, res, next) => {

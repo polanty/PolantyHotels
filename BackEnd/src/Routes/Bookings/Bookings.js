@@ -1,5 +1,8 @@
 import express from "express";
-import { protect } from "../../Controller/authentication/authenticationController.js";
+import {
+  protect,
+  restrictTo,
+} from "../../Controller/authentication/authenticationController.js";
 import Room from "../../Models/roomModel.js";
 import Booking from "../../Models/bookingModels.js";
 
@@ -34,6 +37,9 @@ export const createBooking = async (req, res) => {
 
   res.status(201).json({ status: "success", booking });
 };
+
+router.use(restrictTo("admin"));
+// Admin can update or delete booking but this should also persist the information of the admin that did it
 
 router.route("/").get((req, res) => {
   return res.status(200).json({

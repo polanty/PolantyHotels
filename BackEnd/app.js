@@ -8,6 +8,7 @@ import authRoutes from "./src/Routes/Authentication/authRoutes.js";
 import amenitiesRoute from "./src/Routes/Amenities/amenitiesRoute.js";
 import pricingRoute from "./src/Routes/Pricing/pricingRoutes.js";
 import reviewsRouter from "./src/Routes/Reviews/reviewsRouter.js";
+// import adminBookingsRoute from "./src/Routes/Bookings/Bookings.js";
 
 // Test routes -> Only for testing for
 // Used to also create data for references by Other models
@@ -104,7 +105,7 @@ app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/hotels", hotelRoutes);
 
 //User profile  routes (primarily for admin)
-app.use("/api/v1/profile", userRoutes);
+app.use("/api/v1/admin/profile", userRoutes);
 
 //Room routes (primarily for admin)
 app.use("/api/v1/rooms", roomRouter);
@@ -122,6 +123,9 @@ app.use("/api/v1/payments", paymentRoutes);
 
 //To Handle getting the session from the frontend after payment is successful
 app.use("/api/v1/bookings", paymentRoutes);
+
+// //To Handle getting the session from the frontend after payment is successful
+// app.use("/api/v1/admin/bookings", adminBookingsRoute);
 
 //Pricing Routes for Admin
 app.use("/api/v1/admin", pricingRoute);

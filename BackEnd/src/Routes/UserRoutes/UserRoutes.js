@@ -1,6 +1,9 @@
 import express from "express";
 import User from "../../Models/userModel.js";
-import { protect } from "../../Controller/authentication/authenticationController.js";
+import {
+  protect,
+  restrictTo,
+} from "../../Controller/authentication/authenticationController.js";
 import catchAsync from "../../Utilities/catchAsync.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 
@@ -8,7 +11,7 @@ const router = express.Router();
 
 //Creating Administrative functionalities for Users
 
-router.use(protect);
+router.use(protect, restrictTo("admin"));
 
 router.route("/").get(
   //get all users
@@ -20,7 +23,7 @@ router.route("/").get(
         secondUser: req.user,
       },
     });
-  })
+  }),
 );
 
 router.route("/:id").get(
@@ -40,7 +43,7 @@ router.route("/:id").get(
         user,
       },
     });
-  })
+  }),
 );
 
 export default router;

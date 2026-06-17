@@ -1,7 +1,10 @@
 import express from "express";
 import Booking from "../../Models/bookingModels.js";
 import catchAsync from "../../Utilities/catchAsync.js";
-import { protect } from "../../Controller/authentication/authenticationController.js";
+import {
+  protect,
+  // restrictTo,
+} from "../../Controller/authentication/authenticationController.js";
 import {
   createCheckoutSession,
   getCheckoutSession,
@@ -15,6 +18,7 @@ router.post("/create-checkout-session", createCheckoutSession);
 
 router.get("/checkout-session/:sessionId", getCheckoutSession);
 
+// router.use(restrictTo("admin"));
 router.get(
   "/",
   catchAsync(async (req, res) => {
