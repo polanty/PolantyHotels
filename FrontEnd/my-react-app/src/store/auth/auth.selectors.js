@@ -1,5 +1,5 @@
 export const selectUser = (state) => state.auth.user;
-export const selectData = (state) => state.auth.data;
+export const selectData = (state) => state.auth.hotels;
 export const selectIsAuthed = (state) => !!state.auth.user;
 export const selectAuthStatus = (state) => state.auth.authStatus;
 export const selectAuthError = (state) => state.auth.authError;

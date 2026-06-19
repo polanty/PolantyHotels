@@ -137,6 +137,31 @@ export const Login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect Email or Password💥", 404));
   }
 
+  const host = req.get("host")?.toLowerCase() || "";
+  const hostname = host.replace(/:\d+$/, "");
+  const origin = req.get("origin");
+  const originHost = origin ? new URL(origin).host.toLowerCase() : "";
+  const adminOrigins = new Set(["localhost:5174", "127.0.0.1:5174"]);
+  const isAdminHost =
+    hostname === "admin.voyage.com" ||
+    adminOrigins.has(originHost) ||
+    (!origin && hostname === "localhost");
+
+  if (isAdminHost && currentUser.role === "user") {
+    return next(
+      new AppError(
+        "You do not have permission to access the admin portal.",
+        403,
+      ),
+    );
+  }
+
+  if (!isAdminHost && currentUser.role !== "user") {
+    return next(
+      new AppError("Admin users must log in through admin.voyage.com.", 403),
+    );
+  }
+
   const token = jwt.sign(
     { id: currentUser._id },
     process.env.JWT_SECRET_TOKEN,
