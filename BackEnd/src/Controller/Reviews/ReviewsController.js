@@ -32,7 +32,9 @@ export const getAllReviews = catchAsync(async (req, res, next) => {
     .sort()
     .pagination();
 
-  const reviews = await apiFeatures.query;
+  const reviews = await apiFeatures.query
+    .populate("user_id", "first_name last_name email")
+    .populate("location_id", "name city country");
 
   // Correct total count (filtered, not paginated)
   const total = await Review.countDocuments(filter);
@@ -40,6 +42,10 @@ export const getAllReviews = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     results: total,
+    currentPage: apiFeatures.page,
+    totalPages: Math.ceil(total / apiFeatures.limit) || 1,
+    totalResults: total,
+    limit: apiFeatures.limit,
     data: { reviews },
   });
 });

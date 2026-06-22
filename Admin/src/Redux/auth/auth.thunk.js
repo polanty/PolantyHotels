@@ -35,15 +35,73 @@ export const fetchMeAdmin = createAsyncThunk("auth/me", async (_, thunkApi) => {
   }
 });
 
-export const registerThunkAdmin = createAsyncThunk(
-  "adminAuth/register",
+export const createUserByAdminThunk = createAsyncThunk(
+  "adminAuth/createUser",
   async (payload, thunkApi) => {
     try {
-      const res = await adminEndpoints.register(payload);
+      const res = await adminEndpoints.createUser(payload);
       return res.data;
     } catch (err) {
       const message =
-        err.response?.data?.message || err.message || "Registered failed";
+        err.response?.data?.message || err.message || "User creation failed";
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
+export const fetchUsersByAdminThunk = createAsyncThunk(
+  "adminAuth/fetchUsers",
+  async (params = {}, thunkApi) => {
+    try {
+      const res = await adminEndpoints.getUsers(params);
+      return res.data;
+    } catch (err) {
+      const message =
+        err.response?.data?.message || err.message || "Users failed to load";
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
+export const fetchUserDetailsByAdminThunk = createAsyncThunk(
+  "adminAuth/fetchUserDetails",
+  async (userId, thunkApi) => {
+    try {
+      const res = await adminEndpoints.getUser(userId);
+      return res.data;
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        "User details failed to load";
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
+export const fetchBookingsByAdminThunk = createAsyncThunk(
+  "adminAuth/fetchBookings",
+  async (params = {}, thunkApi) => {
+    try {
+      const res = await adminEndpoints.getBookings(params);
+      return res.data;
+    } catch (err) {
+      const message =
+        err.response?.data?.message || err.message || "Bookings failed to load";
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
+export const fetchReviewsByAdminThunk = createAsyncThunk(
+  "adminAuth/fetchReviews",
+  async (params = {}, thunkApi) => {
+    try {
+      const res = await adminEndpoints.getReviews(params);
+      return res.data;
+    } catch (err) {
+      const message =
+        err.response?.data?.message || err.message || "Reviews failed to load";
       return thunkApi.rejectWithValue(message);
     }
   },

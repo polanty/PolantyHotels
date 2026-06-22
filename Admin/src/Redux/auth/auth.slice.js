@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   adminLoginThunk,
+  fetchBookingsByAdminThunk,
   fetchMeAdmin,
-  registerThunkAdmin,
+  createUserByAdminThunk,
+  fetchReviewsByAdminThunk,
+  fetchUserDetailsByAdminThunk,
+  fetchUsersByAdminThunk,
   logoutThunkAdmin,
 } from "./auth.thunk";
 
@@ -21,6 +25,40 @@ const initialState = {
   bootstrapped: false,
   authStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   authError: null,
+  createdUser: null,
+  createUserStatus: "idle",
+  createUserError: null,
+  users: [],
+  usersStatus: "idle",
+  usersError: null,
+  usersPagination: {
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 0,
+    limit: 10,
+  },
+  selectedUser: null,
+  selectedUserBookings: [],
+  selectedUserStatus: "idle",
+  selectedUserError: null,
+  bookings: [],
+  bookingsStatus: "idle",
+  bookingsError: null,
+  bookingsPagination: {
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 0,
+    limit: 10,
+  },
+  reviews: [],
+  reviewsStatus: "idle",
+  reviewsError: null,
+  reviewsPagination: {
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 0,
+    limit: 10,
+  },
 };
 
 const authSliceAdmin = createSlice({
@@ -35,6 +73,17 @@ const authSliceAdmin = createSlice({
     },
     setSelectedHotel(state, action) {
       state.selectedHotel = action.payload;
+    },
+    clearCreateUserResult(state) {
+      state.createdUser = null;
+      state.createUserError = null;
+      state.createUserStatus = "idle";
+    },
+    clearSelectedUser(state) {
+      state.selectedUser = null;
+      state.selectedUserBookings = [];
+      state.selectedUserStatus = "idle";
+      state.selectedUserError = null;
     },
   },
   extraReducers: (builder) => {
@@ -70,19 +119,105 @@ const authSliceAdmin = createSlice({
       state.authError = action.payload || "Login failed";
     });
 
-    // REGISTER
-    builder.addCase(registerThunkAdmin.pending, (state) => {
-      state.authStatus = "loading";
-      state.authError = null;
+    // ADMIN USER CREATION
+    builder.addCase(createUserByAdminThunk.pending, (state) => {
+      state.createUserStatus = "loading";
+      state.createUserError = null;
+      state.createdUser = null;
     });
-    builder.addCase(registerThunkAdmin.fulfilled, (state, action) => {
-      state.authStatus = "succeeded";
-      state.user = normalizeUser(action.payload);
-      state.authError = null;
+    builder.addCase(createUserByAdminThunk.fulfilled, (state, action) => {
+      state.createUserStatus = "succeeded";
+      state.createdUser = action.payload?.data?.user || null;
+      state.createUserError = null;
+      if (state.createdUser) {
+        state.users = [state.createdUser, ...state.users];
+      }
     });
-    builder.addCase(registerThunkAdmin.rejected, (state, action) => {
-      state.authStatus = "failed";
-      state.authError = action.payload || "Registration failed";
+    builder.addCase(createUserByAdminThunk.rejected, (state, action) => {
+      state.createUserStatus = "failed";
+      state.createUserError = action.payload || "User creation failed";
+    });
+
+    // ADMIN USER LIST
+    builder.addCase(fetchUsersByAdminThunk.pending, (state) => {
+      state.usersStatus = "loading";
+      state.usersError = null;
+    });
+    builder.addCase(fetchUsersByAdminThunk.fulfilled, (state, action) => {
+      state.usersStatus = "succeeded";
+      state.users = action.payload?.data?.users || [];
+      state.usersPagination = {
+        currentPage: action.payload?.currentPage || 1,
+        totalPages: action.payload?.totalPages || 1,
+        totalResults: action.payload?.totalResults || 0,
+        limit: action.payload?.limit || 10,
+      };
+      state.usersError = null;
+    });
+    builder.addCase(fetchUsersByAdminThunk.rejected, (state, action) => {
+      state.usersStatus = "failed";
+      state.usersError = action.payload || "Users failed to load";
+    });
+
+    // ADMIN SELECTED USER DETAILS
+    builder.addCase(fetchUserDetailsByAdminThunk.pending, (state) => {
+      state.selectedUserStatus = "loading";
+      state.selectedUserError = null;
+    });
+    builder.addCase(
+      fetchUserDetailsByAdminThunk.fulfilled,
+      (state, action) => {
+        state.selectedUserStatus = "succeeded";
+        state.selectedUser = action.payload?.data?.user || null;
+        state.selectedUserBookings = action.payload?.data?.bookings || [];
+        state.selectedUserError = null;
+      },
+    );
+    builder.addCase(fetchUserDetailsByAdminThunk.rejected, (state, action) => {
+      state.selectedUserStatus = "failed";
+      state.selectedUserError = action.payload || "User details failed to load";
+    });
+
+    // ADMIN BOOKINGS
+    builder.addCase(fetchBookingsByAdminThunk.pending, (state) => {
+      state.bookingsStatus = "loading";
+      state.bookingsError = null;
+    });
+    builder.addCase(fetchBookingsByAdminThunk.fulfilled, (state, action) => {
+      state.bookingsStatus = "succeeded";
+      state.bookings = action.payload?.data?.bookings || [];
+      state.bookingsPagination = {
+        currentPage: action.payload?.currentPage || 1,
+        totalPages: action.payload?.totalPages || 1,
+        totalResults: action.payload?.totalResults || 0,
+        limit: action.payload?.limit || 10,
+      };
+      state.bookingsError = null;
+    });
+    builder.addCase(fetchBookingsByAdminThunk.rejected, (state, action) => {
+      state.bookingsStatus = "failed";
+      state.bookingsError = action.payload || "Bookings failed to load";
+    });
+
+    // ADMIN REVIEWS
+    builder.addCase(fetchReviewsByAdminThunk.pending, (state) => {
+      state.reviewsStatus = "loading";
+      state.reviewsError = null;
+    });
+    builder.addCase(fetchReviewsByAdminThunk.fulfilled, (state, action) => {
+      state.reviewsStatus = "succeeded";
+      state.reviews = action.payload?.data?.reviews || [];
+      state.reviewsPagination = {
+        currentPage: action.payload?.currentPage || 1,
+        totalPages: action.payload?.totalPages || 1,
+        totalResults: action.payload?.totalResults || 0,
+        limit: action.payload?.limit || 10,
+      };
+      state.reviewsError = null;
+    });
+    builder.addCase(fetchReviewsByAdminThunk.rejected, (state, action) => {
+      state.reviewsStatus = "failed";
+      state.reviewsError = action.payload || "Reviews failed to load";
     });
 
     // LOGOUT
@@ -98,5 +233,10 @@ const authSliceAdmin = createSlice({
   },
 });
 
-export const { clearAuthError, setUser } = authSliceAdmin.actions;
+export const {
+  clearAuthError,
+  clearCreateUserResult,
+  clearSelectedUser,
+  setUser,
+} = authSliceAdmin.actions;
 export default authSliceAdmin.reducer;

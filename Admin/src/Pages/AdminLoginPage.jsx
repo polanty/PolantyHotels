@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
     return <Navigate to="/admin" replace />;
   }
 
-  console.log("This is the admin user:", adminUser);
+  //console.log("This is the admin user:", adminUser);
 
   return (
     <main className="adminShell">

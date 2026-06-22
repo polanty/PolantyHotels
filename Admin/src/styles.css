@@ -21,6 +21,52 @@ body {
   min-height: 100vh;
 }
 
+.adminLayout {
+  min-height: 100vh;
+}
+
+.adminTopNav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 32px;
+  border-bottom: 1px solid #dbe3ef;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.adminTopNav .adminEyebrow {
+  margin-bottom: 2px;
+}
+
+.adminTopNav nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.navLink {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #526174;
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.navLink:hover,
+.navLink.active {
+  border-color: #cbd6e5;
+  color: #137fec;
+  background: #f4f8fd;
+}
+
 .adminShell {
   min-height: 100vh;
   display: flex;
@@ -29,6 +75,10 @@ body {
   align-items: center;
   gap: 24px;
   padding: 32px;
+}
+
+.adminDashboard {
+  justify-content: flex-start;
 }
 
 .adminHero,
@@ -62,6 +112,11 @@ h2 {
   line-height: 1.2;
 }
 
+h3 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
 p {
   color: #526174;
   font-size: 1rem;
@@ -76,6 +131,20 @@ p {
 .loginForm {
   display: grid;
   gap: 16px;
+}
+
+.twoColumnForm {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.twoColumnForm label,
+.twoColumnForm .formActions {
+  min-width: 0;
+}
+
+.twoColumnForm label:nth-of-type(3),
+.twoColumnForm .formActions {
+  grid-column: 1 / -1;
 }
 
 .loginForm label {
@@ -102,7 +171,7 @@ p {
   outline: none;
 }
 
-.loginForm button {
+button {
   width: fit-content;
   min-width: 120px;
   border: 0;
@@ -115,9 +184,21 @@ p {
   cursor: pointer;
 }
 
-.loginForm button:disabled {
+button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.secondaryButton {
+  border: 1px solid #cbd6e5;
+  color: #273449;
+  background: #fff;
 }
 
 .authMessage {
@@ -135,4 +216,239 @@ p {
 .authMessage.success {
   color: #166534;
   background: #ecfdf3;
+}
+
+.managementGrid {
+  width: min(1180px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.usersPanel,
+.detailsPanel {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+  padding: 32px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.fullPanel {
+  width: min(1180px, 100%);
+}
+
+.statsGrid {
+  width: min(720px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.statsGrid article {
+  display: grid;
+  gap: 6px;
+  padding: 24px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.statsGrid span {
+  color: #137fec;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.statsGrid strong {
+  color: #273449;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+}
+
+.paginationControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid #e7edf5;
+  padding-top: 16px;
+}
+
+.paginationControls p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.paginationControls div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.paginationControls span {
+  color: #526174;
+  font-size: 0.92rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.usersTable th,
+.usersTable td {
+  border-bottom: 1px solid #e7edf5;
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.usersTable th {
+  color: #526174;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.tableLink {
+  min-width: 0;
+  padding: 0;
+  color: #137fec;
+  font-weight: 800;
+  text-align: left;
+  background: transparent;
+}
+
+.detailsList,
+.bookingItem dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.detailsList {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.detailsList div,
+.bookingItem dl div {
+  min-width: 0;
+}
+
+.detailsList dt,
+.bookingItem dt {
+  color: #526174;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.detailsList dd,
+.bookingItem dd {
+  margin: 4px 0 0;
+  color: #172033;
+  overflow-wrap: anywhere;
+}
+
+.bookingList {
+  display: grid;
+  gap: 12px;
+}
+
+.reviewList {
+  display: grid;
+  gap: 14px;
+}
+
+.bookingItem {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e7edf5;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.bookingItem strong,
+.bookingItem span {
+  display: block;
+}
+
+.bookingItem span {
+  margin-top: 4px;
+  color: #526174;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .adminTopNav {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 16px 20px;
+  }
+
+  .adminTopNav nav {
+    justify-content: flex-start;
+  }
+
+  .adminShell {
+    padding: 20px;
+  }
+
+  .adminHero,
+  .loginPanel {
+    padding: 24px;
+  }
+
+  .twoColumnForm {
+    grid-template-columns: 1fr;
+  }
+
+  .twoColumnForm label:nth-of-type(3),
+  .twoColumnForm .formActions {
+    grid-column: auto;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .managementGrid,
+  .detailsList {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHeader {
+    flex-direction: column;
+  }
+
+  .paginationControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .paginationControls div {
+    flex-wrap: wrap;
+  }
 }

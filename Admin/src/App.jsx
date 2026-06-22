@@ -3,7 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeAdmin } from "./Redux/auth/auth.thunk";
 import { selectBootstrapped, selectUser } from "./Redux/auth/auth.selectors";
+import AdminLayout from "./Components/AdminLayout.jsx";
+import AdminBookingsPage from "./Pages/AdminBookingsPage.jsx";
+import AdminCreateUserPage from "./Pages/AdminCreateUserPage.jsx";
 import AdminLoginPage from "./Pages/AdminLoginPage.jsx";
+import AdminReviewsPage from "./Pages/AdminReviewsPage.jsx";
+import AdminUsersPage from "./Pages/AdminUsersPage.jsx";
 import AdminWelcomePage from "./Pages/AdminWelcomePage.jsx";
 
 function ProtectedRoute({ children }) {
@@ -40,10 +45,16 @@ export default function App() {
         path="/admin"
         element={
           <ProtectedRoute>
-            <AdminWelcomePage />
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdminWelcomePage />} />
+        <Route path="users" element={<AdminUsersPage />} />
+        <Route path="create-user" element={<AdminCreateUserPage />} />
+        <Route path="bookings" element={<AdminBookingsPage />} />
+        <Route path="reviews" element={<AdminReviewsPage />} />
+      </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
