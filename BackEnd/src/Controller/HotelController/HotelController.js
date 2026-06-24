@@ -14,7 +14,10 @@ export const getAllHotels = catchAsync(async (req, res, next) => {
   //sorting
   //pagination
   //limiting
-  const apiFeatures = new APIFeatures(Location.find(), req.query)
+  const apiFeatures = new APIFeatures(
+    Location.find({ isActive: { $ne: false } }),
+    req.query,
+  )
     .defaultyQueryWithFilter()
     .sort()
     .pagination();
@@ -31,12 +34,17 @@ export const getAllHotels = catchAsync(async (req, res, next) => {
   // expecially when i need to index my model for optimized query
   const allHotels = await apiFeatures.query;
 
-  const total = await Location.countDocuments(apiFeatures.filter);
+  const total = await Location.countDocuments({
+    ...apiFeatures.filter,
+    isActive: { $ne: false },
+  });
   const totalPages = Math.ceil(total / apiFeatures.limit);
 
   res.status(200).json({
     status: "success",
     results: total,
+    totalResults: total,
+    limit: apiFeatures.limit,
     totalPages,
     currentPage: apiFeatures.page,
     data: {

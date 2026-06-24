@@ -10,6 +10,18 @@ import {
 } from "../Redux/auth/auth.selectors";
 import { formatDate, getUserName } from "../utils/adminFormatters";
 
+function getRatingTone(rating) {
+  if (rating >= 4) return "good";
+  if (rating >= 3) return "neutral";
+  return "bad";
+}
+
+function getRatingLabel(rating) {
+  if (rating >= 4) return "Good review";
+  if (rating >= 3) return "Neutral review";
+  return "Bad review";
+}
+
 export default function AdminReviewsPage() {
   const dispatch = useDispatch();
   const reviews = useSelector(selectAdminReviews);
@@ -48,19 +60,29 @@ export default function AdminReviewsPage() {
         {reviewsError && <p className="authMessage error">{reviewsError}</p>}
 
         <div className="reviewList">
-          {reviews.map((review) => (
-            <article className="bookingItem" key={review._id}>
-              <div>
-                <strong>{review.title || `${review.rating}/5 review`}</strong>
-                <span>
-                  {getUserName(review.user_id) || review.user_id?.email} for{" "}
-                  {review.location_id?.name || "Unknown hotel"} ·{" "}
-                  {formatDate(review.created_at)}
-                </span>
-              </div>
-              <p>{review.comment}</p>
-            </article>
-          ))}
+          {reviews.map((review) => {
+            const ratingTone = getRatingTone(review.rating);
+
+            return (
+              <article className="bookingItem reviewItem" key={review._id}>
+                <div className="reviewHeader">
+                  <div>
+                    <strong>{review.title || `${review.rating}/5 review`}</strong>
+                    <span>
+                      {getUserName(review.user_id) || review.user_id?.email} for{" "}
+                      {review.location_id?.name || "Unknown hotel"} ·{" "}
+                      {formatDate(review.created_at)}
+                    </span>
+                  </div>
+                  <div className={`ratingBadge ${ratingTone}`}>
+                    <strong>{review.rating}/5</strong>
+                    <span>{getRatingLabel(review.rating)}</span>
+                  </div>
+                </div>
+                <p>{review.comment}</p>
+              </article>
+            );
+          })}
           {!isLoading && reviews.length === 0 && <p>No reviews found.</p>}
         </div>
 

@@ -4,6 +4,7 @@ import Pricing from "../../Models/pricingModel.js";
 import RoomTypes from "../../Models/room_typesModel.js";
 import APIFeatures from "../../Utilities/apiFeatures.js";
 import catchAsync from "../../Utilities/catchAsync.js";
+import AppError from "../../Utilities/globalErrorCatcher.js";
 import multer from "multer";
 import fs from "fs/promises";
 import path from "path";
@@ -96,6 +97,12 @@ function toAbsoluteRoomImageUrls(req, imagePaths = []) {
 }
 
 export const createHotelRoom = catchAsync(async (req, res, next) => {
+  if (!req.files || req.files.length < 5) {
+    return next(
+      new AppError("Room creation requires at least 5 high-quality images", 400),
+    );
+  }
+
   const newRoom = await Room.create({ ...req.body, images: [] });
   const imagePaths = await saveRoomImages(newRoom._id, req.files);
 

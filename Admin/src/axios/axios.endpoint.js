@@ -17,8 +17,18 @@ export const adminEndpoints = {
   getReviews: (params) => adminApi.get("api/v1/admin/reviews", { params }),
 
   //Hotel CRUD end Points
-  getHotels: () => adminApi.get("/api/v1/admin/hotels"),
-  createHotel: (data) => adminApi.post("/api/v1/admin/hotels", data),
-  updateHotel: (id, data) => adminApi.patch(`/api/v1/admin/hotels/${id}`, data),
-  deleteHotel: (id) => adminApi.delete(`/api/v1/admin/hotels/${id}`),
+  getBrands: (params) => adminApi.get("api/v1/brands", { params }),
+  createBrand: (data) => adminApi.post("api/v1/brands", data),
+  getAmenities: () => adminApi.get("api/v1/admin/amenities"),
+  createAmenities: (data) => adminApi.post("api/v1/admin/amenities", data),
+  getHotels: (params) => adminApi.get("api/v1/hotels", { params }),
+  createHotel: (data) => adminApi.post("api/v1/hotels", data),
+  updateHotel: (id, data) => adminApi.patch(`api/v1/hotels/${id}`, data),
+  deleteHotel: (id) => adminApi.delete(`api/v1/hotels/${id}`),
+  createRoomType: (data) => adminApi.post("api/v1/room-types", data),
+  createPricing: (data) => adminApi.post("api/v1/admin/pricing", data),
+  createRoom: (data) =>
+    adminApi.post("api/v1/rooms", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
 };
