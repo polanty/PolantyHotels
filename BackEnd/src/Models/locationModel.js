@@ -127,7 +127,7 @@ locationSchema.pre(/^findOne$/, function (next) {
       model: "RoomTypes",
       populate: {
         path: "pricing",
-        select: "base_price_per_night currency -_id -room_type_id",
+        select: "base_price_per_night currency effective_date",
       },
     },
   });

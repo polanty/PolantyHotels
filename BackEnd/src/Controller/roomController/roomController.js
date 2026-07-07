@@ -188,3 +188,31 @@ export const getAllHotelRooms = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+export const updateHotelRoom = catchAsync(async (req, res, next) => {
+  const allowedUpdates = ["isAvailable"];
+  const attemptedUpdates = Object.keys(req.body);
+  const isValidOperation = attemptedUpdates.every((update) =>
+    allowedUpdates.includes(update),
+  );
+
+  if (!isValidOperation) {
+    return next(new AppError("Invalid room updates.", 400));
+  }
+
+  const room = await Room.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!room) {
+    return next(new AppError("Room not found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      room,
+    },
+  });
+});

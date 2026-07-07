@@ -22,11 +22,15 @@ export const adminEndpoints = {
   getAmenities: () => adminApi.get("api/v1/admin/amenities"),
   createAmenities: (data) => adminApi.post("api/v1/admin/amenities", data),
   getHotels: (params) => adminApi.get("api/v1/hotels", { params }),
+  getHotel: (id) => adminApi.get(`api/v1/hotels/${id}`),
   createHotel: (data) => adminApi.post("api/v1/hotels", data),
   updateHotel: (id, data) => adminApi.patch(`api/v1/hotels/${id}`, data),
   deleteHotel: (id) => adminApi.delete(`api/v1/hotels/${id}`),
   createRoomType: (data) => adminApi.post("api/v1/room-types", data),
+  updateRoomType: (id, data) => adminApi.patch(`api/v1/room-types/${id}`, data),
   createPricing: (data) => adminApi.post("api/v1/admin/pricing", data),
+  updatePricing: (id, data) => adminApi.patch(`api/v1/admin/pricing/${id}`, data),
+  updateRoom: (id, data) => adminApi.patch(`api/v1/rooms/${id}`, data),
   createRoom: (data) =>
     adminApi.post("api/v1/rooms", data, {
       headers: { "Content-Type": "multipart/form-data" },

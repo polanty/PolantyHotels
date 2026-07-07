@@ -1,20 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { adminEndpoints } from "../../axios/axios.endpoint";
 import {
+  createInitialRoomForm,
   getErrorMessage,
   initialHotelForm,
   roomImageRequirements,
   validateRoomImages,
 } from "./hotelFormUtils";
 
+const roomTypeOptions = ["Single", "Double", "Suite", "Deluxe", "Family"];
+const currencyOptions = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD"];
+
 export default function CreateHotelForm({ onCreated }) {
   const [form, setForm] = useState(initialHotelForm);
   const [brands, setBrands] = useState([]);
   const [amenities, setAmenities] = useState([]);
-  const [images, setImages] = useState([]);
-  const [imageErrors, setImageErrors] = useState([]);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
+  const roomsRef = useRef(form.rooms);
 
   const selectedAmenityCount = useMemo(
     () =>
@@ -46,9 +49,50 @@ export default function CreateHotelForm({ onCreated }) {
     loadOptions();
   }, []);
 
+  useEffect(() => {
+    roomsRef.current = form.rooms;
+  }, [form.rooms]);
+
+  useEffect(
+    () => () => {
+      roomsRef.current.forEach((room) =>
+        room.images.forEach((image) => URL.revokeObjectURL(image.previewUrl)),
+      );
+    },
+    [],
+  );
+
   const updateField = (event) => {
     const { name, value } = event.target;
     setForm((currentForm) => ({ ...currentForm, [name]: value }));
+  };
+
+  const updateRoom = (index, field, value) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      rooms: currentForm.rooms.map((room, roomIndex) =>
+        roomIndex === index ? { ...room, [field]: value } : room,
+      ),
+    }));
+  };
+
+  const addRoom = () => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      rooms: [...currentForm.rooms, createInitialRoomForm()],
+    }));
+  };
+
+  const removeRoom = (index) => {
+    setForm((currentForm) => {
+      const roomToRemove = currentForm.rooms[index];
+      roomToRemove.images.forEach((image) => URL.revokeObjectURL(image.previewUrl));
+
+      return {
+        ...currentForm,
+        rooms: currentForm.rooms.filter((_, roomIndex) => roomIndex !== index),
+      };
+    });
   };
 
   const updateAmenity = (index, field, value) => {
@@ -82,12 +126,23 @@ export default function CreateHotelForm({ onCreated }) {
     });
   };
 
-  const handleImageChange = async (event) => {
+  const handleRoomImageChange = async (roomIndex, event) => {
     const selectedFiles = Array.from(event.target.files || []);
     const { errors, validImages } = await validateRoomImages(selectedFiles);
+    const imagePreviews = validImages.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
 
-    setImages(validImages);
-    setImageErrors(errors);
+    setForm((currentForm) => ({
+      ...currentForm,
+      rooms: currentForm.rooms.map((room, index) => {
+        if (index !== roomIndex) return room;
+
+        room.images.forEach((image) => URL.revokeObjectURL(image.previewUrl));
+        return { ...room, images: imagePreviews, imageErrors: errors };
+      }),
+    }));
   };
 
   const handleSubmit = async (event) => {
@@ -96,11 +151,14 @@ export default function CreateHotelForm({ onCreated }) {
     setMessage("");
 
     try {
-      if (
-        images.length < roomImageRequirements.minCount ||
-        imageErrors.length > 0
-      ) {
-        throw new Error("Please provide at least 5 high-quality room images.");
+      const invalidRoom = form.rooms.find(
+        (room) =>
+          room.images.length < roomImageRequirements.minCount ||
+          room.imageErrors.length > 0,
+      );
+
+      if (invalidRoom) {
+        throw new Error("Each room needs at least 5 high-quality images.");
       }
 
       let brandId = form.brand_id;
@@ -164,40 +222,43 @@ export default function CreateHotelForm({ onCreated }) {
         throw new Error("Hotel was created, but the response did not include an ID.");
       }
 
-      const roomTypeResponse = await adminEndpoints.createRoomType({
-        brand_id: brandId,
-        name: form.roomTypeName,
-        description: form.roomTypeDescription,
-        capacity: Number(form.capacity),
-        bed_configuration: form.bed_configuration,
-        size_sqm: Number(form.size_sqm),
-      });
-      const roomTypeId = roomTypeResponse.data?.data?.RoomType?.[0]?._id;
+      for (const room of form.rooms) {
+        const roomTypeResponse = await adminEndpoints.createRoomType({
+          brand_id: brandId,
+          name: room.roomTypeName,
+          description: room.roomTypeDescription,
+          capacity: Number(room.capacity),
+          bed_configuration: room.bed_configuration,
+          size_sqm: Number(room.size_sqm),
+        });
+        const roomTypeId = roomTypeResponse.data?.data?.RoomType?.[0]?._id;
 
-      if (!roomTypeId) {
-        throw new Error("Room type was created, but the response did not include an ID.");
+        if (!roomTypeId) {
+          throw new Error("Room type was created, but the response did not include an ID.");
+        }
+
+        await adminEndpoints.createPricing({
+          room_type_id: roomTypeId,
+          base_price_per_night: Number(room.base_price_per_night),
+          currency: room.currency,
+          effective_date: room.effective_date,
+        });
+
+        const roomFormData = new FormData();
+        roomFormData.append("location_id", locationId);
+        roomFormData.append("room_type_id", roomTypeId);
+        roomFormData.append("isAvailable", room.isAvailable);
+        room.images.forEach((image) => roomFormData.append("images", image.file));
+
+        await adminEndpoints.createRoom(roomFormData);
       }
 
-      await adminEndpoints.createPricing({
-        room_type_id: roomTypeId,
-        base_price_per_night: Number(form.base_price_per_night),
-        currency: form.currency,
-        effective_date: form.effective_date,
-      });
-
-      const roomFormData = new FormData();
-      roomFormData.append("location_id", locationId);
-      roomFormData.append("room_type_id", roomTypeId);
-      roomFormData.append("isAvailable", form.isAvailable);
-      images.forEach((image) => roomFormData.append("images", image));
-
-      await adminEndpoints.createRoom(roomFormData);
-
       setStatus("succeeded");
-      setMessage("Hotel, room type, pricing, and room images were created.");
-      setForm(initialHotelForm);
-      setImages([]);
-      setImageErrors([]);
+      setMessage(`Hotel and ${form.rooms.length} room type(s) were created.`);
+      form.rooms.forEach((room) =>
+        room.images.forEach((image) => URL.revokeObjectURL(image.previewUrl)),
+      );
+      setForm({ ...initialHotelForm, rooms: [createInitialRoomForm()] });
       onCreated?.();
     } catch (error) {
       setStatus("failed");
@@ -209,7 +270,7 @@ export default function CreateHotelForm({ onCreated }) {
     <section className="usersPanel fullPanel">
       <div>
         <p className="adminEyebrow">Create</p>
-        <h2>Create hotel and room</h2>
+        <h2>Create hotel and rooms</h2>
       </div>
 
       <form className="loginForm twoColumnForm" onSubmit={handleSubmit}>
@@ -366,116 +427,195 @@ export default function CreateHotelForm({ onCreated }) {
         </fieldset>
 
         <fieldset>
-          <legend>Room type and pricing</legend>
-          <label htmlFor="roomTypeName">
-            Room type
-            <select
-              id="roomTypeName"
-              name="roomTypeName"
-              value={form.roomTypeName}
-              onChange={updateField}
-            >
-              {["Single", "Double", "Suite", "Deluxe", "Family"].map(
-                (roomType) => (
-                  <option key={roomType} value={roomType}>
-                    {roomType}
-                  </option>
-                ),
-              )}
-            </select>
-          </label>
-          <label htmlFor="roomTypeDescription">
-            Description
-            <textarea
-              id="roomTypeDescription"
-              name="roomTypeDescription"
-              value={form.roomTypeDescription}
-              onChange={updateField}
-              required
-            />
-          </label>
-          {[
-            ["capacity", "Capacity"],
-            ["bed_configuration", "Bed configuration"],
-            ["size_sqm", "Size sqm"],
-            ["base_price_per_night", "Base price per night"],
-          ].map(([name, label]) => (
-            <label htmlFor={name} key={name}>
-              {label}
-              <input
-                id={name}
-                name={name}
-                type={name === "bed_configuration" ? "text" : "number"}
-                min={name === "base_price_per_night" ? "0" : "1"}
-                max={name === "capacity" ? "3" : undefined}
-                value={form[name]}
-                onChange={updateField}
-                required
-              />
-            </label>
-          ))}
-          <label htmlFor="currency">
-            Currency
-            <select
-              id="currency"
-              name="currency"
-              value={form.currency}
-              onChange={updateField}
-            >
-              {["USD", "EUR", "GBP", "JPY", "AUD", "CAD"].map((currency) => (
-                <option key={currency} value={currency}>
-                  {currency}
-                </option>
-              ))}
-            </select>
-          </label>
-        </fieldset>
+          <legend>Rooms</legend>
+          <div className="roomFormList">
+            {form.rooms.map((room, index) => (
+              <article className="roomFormCard" key={index}>
+                <div className="panelHeader">
+                  <h3>Room {index + 1}</h3>
+                  {form.rooms.length > 1 && (
+                    <button
+                      type="button"
+                      className="dangerButton"
+                      onClick={() => removeRoom(index)}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
 
-        <fieldset>
-          <legend>Room availability and images</legend>
-          <label htmlFor="isAvailable">
-            Available rooms
-            <input
-              id="isAvailable"
-              name="isAvailable"
-              type="number"
-              min="1"
-              value={form.isAvailable}
-              onChange={updateField}
-              required
-            />
-          </label>
-          <label htmlFor="images">
-            Room images
-            <input
-              id="images"
-              name="images"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              multiple
-              onChange={handleImageChange}
-              required
-            />
-          </label>
-          <p>
-            Upload at least 5 images. Each image must be at least 1200x800px
-            and 150KB.
-          </p>
-          {imageErrors.length > 0 && (
-            <div className="authMessage error">
-              {imageErrors.map((error) => (
-                <p key={error}>{error}</p>
-              ))}
-            </div>
-          )}
-          {images.length > 0 && (
-            <p>{images.length} high-quality images ready to upload.</p>
-          )}
+                <div className="inlineFields">
+                  <label htmlFor={`roomTypeName-${index}`}>
+                    Room type
+                    <select
+                      id={`roomTypeName-${index}`}
+                      value={room.roomTypeName}
+                      onChange={(event) =>
+                        updateRoom(index, "roomTypeName", event.target.value)
+                      }
+                    >
+                      {roomTypeOptions.map((roomType) => (
+                        <option key={roomType} value={roomType}>
+                          {roomType}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label htmlFor={`capacity-${index}`}>
+                    Capacity
+                    <input
+                      id={`capacity-${index}`}
+                      type="number"
+                      min="1"
+                      max="3"
+                      value={room.capacity}
+                      onChange={(event) =>
+                        updateRoom(index, "capacity", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                  <label htmlFor={`isAvailable-${index}`}>
+                    Available rooms
+                    <input
+                      id={`isAvailable-${index}`}
+                      type="number"
+                      min="1"
+                      value={room.isAvailable}
+                      onChange={(event) =>
+                        updateRoom(index, "isAvailable", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                </div>
+
+                <label htmlFor={`roomTypeDescription-${index}`}>
+                  Description
+                  <textarea
+                    id={`roomTypeDescription-${index}`}
+                    value={room.roomTypeDescription}
+                    onChange={(event) =>
+                      updateRoom(index, "roomTypeDescription", event.target.value)
+                    }
+                    required
+                  />
+                </label>
+
+                <div className="inlineFields">
+                  <label htmlFor={`bed_configuration-${index}`}>
+                    Bed configuration
+                    <input
+                      id={`bed_configuration-${index}`}
+                      value={room.bed_configuration}
+                      onChange={(event) =>
+                        updateRoom(index, "bed_configuration", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                  <label htmlFor={`size_sqm-${index}`}>
+                    Size sqm
+                    <input
+                      id={`size_sqm-${index}`}
+                      type="number"
+                      min="1"
+                      value={room.size_sqm}
+                      onChange={(event) =>
+                        updateRoom(index, "size_sqm", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                  <label htmlFor={`base_price_per_night-${index}`}>
+                    Base price per night
+                    <input
+                      id={`base_price_per_night-${index}`}
+                      type="number"
+                      min="0"
+                      value={room.base_price_per_night}
+                      onChange={(event) =>
+                        updateRoom(index, "base_price_per_night", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                </div>
+
+                <div className="inlineFields">
+                  <label htmlFor={`currency-${index}`}>
+                    Currency
+                    <select
+                      id={`currency-${index}`}
+                      value={room.currency}
+                      onChange={(event) =>
+                        updateRoom(index, "currency", event.target.value)
+                      }
+                    >
+                      {currencyOptions.map((currency) => (
+                        <option key={currency} value={currency}>
+                          {currency}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label htmlFor={`effective_date-${index}`}>
+                    Effective date
+                    <input
+                      id={`effective_date-${index}`}
+                      type="date"
+                      value={room.effective_date}
+                      onChange={(event) =>
+                        updateRoom(index, "effective_date", event.target.value)
+                      }
+                      required
+                    />
+                  </label>
+                  <label htmlFor={`images-${index}`}>
+                    Room images
+                    <input
+                      id={`images-${index}`}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      onChange={(event) => handleRoomImageChange(index, event)}
+                      required
+                    />
+                  </label>
+                </div>
+
+                <p>
+                  Upload at least 5 images. Each image must be at least 1200x800px
+                  and 150KB.
+                </p>
+                {room.imageErrors.length > 0 && (
+                  <div className="authMessage error">
+                    {room.imageErrors.map((error) => (
+                      <p key={error}>{error}</p>
+                    ))}
+                  </div>
+                )}
+                {room.images.length > 0 && (
+                  <div className="imagePreviewGrid">
+                    {room.images.map((image) => (
+                      <figure key={image.previewUrl}>
+                        <img src={image.previewUrl} alt={image.file.name} />
+                        <figcaption>{image.file.name}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+          <button type="button" className="secondaryButton" onClick={addRoom}>
+            Add another room
+          </button>
         </fieldset>
 
         <div className="formActions">
           <button type="submit" disabled={status === "loading"}>
-            {status === "loading" ? "Creating..." : "Create hotel room"}
+            {status === "loading" ? "Creating..." : "Create hotel rooms"}
           </button>
         </div>
       </form>

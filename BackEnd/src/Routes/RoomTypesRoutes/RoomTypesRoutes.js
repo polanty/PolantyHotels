@@ -2,6 +2,7 @@ import express from "express";
 import {
   createRoomTyoes,
   getAllRoomTypes,
+  updateRoomType,
 } from "../../Controller/roomTypesController/roomTypesController.js";
 
 const router = express.Router();
@@ -10,6 +11,6 @@ const router = express.Router();
 
 router.route("/").get(getAllRoomTypes).post(createRoomTyoes);
 
-// router.route("/:id").get(getOneHotel).patch(updateHotel).delete(deleteHotel);
+router.route("/:id").patch(updateRoomType);
 
 export default router;

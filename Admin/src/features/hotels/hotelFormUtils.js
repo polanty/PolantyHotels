@@ -14,16 +14,24 @@ export const initialHotelForm = {
   email: "",
   existingAmenityIds: [],
   newAmenities: [{ category: "", name: "", description: "" }],
-  roomTypeName: "Deluxe",
-  roomTypeDescription: "",
-  capacity: "2",
-  bed_configuration: "",
-  size_sqm: "21",
-  base_price_per_night: "",
-  currency: "USD",
-  effective_date: new Date().toISOString().slice(0, 10),
-  isAvailable: "1",
+  rooms: [createInitialRoomForm()],
 };
+
+export function createInitialRoomForm() {
+  return {
+    roomTypeName: "Deluxe",
+    roomTypeDescription: "",
+    capacity: "2",
+    bed_configuration: "",
+    size_sqm: "21",
+    base_price_per_night: "",
+    currency: "USD",
+    effective_date: new Date().toISOString().slice(0, 10),
+    isAvailable: "1",
+    images: [],
+    imageErrors: [],
+  };
+}
 
 export const roomImageRequirements = {
   minCount: 5,

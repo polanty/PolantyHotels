@@ -2,6 +2,7 @@ import RoomTypes from "../../Models/room_typesModel.js";
 import Pricing from "../../Models/pricingModel.js";
 import APIFeatures from "../../Utilities/apiFeatures.js";
 import catchAsync from "../../Utilities/catchAsync.js";
+import AppError from "../../Utilities/globalErrorCatcher.js";
 
 export const createRoomTyoes = catchAsync(async (req, res, next) => {
   const newRoomType = await RoomTypes.create({ ...req.body });
@@ -44,6 +45,40 @@ export const getAllRoomTypes = catchAsync(async (req, res, next) => {
     currentPage: apiFeatures.page,
     data: {
       data: { allRoomTypes },
+    },
+  });
+});
+
+export const updateRoomType = catchAsync(async (req, res, next) => {
+  const allowedUpdates = [
+    "name",
+    "description",
+    "capacity",
+    "bed_configuration",
+    "size_sqm",
+  ];
+  const attemptedUpdates = Object.keys(req.body);
+  const isValidOperation = attemptedUpdates.every((update) =>
+    allowedUpdates.includes(update),
+  );
+
+  if (!isValidOperation) {
+    return next(new AppError("Invalid room type updates.", 400));
+  }
+
+  const roomType = await RoomTypes.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!roomType) {
+    return next(new AppError("Room type not found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      roomType,
     },
   });
 });

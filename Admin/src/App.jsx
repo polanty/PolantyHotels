@@ -6,6 +6,7 @@ import { selectBootstrapped, selectUser } from "./Redux/auth/auth.selectors";
 import AdminLayout from "./Components/AdminLayout.jsx";
 import AdminBookingsPage from "./Pages/AdminBookingsPage.jsx";
 import AdminCreateUserPage from "./Pages/AdminCreateUserPage.jsx";
+import AdminHotelEditPage from "./Pages/AdminHotelEditPage.jsx";
 import AdminHotelsPage from "./Pages/AdminHotelsPage.jsx";
 import AdminLoginPage from "./Pages/AdminLoginPage.jsx";
 import AdminReviewsPage from "./Pages/AdminReviewsPage.jsx";
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="users" element={<AdminUsersPage />} />
         <Route path="create-user" element={<AdminCreateUserPage />} />
         <Route path="hotels" element={<AdminHotelsPage />} />
+        <Route path="hotels/:hotelId" element={<AdminHotelEditPage />} />
         <Route path="bookings" element={<AdminBookingsPage />} />
         <Route path="reviews" element={<AdminReviewsPage />} />
       </Route>

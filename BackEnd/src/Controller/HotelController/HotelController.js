@@ -98,7 +98,17 @@ export const updateHotel = catchAsync(async (req, res, next) => {
   const upDatedHotels = req.body;
 
   //You can change the name and description but not ratingss
-  const allowedUpdates = ["name", "address"];
+  const allowedUpdates = [
+    "name",
+    "address",
+    "city",
+    "country",
+    "postal_code",
+    "latitude",
+    "longitude",
+    "location",
+    "email",
+  ];
   const attemptedUpdates = Object.keys(upDatedHotels);
   const isValidOperation = attemptedUpdates.every((update) =>
     allowedUpdates.includes(update),
@@ -107,7 +117,7 @@ export const updateHotel = catchAsync(async (req, res, next) => {
   if (!isValidOperation) {
     return next(
       new AppError(
-        `Invalid updates! You can only update name and address.`,
+        `Invalid updates! You can only update hotel details.`,
         400,
       ),
     );
