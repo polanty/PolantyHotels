@@ -5,6 +5,7 @@ import {
 } from "../../Controller/authentication/authenticationController.js";
 import {
   getAllReviews,
+  getMyReviews,
   createReview,
   getReview,
   updateReview,
@@ -16,6 +17,7 @@ const router = express.Router({ mergeParams: true });
 router.use(protect);
 
 // standard CRUD routes
+router.route("/me").get(getMyReviews);
 router.route("/").post(createReview);
 
 router.route("/:id").get(getReview).patch(updateReview).delete(deleteReview);

@@ -172,26 +172,17 @@ export default function Navbar() {
                   isProfileMenuOpen ? "profileMenu__dropdown--open" : ""
                 }`}
               >
-                <Link to="/destinations" onClick={closeProfileMenu}>
-                  Destinations
-                </Link>
-                <Link to="/deals" onClick={closeProfileMenu}>
-                  Deals
-                </Link>
-                <Link to="/support" onClick={closeProfileMenu}>
-                  Support
-                </Link>
                 <Link to="/profile" onClick={closeProfileMenu}>
                   Profile
                 </Link>
-                <Link to="/settings" onClick={closeProfileMenu}>
-                  Settings
+                <Link to="/reviews" onClick={closeProfileMenu}>
+                  Reviews
                 </Link>
                 <Link to="/bookings" onClick={closeProfileMenu}>
                   Bookings
                 </Link>
-                <Link to="/favorites" onClick={closeProfileMenu}>
-                  Favorites
+                <Link to="/settings" onClick={closeProfileMenu}>
+                  Settings
                 </Link>
                 <button type="button" onClick={handleLogout}>
                   Sign Out
@@ -273,14 +264,14 @@ export default function Navbar() {
               <Link to="/profile" onClick={closeMenu}>
                 Profile
               </Link>
-              <Link to="/settings" onClick={closeMenu}>
-                Settings
+              <Link to="/reviews" onClick={closeMenu}>
+                Reviews
               </Link>
               <Link to="/bookings" onClick={closeMenu}>
                 Bookings
               </Link>
-              <Link to="/favorites" onClick={closeMenu}>
-                Favorites
+              <Link to="/settings" onClick={closeMenu}>
+                Settings
               </Link>
             </>
           ) : null}

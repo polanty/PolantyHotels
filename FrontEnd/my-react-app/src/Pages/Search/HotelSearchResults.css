@@ -891,12 +891,22 @@
   border-radius: 12px;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.08) 25%,
-    rgba(255, 255, 255, 0.16) 37%,
-    rgba(255, 255, 255, 0.08) 63%
+    #d7dee8 25%,
+    #eef2f6 37%,
+    #d7dee8 63%
   );
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(71, 85, 105, 0.62) 25%,
+    rgba(100, 116, 139, 0.82) 37%,
+    rgba(71, 85, 105, 0.62) 63%
+  );
+  background-size: 400% 100%;
 }
 
 @keyframes shimmer {
@@ -910,6 +920,11 @@
 
 .skeletonCard {
   overflow: hidden;
+  background: #fff;
+}
+
+.dark .skeletonCard {
+  background: var(--panel-dark);
 }
 
 .skeletonImage {

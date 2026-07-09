@@ -13,6 +13,10 @@ import AuthPage from "./Pages/Auth/Auth.page.jsx";
 import HotelSearchResults from "./Pages/Search/Search.page.jsx";
 import HotelDetailsPage from "./Pages/Hotel/Hotel.jsx";
 import RouteErrorPage from "./Pages/GlobalError/RouteErrorPage.jsx";
+import ProfilePage from "./Pages/Account/ProfilePage.jsx";
+import ReviewsPage from "./Pages/Account/ReviewsPage.jsx";
+import BookingsPage from "./Pages/Account/BookingsPage.jsx";
+import SettingsPage from "./Pages/Account/SettingsPage.jsx";
 
 //payment sucess routes
 import PaymentSuccess from "./Pages/PaymentSucess/PaymentSucess.jsx";
@@ -28,6 +32,10 @@ const router = createBrowserRouter([
       { path: "search", element: <HotelSearchResults /> },
       { path: "/hotels/:hotelId", element: <HotelDetailsPage /> },
       { path: "/payment-success", element: <PaymentSuccess /> },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "reviews", element: <ReviewsPage /> },
+      { path: "bookings", element: <BookingsPage /> },
+      { path: "settings", element: <SettingsPage /> },
     ],
   },
 ]);

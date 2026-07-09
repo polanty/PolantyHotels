@@ -47,7 +47,10 @@ export const protect = catchAsync(async (req, res, next) => {
   );
 
   //if user has been decativated but token still exist then we want to stop the user from logging in
-  const confirmedUser = await User.findById(confirmedToken.id);
+  const confirmedUser = await User.findOne({
+    _id: confirmedToken.id,
+    active: { $ne: false },
+  });
 
   if (!confirmedUser) {
     return next(
@@ -128,7 +131,10 @@ export const Login = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide email and password!", 400));
   }
 
-  const currentUser = await User.findOne({ email: email }).select("+password");
+  const currentUser = await User.findOne({
+    email: email,
+    active: { $ne: false },
+  }).select("+password");
 
   if (
     !currentUser ||
@@ -184,10 +190,14 @@ export const Login = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       user: {
+        _id: currentUser._id,
+        id: currentUser.id,
         first_name: currentUser.first_name,
         last_name: currentUser.last_name,
         email: currentUser.email,
         role: currentUser.role,
+        nationality: currentUser.nationality,
+        date_of_birth: currentUser.date_of_birth,
         profile_image: currentUser.profile_image,
         last_login: currentUser.last_login,
       },
@@ -343,5 +353,102 @@ export const resetPassword = catchAsync(async (req, res, next) => {
       //
       existingUser,
     },
+  });
+});
+
+export const logout = (req, res) => {
+  res.cookie("token", "logged-out", {
+    ...getCookieOptions(),
+    maxAge: 10,
+  });
+
+  res.status(200).json({
+    status: "success",
+  });
+};
+
+export const updateMe = catchAsync(async (req, res, next) => {
+  const allowedUpdates = ["first_name", "last_name", "date_of_birth", "nationality"];
+  const attemptedUpdates = Object.keys(req.body);
+  const isValidOperation = attemptedUpdates.every((update) =>
+    allowedUpdates.includes(update),
+  );
+
+  if (!isValidOperation) {
+    return next(new AppError("Profile updates cannot include security fields.", 400));
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
+
+export const updateEmail = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return next(new AppError("Please provide an email address.", 400));
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { email },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
+
+export const updatePassword = catchAsync(async (req, res, next) => {
+  const { currentPassword, password, passwordConfirm } = req.body;
+
+  if (!currentPassword || !password || !passwordConfirm) {
+    return next(
+      new AppError("Please provide current password, password, and confirmation.", 400),
+    );
+  }
+
+  const user = await User.findById(req.user.id).select("+password");
+
+  if (!(await user.correctPassword(currentPassword, user.password))) {
+    return next(new AppError("Current password is incorrect.", 401));
+  }
+
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
+  await user.save();
+
+  res.status(200).json({
+    status: "success",
+  });
+});
+
+export const deactivateMe = catchAsync(async (req, res) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.cookie("token", "logged-out", {
+    ...getCookieOptions(),
+    maxAge: 10,
+  });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

@@ -1,0 +1,122 @@
+.accountPage {
+  width: min(980px, 100%);
+  margin: 32px auto 64px;
+  display: grid;
+  gap: 24px;
+}
+
+.accountHero {
+  display: grid;
+  gap: 8px;
+}
+
+.accountHero h1,
+.accountPanel h2 {
+  margin: 0;
+  color: #101828;
+}
+
+.accountHero p,
+.accountPanel p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.accountPanel {
+  display: grid;
+  gap: 18px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  padding: 24px;
+  background: #fff;
+}
+
+.accountForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.accountForm label {
+  display: grid;
+  gap: 8px;
+  color: #344054;
+  font-weight: 700;
+}
+
+.accountForm input {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #101828;
+  font: inherit;
+}
+
+.accountForm input:focus {
+  border-color: #137fec;
+  box-shadow: 0 0 0 3px rgba(19, 127, 236, 0.16);
+  outline: none;
+}
+
+.accountActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.accountMessage {
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-weight: 700;
+}
+
+.accountMessage.success {
+  color: #166534;
+  background: #ecfdf3;
+}
+
+.accountMessage.error {
+  color: #9f1239;
+  background: #fff1f2;
+}
+
+.accountList {
+  display: grid;
+  gap: 14px;
+}
+
+.accountCard {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  padding: 18px;
+  background: #f8fafc;
+}
+
+.accountCard h3 {
+  margin: 0;
+  color: #101828;
+}
+
+.accountMeta {
+  color: #667085;
+  font-size: 0.92rem;
+}
+
+.dangerZone {
+  border-color: #fecdd3;
+  background: #fff1f2;
+}
+
+.dangerZone h2 {
+  color: #9f1239;
+}
+
+@media (max-width: 700px) {
+  .accountForm {
+    grid-template-columns: 1fr;
+  }
+}

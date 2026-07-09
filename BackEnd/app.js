@@ -120,6 +120,7 @@ app.use("/api/v1/rooms", roomRouter);
 app.use("/api/v1/room-types", roomTypesRouter);
 
 app.use("/api/v1/admin/reviews", reviewsRouter);
+app.use("/api/v1/reviews", reviewsRouter);
 
 //Amenities Route for Admin
 app.use("/api/v1/admin", amenitiesRoute);

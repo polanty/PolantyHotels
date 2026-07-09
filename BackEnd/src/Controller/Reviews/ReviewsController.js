@@ -50,6 +50,18 @@ export const getAllReviews = catchAsync(async (req, res, next) => {
   });
 });
 
+export const getMyReviews = catchAsync(async (req, res) => {
+  const reviews = await Review.find({ user_id: req.user.id })
+    .sort("-created_at")
+    .populate("location_id", "name city country");
+
+  res.status(200).json({
+    status: "success",
+    results: reviews.length,
+    data: { reviews },
+  });
+});
+
 // create a review
 export const createReview = catchAsync(async (req, res, next) => {
   // when nested, set needed ids

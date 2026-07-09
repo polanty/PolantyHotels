@@ -18,6 +18,40 @@ router.post("/create-checkout-session", createCheckoutSession);
 
 router.get("/checkout-session/:sessionId", getCheckoutSession);
 
+router.get(
+  "/successful",
+  catchAsync(async (req, res) => {
+    const userBookings = await Booking.find({
+      userRef: req.user.id,
+      status: { $in: ["confirmed", "completed"] },
+      paymentStatus: "paid",
+    })
+      .sort("-createdAt")
+      .populate("hotel", "name city country address")
+      .populate({
+        path: "room",
+        populate: [
+          {
+            path: "location_id",
+            select: "name city country",
+          },
+          {
+            path: "room_type_id",
+          },
+        ],
+      })
+      .populate("roomType");
+
+    res.status(200).json({
+      status: "success",
+      results: userBookings.length,
+      data: {
+        bookings: userBookings,
+      },
+    });
+  }),
+);
+
 // router.use(restrictTo("admin"));
 router.get(
   "/",
