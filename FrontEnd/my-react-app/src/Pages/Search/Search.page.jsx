@@ -45,7 +45,10 @@ const AMENITY_FILTERS = [
 ];
 
 function normalizeAmenityValue(value) {
-  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  return String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
 }
 
 function HotelCardSkeleton() {
@@ -66,7 +69,8 @@ function HotelCardSkeleton() {
 }
 
 function getImageUrl(image) {
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   if (typeof image === "string") {
     if (image.startsWith("/uploads/")) return `${apiBaseUrl}${image}`;
@@ -115,7 +119,6 @@ function mapHotelFromApi(item, likedHotelIds) {
     "https://via.placeholder.com/600x400?text=Hotel+Image";
   const roomImages = getRoomPreviewImages(item.RoomRef || item.roomRef);
   const images = roomImages.length > 0 ? roomImages : [fallbackImage];
-
   return {
     id,
     name: item.name || "Unnamed Hotel",

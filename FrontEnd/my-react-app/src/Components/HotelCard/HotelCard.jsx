@@ -221,10 +221,11 @@ function HotelCard({ hotel, onToggleLike }) {
         </div>
 
         <div className="hotelCardFooter">
-          <p className="price">
+          <p className="priceSuffix">
+            As low as
             {hotel.price > 0 ? (
               <>
-                ${hotel.price}{" "}
+                <span className="price"> £{hotel.price} </span>
                 <span className="priceSuffix">{hotel.priceSuffix}</span>
               </>
             ) : (
