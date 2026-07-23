@@ -79,19 +79,87 @@ function getImageUrl(image) {
   return null;
 }
 
-function buildGalleryImages(hotel) {
-  const roomImages =
-    hotel?.RoomRef?.flatMap((room) =>
-      Array.isArray(room.images) ? room.images : [],
-    ) || [];
+function hashString(value) {
+  return String(value || "hotel")
+    .split("")
+    .reduce((hash, character) => {
+      return Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
+    }, 2166136261);
+}
 
-  const normalizedRoomImages = roomImages.map(getImageUrl).filter(Boolean);
+function createSeededRandom(seedValue) {
+  let seed = hashString(seedValue);
 
-  if (normalizedRoomImages.length >= 5) {
-    return normalizedRoomImages.slice(0, 5);
+  return () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+}
+
+function shuffleImages(images, random) {
+  const shuffled = [...images];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [
+      shuffled[swapIndex],
+      shuffled[index],
+    ];
   }
 
-  return [...normalizedRoomImages, ...ROOM_IMAGE_FALLBACKS].slice(0, 5);
+  return shuffled;
+}
+
+export function buildGalleryImages(hotel) {
+  const random = createSeededRandom(hotel?._id || hotel?.id || hotel?.name);
+  const rooms = (Array.isArray(hotel?.RoomRef) ? hotel.RoomRef : [])
+    .map((room) => ({
+      ...room,
+      normalizedImages: [
+        ...new Set(
+          (Array.isArray(room?.images) ? room.images : [])
+            .map(getImageUrl)
+            .filter(Boolean),
+        ),
+      ],
+    }))
+    .filter((room) => room.normalizedImages.length > 0);
+  const shuffledRooms = shuffleImages(rooms, random);
+  const selectedImages = [];
+  const selectedImageSet = new Set();
+
+  // Select from every room first so the gallery represents all room types.
+  shuffledRooms.forEach((room) => {
+    const [image] = shuffleImages(room.normalizedImages, random);
+    if (!image || selectedImageSet.has(image)) return;
+
+    selectedImages.push(image);
+    selectedImageSet.add(image);
+  });
+
+  // Fill remaining gallery positions from a shuffled cross-room image pool.
+  const remainingImages = shuffleImages(
+    shuffledRooms.flatMap((room) => room.normalizedImages),
+    random,
+  );
+
+  for (const image of remainingImages) {
+    if (selectedImages.length === 5) break;
+    if (selectedImageSet.has(image)) continue;
+
+    selectedImages.push(image);
+    selectedImageSet.add(image);
+  }
+
+  for (const fallbackImage of ROOM_IMAGE_FALLBACKS) {
+    if (selectedImages.length === 5) break;
+    if (selectedImageSet.has(fallbackImage)) continue;
+
+    selectedImages.push(fallbackImage);
+    selectedImageSet.add(fallbackImage);
+  }
+
+  return selectedImages.slice(0, 5);
 }
 
 function getLowestPrice(rooms) {
@@ -157,7 +225,7 @@ function Gallery({ images, hotelName }) {
         </div>
 
         <div className="gallerySide">
-          {images.slice(0, 4).map((image, index) => (
+          {images.slice(1, 5).map((image, index) => (
             <button
               key={`${image}-${index}`}
               type="button"
@@ -168,7 +236,7 @@ function Gallery({ images, hotelName }) {
             >
               <img
                 src={image}
-                alt={`${hotelName} view ${index + 1}`}
+                alt={`${hotelName} view ${index + 2}`}
                 className="galleryThumbImg"
               />
             </button>
