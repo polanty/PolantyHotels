@@ -65,15 +65,39 @@ export default function Footer() {
         <div className="footerBottom">
           <p>© 2024 Voyage. All rights reserved.</p>
 
-          <div className="footerIcons">
-            <a className="footerLink" href="#">
-              Icon1
+          <div className="footerIcons" aria-label="Social media">
+            <a
+              className="footerSocialLink"
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit Voyage on Facebook"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13.5 22v-9h3l.45-3.5H13.5V7.26c0-1.01.28-1.7 1.74-1.7H17.1V2.43c-.32-.04-1.43-.13-2.72-.13-2.69 0-4.53 1.64-4.53 4.66V9.5H6.8V13h3.05v9h3.65Z" />
+              </svg>
             </a>
-            <a className="footerLink" href="#">
-              Icon2
+            <a
+              className="footerSocialLink"
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit Voyage on Instagram"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+              </svg>
             </a>
-            <a className="footerLink" href="#">
-              Icon3
+            <a
+              className="footerSocialLink"
+              href="https://x.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit Voyage on X"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.24l-4.89-6.39L6.48 22H3.36l7.26-8.3L2.97 2h6.4l4.42 5.84L18.9 2Zm-1.1 17.84h1.72L8.43 4.05H6.58L17.8 19.84Z" />
+              </svg>
             </a>
           </div>
         </div>

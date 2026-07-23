@@ -1546,14 +1546,6 @@ html.dark .footerList {
     border-top-color: var(--border-dark);
   }
 
-  .footerCol:last-of-type {
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  html.dark .footerCol:last-of-type {
-    border-bottom-color: var(--border-dark);
-  }
-
   .footerCol__title {
     min-height: 48px;
     cursor: pointer;
@@ -1614,7 +1606,48 @@ html.dark .footerBottom {
 
 .footerIcons {
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 10px;
+}
+
+.footerSocialLink {
+  width: 44px;
+  height: 44px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  color: var(--muted-light);
+  background: rgba(255, 255, 255, 0.72);
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.footerSocialLink svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.footerSocialLink:hover {
+  color: #fff;
+  border-color: var(--primary);
+  background: var(--primary);
+  transform: translateY(-2px);
+}
+
+.footerSocialLink:focus-visible {
+  outline: 3px solid rgba(19, 127, 236, 0.24);
+  outline-offset: 3px;
+}
+
+html.dark .footerSocialLink {
+  border-color: var(--border-dark);
+  color: var(--muted-dark);
+  background: rgba(255, 255, 255, 0.05);
 }
 @media (min-width: 640px) {
   .footerBottom {
