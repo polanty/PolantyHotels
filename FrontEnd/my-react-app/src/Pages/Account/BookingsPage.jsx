@@ -15,7 +15,7 @@ function formatDate(value) {
 function formatMoney(value, currency) {
   return new Intl.NumberFormat("en", {
     style: "currency",
-    currency: currency || "USD",
+    currency: currency || "GBP",
   }).format(Number(value || 0));
 }
 

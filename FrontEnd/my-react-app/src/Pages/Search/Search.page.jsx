@@ -305,8 +305,8 @@ export default function HotelSearchResults() {
                     />
 
                     <div className="rangeLabels">
-                      <span>$50</span>
-                      <span>$1000+</span>
+                      <span>£50</span>
+                      <span>£1000+</span>
                     </div>
                   </div>
 

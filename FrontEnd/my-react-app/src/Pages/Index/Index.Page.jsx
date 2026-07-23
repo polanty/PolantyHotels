@@ -7,25 +7,25 @@ const DESTINATION_BG = `linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6
 const featured = [
   {
     city: "Paris",
-    price: "Starting from $120",
+    price: "Starting from £120",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAN7Dc-us3a-HdKwbFeSUOR-pqJFDUApka5hTYeL1bP_uTrMgjecyd0xZGyniCquHqTer1sv1mqUsyQHuBNhTzN7Snt69bw6UqKKdlxvaeQ005DeGK8PXq6OV6b6RzNDx7bSucyk-c2rvbUTSu78Hu2PR3Pe0CiF37su0AQ8X_LmHWAE3GKBPo_vupuzLMMqdkAfOPIerQmwRoLJASNpWPPP2HB2_ZOSoc585HwjlaQvsJc6WbnGWhV1qf0AjyVSb2CO3miFG3o7CU",
     alt: "A beautiful street view of Paris with classic architecture.",
   },
   {
     city: "Tokyo",
-    price: "Starting from $95",
+    price: "Starting from £95",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAI9blD2U4ItYZ22ryPvgx2cn7g65Y481zqr6CvQ9ez5MyYauG95wn3EP1luqJr-F41Jx62Z9QbrhmvNutZYyNS2H2dq02pnjhNw6tjjW-wZzPzgHe6iFpFDeClZqCE1cdr3tB_YNg7LDLpLsdfdXC8mHhK_GyQWDWN6VyhQGkikpLsrpd1JLj8eP7Wsmwjxr18zQQRVgQkaUWBNtADiwhUgkmwFsbUTJGQo5tVqq3FxXF8i-1dztlSqGeBZ39bPFR03Ewx73YjhPA",
     alt: "A vibrant, neon-lit street in Tokyo at night.",
   },
   {
     city: "New York",
-    price: "Starting from $150",
+    price: "Starting from £150",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMOSNeaKNMufeMcc7ODDxvR9G_p3Je3JJ4KfyFAw-6CEFFqj861wQ2cSt9ZWth2YQzJovBFQRKlE2lZf_NOu0BdBdF8aFDRV42C0uLANrAWfxd-bSy8SJ1_UllvqRamFZkOUDqNUzbw9RcNWE-Cqi9cN5SpvVYM0O4N6AKxdxlsVE1eTBSHDhXlp6X2cyYKbiYSpMyFzbfqtz3k9sqbpjHEwZikxqu1v4utd1U5k2dI7cKACDfjwTidGtzb7lvs1ANli79GBIbZGE",
     alt: "The iconic skyline of New York City at dusk.",
   },
   {
     city: "Rome",
-    price: "Starting from $110",
+    price: "Starting from £110",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC6SLa5Rz1oGmPwVHXfnGSJZ9slowCWLfaFP_qpFRj-SCT-Z87hWbWdXqdM_XBBCFY8w5umcYFKpEWFE8mfR6u75hYXtKkuPH3K1fe_45O3vsRDZCX5fHWRp1YEbesNeIkKYE4I-st_3MGpLZpz9lkxgQApa3BcqxCoObuZEN6O2TtxBLndegOhs2Hwis7eWNri51ZyDtVzXBapjD-wHADkLnnVu22E7ppsDQvMk_0Kpm4t8-Y9ltd51vTOrmUaWVOYSjj11vk_DAY",
     alt: "The ancient Colosseum in Rome under a sunny sky.",
   },

@@ -57,7 +57,7 @@ const BookingSchema = new mongoose.Schema(
     currency: {
       type: String,
       required: true,
-      default: "USD",
+      default: "GBP",
     },
 
     status: {

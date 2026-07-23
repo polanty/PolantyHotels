@@ -9,7 +9,7 @@ import {
 } from "./hotelFormUtils";
 
 const roomTypeOptions = ["Single", "Double", "Suite", "Deluxe", "Family"];
-const currencyOptions = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD"];
+const currencyOptions = ["GBP", "EUR", "USD", "JPY", "AUD", "CAD"];
 
 export default function CreateHotelForm({ onCreated }) {
   const [form, setForm] = useState(initialHotelForm);

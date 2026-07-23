@@ -25,7 +25,7 @@ export function createInitialRoomForm() {
     bed_configuration: "",
     size_sqm: "21",
     base_price_per_night: "",
-    currency: "USD",
+    currency: "GBP",
     effective_date: new Date().toISOString().slice(0, 10),
     isAvailable: "1",
     images: [],

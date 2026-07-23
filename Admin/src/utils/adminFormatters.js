@@ -7,7 +7,7 @@ export function formatDate(value) {
   }).format(new Date(value));
 }
 
-export function formatMoney(amount, currency = "USD") {
+export function formatMoney(amount, currency = "GBP") {
   if (amount === null || amount === undefined) return "Not set";
   return new Intl.NumberFormat("en-GB", {
     style: "currency",

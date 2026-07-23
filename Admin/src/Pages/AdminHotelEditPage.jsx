@@ -4,7 +4,7 @@ import { adminEndpoints } from "../axios/axios.endpoint";
 import { getErrorMessage } from "../features/hotels/hotelFormUtils";
 
 const roomTypeOptions = ["Single", "Double", "Suite", "Deluxe", "Family"];
-const currencyOptions = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD"];
+const currencyOptions = ["GBP", "EUR", "USD", "JPY", "AUD", "CAD"];
 
 function toDateInput(value) {
   if (!value) return new Date().toISOString().slice(0, 10);
@@ -45,7 +45,7 @@ function buildRoomForms(hotel) {
       bed_configuration: roomType.bed_configuration || "",
       size_sqm: roomType.size_sqm ?? 21,
       base_price_per_night: pricing.base_price_per_night ?? "",
-      currency: pricing.currency || "USD",
+      currency: pricing.currency || "GBP",
       effective_date: toDateInput(pricing.effective_date),
     };
   });
