@@ -1,0 +1,25 @@
+.appShell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+
+.appMain {
+  flex: 1 0 auto;
+  min-width: 0;
+  padding: var(--app-gutter);
+  background: var(--panel);
+}
+
+@media (max-width: 767px) {
+  .appMain {
+    padding-block: 10px;
+  }
+}
+
+@media (max-width: 359px) {
+  .appMain {
+    padding-inline: 10px;
+  }
+}

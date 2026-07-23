@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import api from "../../api/axios";
+import "./PaymentSuccess.css";
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -33,22 +34,42 @@ export default function PaymentSuccess() {
     }
   }, [sessionId]);
 
-  if (loading) return <p>Confirming your payment...</p>;
+  if (loading) {
+    return <div className="paymentState">Confirming your payment...</div>;
+  }
 
-  if (error) return <p>{error}</p>;
+  if (error) {
+    return (
+      <div className="paymentState paymentState--error" role="alert">
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <main>
-      <h1>Booking confirmed</h1>
-      <p>Your payment was successful.</p>
+    <section className="paymentSuccessPage">
+      <div className="paymentSuccessCard">
+        <span className="material-symbols-outlined paymentSuccessIcon">
+          check_circle
+        </span>
+        <h1>Booking confirmed</h1>
+        <p>Your payment was successful.</p>
 
-      <p>
-        Amount paid: <strong>£{(session.amount_total / 100).toFixed(2)}</strong>
-      </p>
+        <dl className="paymentSummary">
+          <div>
+            <dt>Amount paid</dt>
+            <dd>£{(session.amount_total / 100).toFixed(2)}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{session.payment_status}</dd>
+          </div>
+        </dl>
 
-      <p>Status: {session.payment_status}</p>
-
-      <Link to="/">Back to home</Link>
-    </main>
+        <Link className="paymentHomeLink" to="/">
+          Back to home
+        </Link>
+      </div>
+    </section>
   );
 }

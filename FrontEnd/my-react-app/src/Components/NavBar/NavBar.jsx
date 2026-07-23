@@ -122,14 +122,14 @@ export default function Navbar() {
         </div>
 
         <div className="navlinks" aria-label="Primary links">
-          <Link className="navlinks__link" to="/destinations">
+          <Link className="navlinks__link" to="/#featured-destinations">
             Destinations
           </Link>
-          <Link className="navlinks__link" to="/deals">
+          <Link className="navlinks__link" to="/#exclusive-deals">
             Deals
           </Link>
-          <Link className="navlinks__link" to="/support">
-            Support
+          <Link className="navlinks__link" to="/#hotel-search">
+            Search
           </Link>
         </div>
 
@@ -249,14 +249,14 @@ export default function Navbar() {
         </div>
 
         <nav className="navDrawer__links" aria-label="Drawer navigation">
-          <Link to="/destinations" onClick={closeMenu}>
+          <Link to="/#featured-destinations" onClick={closeMenu}>
             Destinations
           </Link>
-          <Link to="/deals" onClick={closeMenu}>
+          <Link to="/#exclusive-deals" onClick={closeMenu}>
             Deals
           </Link>
-          <Link to="/support" onClick={closeMenu}>
-            Support
+          <Link to="/#hotel-search" onClick={closeMenu}>
+            Search
           </Link>
 
           {isAuthed ? (

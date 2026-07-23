@@ -23,9 +23,9 @@ function App() {
   // or your loading component
 
   return (
-    <div>
+    <div className="appShell">
       <Navbar />
-      <main style={{ padding: 16 }}>
+      <main className="appMain">
         <Outlet />
       </main>
       <Footer />

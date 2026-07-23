@@ -1280,3 +1280,154 @@
     border-radius: 10px;
   }
 }
+
+/* Fluid refinements shared by common laptop and mobile widths */
+.layout {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.pageTitle {
+  font-size: var(--title-sm);
+  text-wrap: balance;
+}
+
+.hotelCardTitle,
+.emptyStateTitle {
+  text-wrap: balance;
+}
+
+.primaryBtn,
+.filterToggle,
+.starBtn,
+.pageBtn,
+.pageNum,
+.likeBtn,
+.carouselArrow {
+  min-height: 44px;
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    padding-block: clamp(40px, 7vw, 64px);
+  }
+
+  .filterCard {
+    border-radius: 16px;
+  }
+
+  .headingRow {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .layout {
+    padding: clamp(30px, 8vw, 48px) var(--page-gutter);
+  }
+
+  .columns,
+  .rightCol,
+  .headingRow,
+  .sortRow {
+    min-width: 0;
+  }
+
+  .headingRow {
+    gap: 14px;
+  }
+
+  .sortRow {
+    align-items: center;
+  }
+
+  .sortLabel {
+    flex: 0 0 auto;
+    font-size: var(--text-sm);
+  }
+
+  .sortRow .select {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .filterToggle {
+    min-height: 52px;
+  }
+
+  .checkRow {
+    min-height: 44px;
+  }
+
+  .hotelCard {
+    border-radius: 16px;
+  }
+
+  .hotelCardBody {
+    padding: clamp(14px, 4.5vw, 18px);
+  }
+
+  .hotelCardImg,
+  .skeletonImage {
+    height: clamp(190px, 58vw, 240px);
+  }
+
+  .emptyState {
+    padding: clamp(28px, 8vw, 48px) clamp(16px, 5vw, 28px);
+    border-radius: 18px;
+  }
+
+  .paginationWrap {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 479px) {
+  .filterToggleHint,
+  .sortLabel {
+    display: none;
+  }
+
+  .filterToggle {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .sortRow {
+    width: 100%;
+  }
+
+  .sortRow .select {
+    width: 100%;
+  }
+
+  .hotelCardTop {
+    gap: 10px;
+  }
+
+  .ratingPill {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 359px) {
+  .layout {
+    padding-inline: 8px;
+  }
+
+  .filterCard,
+  .hotelCardBody {
+    padding: 12px;
+  }
+
+  .hotelCardImg,
+  .skeletonImage {
+    height: 180px;
+  }
+
+  .pageBtn,
+  .pageNum {
+    width: 34px;
+    min-width: 34px;
+  }
+}

@@ -1239,3 +1239,181 @@
     height: 36px;
   }
 }
+
+/* Fluid detail-page refinements */
+.hotelTitle {
+  font-size: var(--title-md);
+  text-wrap: balance;
+}
+
+.sectionTitle,
+.roomModalTitle {
+  text-wrap: balance;
+}
+
+.heroPrimaryBtn,
+.heroGhostBtn,
+.bookNowBtn,
+.saveBtn,
+.roomSelectBtn,
+.roomModalClose,
+.roomModalCarouselBtn {
+  min-height: 44px;
+}
+
+@media (max-width: 1023px) {
+  .hotelDetailsShell {
+    width: min(100% - (var(--page-gutter) * 2), 980px);
+  }
+
+  .hotelBreadcrumbs {
+    margin-top: clamp(28px, 6vw, 48px);
+  }
+
+  .galleryMain {
+    min-height: clamp(320px, 54vw, 420px);
+  }
+}
+
+@media (max-width: 767px) {
+  .hotelDetailsShell {
+    width: calc(100% - (var(--page-gutter) * 2));
+    padding-top: 12px;
+  }
+
+  .hotelBreadcrumbs {
+    margin-top: 20px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .hotelBreadcrumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hotelHeroHeader,
+  .hotelTitleRow {
+    gap: 12px;
+  }
+
+  .hotelHeroActions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroPrimaryBtn,
+  .heroGhostBtn {
+    width: 100%;
+  }
+
+  .galleryMain {
+    min-height: clamp(240px, 68vw, 340px);
+  }
+
+  .galleryThumbBtn {
+    min-height: clamp(92px, 29vw, 150px);
+  }
+
+  .hotelSection,
+  .bookingCard,
+  .sidebarInfoCard,
+  .infoPanel {
+    padding: clamp(16px, 4.5vw, 22px);
+  }
+
+  .roomsTableWrap {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .roomModalBackdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .roomModal {
+    width: 100%;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .roomModalDetails {
+    padding: clamp(18px, 5vw, 24px);
+  }
+}
+
+@media (max-width: 479px) {
+  .hotelDetailsShell {
+    width: calc(100% - 16px);
+  }
+
+  .hotelHeroActions {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .hotelQuickFacts {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .quickFactChip {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .galleryGrid {
+    gap: 8px;
+  }
+
+  .gallerySide {
+    gap: 8px;
+  }
+
+  .galleryMain {
+    min-height: 220px;
+  }
+
+  .galleryThumbBtn {
+    min-height: 88px;
+  }
+
+  .overviewStats,
+  .amenitiesGrid {
+    gap: 10px;
+  }
+
+  .roomModalMedia {
+    min-height: 210px;
+  }
+
+  .roomModalImageFrame {
+    height: 200px;
+    min-height: 180px;
+  }
+}
+
+@media (max-width: 359px) {
+  .hotelDetailsShell {
+    width: calc(100% - 8px);
+  }
+
+  .hotelSection,
+  .bookingCard,
+  .sidebarInfoCard,
+  .infoPanel {
+    padding: 14px;
+  }
+
+  .galleryMain {
+    min-height: 196px;
+  }
+
+  .galleryThumbBtn {
+    min-height: 78px;
+  }
+}

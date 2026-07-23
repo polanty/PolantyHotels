@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import SearchComponent from "../../Components/SearchBarComponent/SearchBarComponent";
 import eiffelTowerImage from "../../assets/images/wp3948133-eiffel-tower-4k-wallpapers.jpg";
 
@@ -33,11 +34,26 @@ const featured = [
 
 function Index() {
   const [email, setEmail] = useState("");
+  const location = useLocation();
 
   // Note: Your original HTML uses <html class="dark">.
   // To keep dark mode, add class="dark" on <html> in public/index.html (or toggle it yourself).
 
   const heroStyle = useMemo(() => ({ backgroundImage: DESTINATION_BG }), []);
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const targetId = decodeURIComponent(location.hash.slice(1));
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.hash]);
 
   function onSubscribe(e) {
     e.preventDefault();
@@ -57,7 +73,9 @@ function Index() {
             </div>
           </div>
         </section>
-        <SearchComponent />
+        <div id="hotel-search" className="landingAnchor">
+          <SearchComponent />
+        </div>
 
         {/* Value Proposition Section */}
         <section className="section section--spacious">
@@ -115,7 +133,10 @@ function Index() {
         </section>
 
         {/* Featured Destinations Section */}
-        <section className="section section--alt">
+        <section
+          id="featured-destinations"
+          className="section section--alt landingAnchor"
+        >
           <div className="container">
             <div className="sectionHead">
               <h2 className="sectionHead__title">Featured Destinations</h2>
@@ -144,7 +165,7 @@ function Index() {
         </section>
 
         {/* Call to Action Section */}
-        <section className="section">
+        <section id="exclusive-deals" className="section landingAnchor">
           <div className="container">
             <div className="ctaCard">
               <h2 className="ctaCard__title">

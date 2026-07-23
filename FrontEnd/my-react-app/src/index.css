@@ -45,9 +45,22 @@
   --panel-soft-dark: #162033;
   --primary-hover: #0f6fd1;
   --success: #16a34a;
+
+  --app-gutter: clamp(12px, 2.2vw, 24px);
+  --page-gutter: clamp(16px, 4vw, 32px);
+  --section-space: clamp(48px, 7vw, 96px);
+  --text-xs: clamp(0.72rem, 0.69rem + 0.12vw, 0.78rem);
+  --text-sm: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
+  --text-base: clamp(0.94rem, 0.91rem + 0.16vw, 1rem);
+  --text-lg: clamp(1.05rem, 0.99rem + 0.28vw, 1.2rem);
+  --title-sm: clamp(1.35rem, 1.17rem + 0.9vw, 1.85rem);
+  --title-md: clamp(1.75rem, 1.4rem + 1.7vw, 2.75rem);
+  --title-lg: clamp(2.15rem, 1.42rem + 3.65vw, 4.5rem);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -59,6 +72,14 @@ html.dark {
 html,
 body {
   height: 100%;
+}
+
+html {
+  min-width: 320px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -73,6 +94,9 @@ body {
     sans-serif;
   background: var(--bg-light);
   color: var(--text-light);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  overflow-wrap: break-word;
 }
 
 html.dark body {
@@ -84,8 +108,42 @@ a {
   color: inherit;
 }
 
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  font: inherit;
+}
+
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"] {
+  touch-action: manipulation;
+}
+
 main {
   background: var(--panel);
+  min-width: 0;
+}
+
+.landingAnchor {
+  scroll-margin-top: 88px;
+}
+
+@media (max-width: 767px) {
+  .landingAnchor {
+    scroll-margin-top: 72px;
+  }
 }
 
 /* Material Symbols */
@@ -109,7 +167,7 @@ main {
   width: 100%;
   max-width: 1120px; /* container-like */
   margin: 0 auto;
-  padding: 0 24px;
+  padding-inline: var(--page-gutter);
 }
 
 /* ===== Topbar ===== */
@@ -1807,5 +1865,295 @@ html.dark .footerBottom {
     padding: 12px;
     transform: translateX(-50%);
     transform-origin: top center;
+  }
+}
+
+/* ===== Unified responsive system ===== */
+.hero__title {
+  font-size: var(--title-lg);
+  text-wrap: balance;
+}
+
+.sectionHead__title,
+.ctaCard__title {
+  font-size: var(--title-md);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.sectionHead__subtitle,
+.ctaCard__text,
+.hero__subtitle {
+  font-size: var(--text-lg);
+}
+
+.section,
+.section--spacious {
+  padding-block: var(--section-space);
+}
+
+.btn,
+.menuToggle,
+.profileMenu__trigger,
+.footerCol__title {
+  min-height: 44px;
+}
+
+@media (max-width: 1279px) {
+  .container {
+    max-width: 1040px;
+  }
+
+  .topbar__inner {
+    padding-inline: var(--page-gutter);
+  }
+
+  .hero {
+    min-height: clamp(460px, 58vw, 560px);
+  }
+
+  .featuredCard__img {
+    height: clamp(250px, 31vw, 310px);
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --section-space: clamp(44px, 8vw, 72px);
+  }
+
+  .container {
+    max-width: 820px;
+  }
+
+  .topbar__inner {
+    min-height: 64px;
+  }
+
+  .hero {
+    min-height: clamp(420px, 66vw, 520px);
+    padding-block: clamp(56px, 9vw, 80px);
+  }
+
+  .heroSearch {
+    padding-inline: 0;
+  }
+
+  .searchCard {
+    border-radius: 16px;
+  }
+
+  .searchRow {
+    gap: 2px;
+  }
+
+  .valueGrid {
+    gap: clamp(24px, 5vw, 40px);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --app-gutter: 12px;
+    --page-gutter: clamp(14px, 4.5vw, 20px);
+    --section-space: clamp(40px, 12vw, 64px);
+  }
+
+  body {
+    line-height: 1.5;
+  }
+
+  .topbar__inner {
+    min-height: 60px;
+    padding-block: 8px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand__icon {
+    font-size: 28px;
+  }
+
+  .brand__name {
+    margin-left: 4px;
+    font-size: clamp(1rem, 4.8vw, 1.125rem);
+  }
+
+  .menuToggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero {
+    min-height: clamp(390px, 112vw, 480px);
+    padding: 52px 0 72px;
+  }
+
+  .hero__text {
+    gap: 12px;
+  }
+
+  .hero__subtitle {
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+
+  .searchCard {
+    padding: 8px;
+    border-radius: 14px;
+  }
+
+  .fieldRow,
+  .btn--search {
+    min-height: 54px;
+  }
+
+  .input,
+  .select,
+  .motionCalendar__trigger,
+  .motionSelect__trigger {
+    font-size: 16px;
+  }
+
+  .valueCard {
+    gap: 12px;
+  }
+
+  .valueCard__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .valueCard__icon .material-symbols-outlined {
+    font-size: 34px;
+  }
+
+  .valueCard__title {
+    font-size: var(--text-lg);
+  }
+
+  .valueCard__text {
+    font-size: var(--text-sm);
+  }
+
+  .sectionHead {
+    margin-bottom: clamp(24px, 7vw, 32px);
+  }
+
+  .featuredGrid {
+    gap: 16px;
+  }
+
+  .featuredCard__img {
+    height: clamp(220px, 70vw, 280px);
+  }
+
+  .featuredCard__title {
+    font-size: var(--title-sm);
+  }
+
+  .ctaCard {
+    padding: clamp(24px, 7vw, 36px) clamp(16px, 5vw, 24px);
+    border-radius: 16px;
+  }
+
+  .ctaForm {
+    margin-top: 24px;
+  }
+
+  .ctaForm__field,
+  .input--solid,
+  .ctaForm .btn {
+    min-height: 52px;
+  }
+
+  .footerGrid {
+    padding-inline: var(--page-gutter);
+  }
+
+  .footerBottom {
+    margin-top: 28px;
+    padding: 24px var(--page-gutter);
+    text-align: center;
+  }
+}
+
+@media (max-width: 479px) {
+  .hero {
+    min-height: 380px;
+    background-position: 58% center;
+  }
+
+  .heroSearch {
+    margin-top: 12px;
+  }
+
+  .motionCalendar__popover,
+  .motionSelect__popover {
+    max-width: calc(100vw - 28px);
+  }
+
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footerIcons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 359px) {
+  :root {
+    --page-gutter: 12px;
+  }
+
+  .topbar__inner {
+    padding-inline: 10px;
+  }
+
+  .brand__name {
+    max-width: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero {
+    min-height: 360px;
+  }
+
+  .searchCard {
+    padding: 6px;
+  }
+
+  .fieldRow__icon {
+    padding-left: 10px;
+    font-size: 20px;
+  }
+
+  .featuredCard__img {
+    height: 210px;
+  }
+
+  .ctaCard {
+    padding-inline: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
