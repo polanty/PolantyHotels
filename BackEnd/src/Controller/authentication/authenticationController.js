@@ -7,7 +7,7 @@ import AppError from "../../Utilities/globalErrorCatcher.js";
 import { sendEmail } from "../../Utilities/email.js";
 
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const getCookieOptions = () => ({
   httpOnly: true,

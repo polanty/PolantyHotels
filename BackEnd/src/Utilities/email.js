@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 export const sendEmail = async (options) => {
   // 1. Create transporter

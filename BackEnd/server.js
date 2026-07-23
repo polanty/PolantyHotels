@@ -2,7 +2,7 @@ import app from "./app.js";
 import { startReleaseRoomsJob } from "./src/Utilities/NodeCron/nodeCron.js";
 import { connectToDatabase } from "./src/config/database.js";
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const port = process.env.PORT || 3000;
 

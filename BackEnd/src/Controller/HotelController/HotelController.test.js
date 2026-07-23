@@ -43,6 +43,8 @@ describe("HotelController", () => {
       req.query = { page: "2", limit: "10" };
 
       const mockHotels = [{ name: "Hotel One" }, { name: "Hotel Two" }];
+      const locationQuery = {};
+      Location.find.mockReturnValue(locationQuery);
 
       const apiFeaturesInstance = {
         defaultyQueryWithFilter: jest.fn().mockReturnThis(),
@@ -60,18 +62,26 @@ describe("HotelController", () => {
 
       await getAllHotels(req, res, next);
 
-      expect(APIFeatures).toHaveBeenCalledWith(Location.find(), req.query);
+      expect(Location.find).toHaveBeenCalledWith({
+        isActive: { $ne: false },
+      });
+      expect(APIFeatures).toHaveBeenCalledWith(locationQuery, req.query);
       expect(apiFeaturesInstance.defaultyQueryWithFilter).toHaveBeenCalled();
       expect(apiFeaturesInstance.sort).toHaveBeenCalled();
       expect(apiFeaturesInstance.pagination).toHaveBeenCalled();
       expect(Location.countDocuments).toHaveBeenCalledWith(
-        apiFeaturesInstance.filter,
+        {
+          ...apiFeaturesInstance.filter,
+          isActive: { $ne: false },
+        },
       );
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         status: "success",
         results: 25,
+        totalResults: 25,
+        limit: apiFeaturesInstance.limit,
         totalPages: Math.ceil(25 / apiFeaturesInstance.limit),
         currentPage: apiFeaturesInstance.page,
         data: {
@@ -227,7 +237,7 @@ describe("HotelController", () => {
       expect(Location.findByIdAndUpdate).not.toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(
         new AppError(
-          "Invalid updates! You can only update name and address.",
+          "Invalid updates! You can only update hotel details.",
           400,
         ),
       );

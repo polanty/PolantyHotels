@@ -25,7 +25,7 @@ import AppError from "./src/Utilities/globalErrorCatcher.js";
 
 //loading environment variables
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const app = express();
 

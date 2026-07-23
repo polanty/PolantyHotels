@@ -1,7 +1,20 @@
 import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
 import App from "./App";
 
-test("renders the app", () => {
-  render(<App />);
-  expect(screen.getByText(/vite \+ react/i)).toBeInTheDocument();
+test("shows the loading state while the session is bootstrapping", () => {
+  const store = {
+    getState: () => ({ auth: { bootstrapped: false } }),
+    subscribe: () => () => {},
+    dispatch: vi.fn(),
+  };
+
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  );
+
+  expect(screen.getByText("Loading...")).toBeInTheDocument();
+  expect(store.dispatch).toHaveBeenCalled();
 });
