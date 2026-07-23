@@ -1019,12 +1019,12 @@
 }
 
 .availabilitySearch--error [aria-invalid="true"] {
-  color: #fecaca;
+  color: red;
 }
 
 .availabilityDateError {
   margin: 10px 0 0;
-  color: #fecaca;
+  color: red;
   font-size: 0.9rem;
   font-weight: 700;
 }

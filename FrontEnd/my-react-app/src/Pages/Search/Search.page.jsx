@@ -386,8 +386,20 @@ export default function HotelSearchResults() {
               </div>
 
               {!city && (
-                <div className="emptyState">
-                  <p>Please search for a city to view hotels.</p>
+                <div className="emptyState emptyState--search">
+                  <div className="emptyStateIcon" aria-hidden="true">
+                    <span className="material-symbols-outlined">
+                      travel_explore
+                    </span>
+                  </div>
+                  <p className="emptyStateEyebrow">Your next stay awaits</p>
+                  <h2 className="emptyStateTitle">
+                    Where would you like to go?
+                  </h2>
+                  <p className="emptyStateMessage">
+                    Search for a city above to discover hand-picked hotels,
+                    compare rooms, and find the perfect place to stay.
+                  </p>
                 </div>
               )}
 
