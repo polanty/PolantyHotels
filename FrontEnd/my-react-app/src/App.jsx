@@ -16,15 +16,11 @@ function App() {
     dispatch(fetchMe());
   }, [dispatch]);
 
-  console.log(`Bootstrap Before: ${bootstrapped}`);
-
   // Optional: show splash while checking cookie session
   if (!bootstrapped) {
     return <div className="splash">Loading...</div>;
   }
   // or your loading component
-
-  //console.log(`Bootstrap After: ${bootstrapped}`);
 
   return (
     <div>

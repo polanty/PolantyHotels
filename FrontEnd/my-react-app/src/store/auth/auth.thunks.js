@@ -8,7 +8,6 @@ export const fetchMe = createAsyncThunk("auth/me", async (_, thunkApi) => {
     return res.data; // expected: { user: {...} } OR just user
   } catch (err) {
     // If not logged in, treat as "no user" not "fatal error"
-    console.log("This thunk is called");
     const message =
       err.response?.data?.message || err.message || "Not Authenticated";
     return thunkApi.rejectWithValue(message);
@@ -22,12 +21,8 @@ export const hotelDetails = createAsyncThunk(
 
   async (hotelId, thunkApi) => {
     try {
-      console.log("This thunk is called");
-
       const res = await authApi.getHotelById(hotelId);
       const payload = res.data;
-
-      console.log("Hotel details payload:", payload);
 
       const hotel = payload?.data?.hotel || payload?.hotel || null;
 
@@ -129,7 +124,6 @@ export const loginThunk = createAsyncThunk(
     } catch (err) {
       const message =
         err.response?.data?.message || err.message || "Login failed";
-      console.log(err.response);
       return thunkApi.rejectWithValue(message);
     }
   },

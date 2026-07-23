@@ -50,8 +50,6 @@ export default function AdminLoginPage() {
     return <Navigate to="/admin" replace />;
   }
 
-  //console.log("This is the admin user:", adminUser);
-
   return (
     <main className="adminShell">
       <section className="adminHero">

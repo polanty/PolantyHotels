@@ -54,8 +54,6 @@ class APIFeatures {
 
   sort() {
     if (this.queryString.sort) {
-      console.log(this.queryString.sort.split(",").join(" "));
-
       const sortBy = this.queryString.sort.split(",").join(" ");
       this.query = this.query.find().sort(`${sortBy}`);
     } else {
@@ -76,7 +74,6 @@ class APIFeatures {
     this.limit = limit; // save limit for later use
     this.page = page;
 
-    console.log("Got here");
     return this;
   }
 }

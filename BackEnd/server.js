@@ -6,13 +6,11 @@ dotenv.config();
 
 const port = process.env.PORT || 3000;
 
-connectToDatabase()
-  .then(() => console.log("✅ Connected to MongoDB Atlas"))
-  .catch((err) => console.error("❌ Connection error:", err));
+connectToDatabase().catch((err) =>
+  console.error("❌ Connection error:", err),
+);
 
 // Start the cron job to release rooms after check-out
 startReleaseRoomsJob();
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+app.listen(port);

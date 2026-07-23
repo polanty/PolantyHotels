@@ -28,7 +28,6 @@ export const fetchMeAdmin = createAsyncThunk("auth/me", async (_, thunkApi) => {
     return res.data; // expected: { user: {...} } OR just user
   } catch (err) {
     // If not logged in, treat as "no user" not "fatal error"
-    console.log("This thunk is called");
     const message =
       err.response?.data?.message || err.message || "Not Authenticated";
     return thunkApi.rejectWithValue(message);

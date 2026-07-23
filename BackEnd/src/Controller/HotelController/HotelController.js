@@ -65,10 +65,7 @@ export const createHotel = catchAsync(async (req, res, next) => {
 });
 
 export const getOneHotel = catchAsync(async (req, res, next) => {
-  const host = req.get("host");
   const hotelId = req.params.id;
-
-  console.log(`Host: ${host}`);
 
   const hotel = await Location.findById(hotelId).populate({
     path: "reviews",

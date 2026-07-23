@@ -46,7 +46,6 @@ export const stripeWebhook = async (req, res) => {
 
         await booking.save();
 
-        console.log("Booking confirmed:", booking._id);
       }
 
       try {
@@ -85,7 +84,6 @@ export const stripeWebhook = async (req, res) => {
 
         await booking.save();
 
-        console.log("Expired booking released:", booking._id);
       }
     }
 

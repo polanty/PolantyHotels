@@ -9,19 +9,11 @@ const run = async () => {
   const keepProcessAlive = setInterval(() => {}, 1000);
 
   try {
-    console.log("Connecting to MongoDB...");
     await connectToDatabase({
       serverSelectionTimeoutMS: 15000,
       connectTimeoutMS: 10000,
     });
-    console.log("Connected to MongoDB");
-
-    const result = await uploadLocationDocuments();
-    console.log(
-      `Location upload complete: ${result.processed} processed, ` +
-        `${result.inserted} inserted, ${result.updated} updated, ` +
-        `${result.matched} matched.`,
-    );
+    await uploadLocationDocuments();
   } catch (error) {
     console.error("Location upload failed:", error.message);
     const serverErrors = error.reason?.servers

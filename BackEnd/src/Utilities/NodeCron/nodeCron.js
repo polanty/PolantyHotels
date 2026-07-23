@@ -10,7 +10,7 @@ export const startReleaseRoomsJob = () => {
         Date.now() - PENDING_PAYMENT_EXPIRY_MINUTES * 60 * 1000,
       );
 
-      const result = await Booking.updateMany(
+      await Booking.updateMany(
         {
           status: "pending_payment",
           paymentStatus: "unpaid",
@@ -24,10 +24,6 @@ export const startReleaseRoomsJob = () => {
           },
         },
       );
-
-      if (result.modifiedCount > 0) {
-        console.log(`Expired ${result.modifiedCount} stale pending bookings`);
-      }
     } catch (err) {
       console.error("Pending booking expiry job failed:", err.message);
     }
@@ -47,7 +43,6 @@ export const startReleaseRoomsJob = () => {
         booking.roomReleased = true;
         await booking.save();
       }
-      console.log(`Released ${bookings.length} completed booking rooms`);
     } catch (err) {
       console.error("Room release job failed:", err.message);
     }

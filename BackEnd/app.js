@@ -27,8 +27,6 @@ import AppError from "./src/Utilities/globalErrorCatcher.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-// console.log(process.env);
-
 const app = express();
 
 const allowedOrigins = [
@@ -40,11 +38,6 @@ const allowedOrigins = [
   "http://127.0.0.1:5174",
 ].filter(Boolean);
 
-// app.use((req, res, next) => {
-//   console.log(process.env);
-
-//   next();
-// });
 app.use(
   cors({
     origin(origin, callback) {
@@ -60,15 +53,6 @@ app.use(
 
 // Stripe Webhook Route (Unprotected, must be defined before any authentication middleware)
 // This route is used by Stripe to send event notifications (e.g., payment success, payment failure), Do NOT use express.json() for this route or signature verification will fail.
-app.use("/api/v1/bookings/webhook", (req, res, next) => {
-  console.log("Incoming Stripe webhook request", {
-    url: req.originalUrl,
-    method: req.method,
-    contentType: req.headers["content-type"],
-    hasStripeSignature: Boolean(req.headers["stripe-signature"]),
-  });
-  next();
-});
 app.post(
   "/api/v1/bookings/webhook",
   express.raw({ type: "application/json" }),
@@ -83,14 +67,6 @@ app.use(cookieParser()); // <- used to pass all the cookies coming from the requ
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
-// Test middleware
-app.use((req, res, next) => {
-  console.log(req.cookies);
-  console.log("This is a test middleware");
-  console.log(process.env.NODE_ENV);
-  next();
-});
 
 //Now any uploaded image is accessible like: http://localhost:5000/uploads/<filename>
 app.use("/uploads", express.static("uploads"));

@@ -41,7 +41,6 @@ function Index() {
 
   function onSubscribe(e) {
     e.preventDefault();
-    console.log({ email });
   }
 
   return (

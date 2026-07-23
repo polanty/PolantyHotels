@@ -58,10 +58,7 @@ export const protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  console.log(confirmedUser.changePasswordAfter(confirmedToken.iat));
-
   //check if the user changed password after the tokenwas issued
-  //console.log(confirmedToken);
   if (confirmedUser.changePasswordAfter(confirmedToken.iat)) {
     return next(
       new AppError(
@@ -71,7 +68,6 @@ export const protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  //console.log(confirmedUser);
   req.user = confirmedUser;
   next();
 });
@@ -103,7 +99,6 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
     }
 
     //check if the user changed password after the tokenwas issued
-    //console.log(confirmedToken);
     if (confirmedUser.changePasswordAfter(confirmedToken.iat)) {
       return next();
     }
@@ -206,8 +201,6 @@ export const Login = catchAsync(async (req, res, next) => {
 });
 
 export const signUp = catchAsync(async (req, res, next) => {
-  //console.log(req.body);
-
   const newUser = await User.create({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -267,8 +260,6 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
   const message = `Forgot your password? Submit a Patch request with your new password and passwordConfirm to: ${resetURL}. \n If you didn't forget your password, please ignore this email!`;
 
-  console.log("Got here finally");
-
   //Because we need to handle the error but do more than just send the error to the global error handler
   // wedefine a local trycatch block to unset the passwordResetToken and passwordExpiredTime
   try {
@@ -327,8 +318,6 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   if (!existingUser) {
     return next(new AppError("This Link has expired ! Try again"), 404);
   }
-
-  console.log(existingUser);
 
   existingUser.password = req.body.password;
   existingUser.passwordConfirm = req.body.passwordConfirm;

@@ -239,8 +239,6 @@ export const getCheckoutSession = catchAsync(async (req, res, next) => {
 
   const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-  // console.log("Retrieved session:", session);
-
   res.status(200).json({
     status: "success",
     session,
