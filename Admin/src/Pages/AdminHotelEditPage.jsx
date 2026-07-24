@@ -5,6 +5,29 @@ import { getErrorMessage } from "../features/hotels/hotelFormUtils";
 
 const roomTypeOptions = ["Single", "Double", "Suite", "Deluxe", "Family"];
 const currencyOptions = ["GBP", "EUR", "USD", "JPY", "AUD", "CAD"];
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+
+function resolveRoomImageUrl(image) {
+  const imageValue =
+    typeof image === "string"
+      ? image
+      : image?.secure_url || image?.url || image?.path;
+
+  if (!imageValue) return "";
+  if (/^(?:https?:|data:|blob:)/i.test(imageValue)) return imageValue;
+
+  const normalizedPath = imageValue.replaceAll("\\", "/");
+  const absolutePath = normalizedPath.startsWith("/")
+    ? normalizedPath
+    : `/${normalizedPath}`;
+
+  try {
+    return new URL(absolutePath, apiBaseUrl).href;
+  } catch {
+    return absolutePath;
+  }
+}
 
 function toDateInput(value) {
   if (!value) return new Date().toISOString().slice(0, 10);
@@ -57,6 +80,7 @@ export default function AdminHotelEditPage() {
   const [roomForms, setRoomForms] = useState([]);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
+  const [failedImages, setFailedImages] = useState({});
 
   useEffect(() => {
     async function loadHotel() {
@@ -251,11 +275,43 @@ export default function AdminHotelEditPage() {
 
             {room.images.length > 0 && (
               <div className="imagePreviewGrid">
-                {room.images.map((image) => (
-                  <figure key={image}>
-                    <img src={image} alt={`Room ${index + 1}`} />
-                  </figure>
-                ))}
+                {room.images.map((image, imageIndex) => {
+                  const imageUrl = resolveRoomImageUrl(image);
+                  const imageKey = `${room.id}-${imageIndex}`;
+
+                  return (
+                    <figure key={imageKey}>
+                      {imageUrl && !failedImages[imageKey] ? (
+                        <img
+                          src={imageUrl}
+                          alt={`Room ${index + 1}, view ${imageIndex + 1}`}
+                          onError={() =>
+                            setFailedImages((current) => ({
+                              ...current,
+                              [imageKey]: true,
+                            }))
+                          }
+                        />
+                      ) : (
+                        <div
+                          className="imagePreviewFallback"
+                          role="img"
+                          aria-label={`Room ${index + 1}, view ${imageIndex + 1} is unavailable`}
+                        >
+                          <svg
+                            className="imagePreviewFallbackIcon"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M19 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5c0-1.1-.9-2-2-2Zm0 16H5V5h14v14ZM8.5 11A1.5 1.5 0 1 0 8.5 8a1.5 1.5 0 0 0 0 3Zm-1.83 6h10.66L14 12.56l-2.67 3.45-1.9-2.28L6.67 17Z" />
+                            <path d="m4.27 2.86 16.87 16.87-1.41 1.41L2.86 4.27l1.41-1.41Z" />
+                          </svg>
+                          <span>Image unavailable</span>
+                        </div>
+                      )}
+                    </figure>
+                  );
+                })}
               </div>
             )}
 

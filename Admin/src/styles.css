@@ -55,6 +55,38 @@ body {
   gap: 8px;
 }
 
+.adminHeaderActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.adminLogoutButton {
+  min-width: auto;
+  padding: 9px 14px;
+  border: 1px solid #fecdd3;
+  color: #be123c;
+  background: #fff1f2;
+  white-space: nowrap;
+}
+
+.adminLogoutButton:hover:not(:disabled) {
+  border-color: #fda4af;
+  color: #fff;
+  background: #be123c;
+}
+
+.adminLogoutError {
+  width: min(1180px, 100%);
+  margin: 10px auto 0;
+  color: #be123c;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: right;
+}
+
 .navLink {
   border: 1px solid transparent;
   border-radius: 8px;
@@ -264,6 +296,28 @@ p {
   border-radius: 8px;
   object-fit: cover;
   background: #fff;
+}
+
+.imagePreviewFallback {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  border: 1px dashed #cbd6e5;
+  border-radius: 8px;
+  color: #64748b;
+  background: #f1f5f9;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.imagePreviewFallbackIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
 
 .imagePreviewGrid figcaption {
@@ -583,6 +637,19 @@ button:disabled {
 
   .adminTopNav nav {
     justify-content: flex-start;
+  }
+
+  .adminHeaderActions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .adminLogoutButton {
+    min-height: 44px;
+  }
+
+  .adminLogoutError {
+    text-align: left;
   }
 
   .adminShell {
