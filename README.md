@@ -789,6 +789,26 @@ PolantyHotels/
 
 ### Development Scripts
 
+**Both UIs (from the repository root):**
+```bash
+npm run build:user      # Build the customer UI into FrontEnd/my-react-app/dist
+npm run build:admin     # Build the admin UI into Admin/dist
+npm run build:all       # Build both UIs
+```
+
+Each UI is an independent Vite application and can be deployed separately. Copy
+its environment example before building, then replace the development values
+with the production API URL and Mapbox token as appropriate:
+
+```bash
+cp FrontEnd/my-react-app/.env.example FrontEnd/my-react-app/.env.production
+cp Admin/.env.example Admin/.env.production
+npm run build:all
+```
+
+Vite loads `.env.production` during `npm run build`. Do not commit that file;
+only the safe `.env.example` templates belong in source control.
+
 **Backend:**
 ```bash
 npm start              # Start server with nodemon (auto-reload)
@@ -920,17 +940,26 @@ Response:
 
 ### Deployment Steps
 
-1. **Build frontend**
+1. **Build the customer and admin frontends**
    ```bash
-   cd FrontEnd/my-react-app
-   npm run build  # Creates dist/ folder
+   # Run from the repository root
+   npm run build:all
    ```
 
-2. **Deploy to CloudFront/S3**
+   This creates two independent deployment artifacts:
+   - `FrontEnd/my-react-app/dist/` for the customer website
+   - `Admin/dist/` for the admin dashboard
+
+2. **Deploy each UI to its own CloudFront/S3 destination**
    ```bash
-   aws s3 sync dist/ s3://your-bucket-name/
-   aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths "/*"
+   aws s3 sync FrontEnd/my-react-app/dist/ s3://your-customer-ui-bucket/ --delete
+   aws s3 sync Admin/dist/ s3://your-admin-ui-bucket/ --delete
    ```
+
+   Configure each static host to serve `index.html` for unknown paths so that
+   React Router routes work when opened directly. A typical domain layout is
+   `www.example.com` for customers, `admin.example.com` for administrators, and
+   `api.example.com` for the backend. Allow both UI origins in backend CORS.
 
 3. **Deploy backend to Elastic Beanstalk**
    ```bash

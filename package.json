@@ -1,0 +1,10 @@
+{
+  "name": "polanty-hotels",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build:user": "npm run build --prefix FrontEnd/my-react-app",
+    "build:admin": "npm run build --prefix Admin",
+    "build:all": "npm run build:user && npm run build:admin"
+  }
+}
