@@ -1,22 +1,21 @@
-jest.mock("mongoose");
-
 import User from "../../Models/userModel.js";
 import AppError from "../../Utilities/globalErrorCatcher.js";
 import jwt from "jsonwebtoken";
 import { protect, Login } from "./authenticationController.js";
-import { promisify } from "util";
 
-jest.mock("../../Models/userModel.js");
-jest.mock("jsonwebtoken");
-jest.mock("util", () => ({
-  promisify: jest.fn((fn) => {
-    return async (token, secret) => {
-      return fn(token, secret, (err, decoded) => {
-        if (err) throw err;
-        return decoded;
-      });
-    };
-  }),
+jest.mock("../../Models/userModel.js", () => ({
+  __esModule: true,
+  default: {
+    findById: jest.fn(),
+    findOne: jest.fn(),
+  },
+}));
+jest.mock("jsonwebtoken", () => ({
+  __esModule: true,
+  default: {
+    verify: jest.fn(),
+    sign: jest.fn(),
+  },
 }));
 
 // For the protect middleware
@@ -81,11 +80,14 @@ describe("protect middleware", () => {
       cb(null, decodedToken);
     });
 
-    User.findById.mockResolvedValue(null);
+    User.findOne.mockResolvedValue(null);
 
     await protect(req, res, next);
 
-    expect(User.findById).toHaveBeenCalledWith(decodedToken.id);
+    expect(User.findOne).toHaveBeenCalledWith({
+      _id: decodedToken.id,
+      active: { $ne: false },
+    });
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
 
     const error = next.mock.calls[0][0];
@@ -109,11 +111,14 @@ describe("protect middleware", () => {
       changePasswordAfter: jest.fn().mockReturnValue(true),
     };
 
-    User.findById.mockResolvedValue(mockUser);
+    User.findOne.mockResolvedValue(mockUser);
 
     await protect(req, res, next);
 
-    expect(User.findById).toHaveBeenCalledWith(decodedToken.id);
+    expect(User.findOne).toHaveBeenCalledWith({
+      _id: decodedToken.id,
+      active: { $ne: false },
+    });
     expect(mockUser.changePasswordAfter).toHaveBeenCalledWith(decodedToken.iat);
 
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
@@ -139,11 +144,14 @@ describe("protect middleware", () => {
       changePasswordAfter: jest.fn().mockReturnValue(false),
     };
 
-    User.findById.mockResolvedValue(mockUser);
+    User.findOne.mockResolvedValue(mockUser);
 
     await protect(req, res, next);
 
-    expect(User.findById).toHaveBeenCalledWith(decodedToken.id);
+    expect(User.findOne).toHaveBeenCalledWith({
+      _id: decodedToken.id,
+      active: { $ne: false },
+    });
     expect(mockUser.changePasswordAfter).toHaveBeenCalledWith(decodedToken.iat);
 
     expect(req.user).toBe(mockUser);
@@ -156,7 +164,7 @@ describe("Login Controller", () => {
   let req, res, next;
 
   beforeEach(() => {
-    req = { body: {} };
+    req = { body: {}, get: jest.fn().mockReturnValue(undefined) };
 
     res = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -167,6 +175,7 @@ describe("Login Controller", () => {
 
     process.env.JWT_SECRET_TOKEN = "test-secret";
     process.env.JWT_EXPIRES_IN = "1h";
+    process.env.ADMIN_URL = "https://admin.polantyhotels.com";
 
     jest.clearAllMocks();
   });
@@ -191,7 +200,10 @@ describe("Login Controller", () => {
 
     await Login(req, res, next);
 
-    expect(User.findOne).toHaveBeenCalledWith({ email: "user@example.com" });
+    expect(User.findOne).toHaveBeenCalledWith({
+      email: "user@example.com",
+      active: { $ne: false },
+    });
     expect(next).toHaveBeenCalledWith(expect.any(AppError));
 
     const error = next.mock.calls[0][0];
@@ -233,6 +245,7 @@ describe("Login Controller", () => {
       email: "user@example.com",
       password: "hashed-password",
       first_name: "John",
+      role: "user",
       correctPassword: jest.fn().mockResolvedValue(true),
       save: jest.fn().mockResolvedValue(true),
     };
@@ -262,6 +275,62 @@ describe("Login Controller", () => {
     expect(res.json).toHaveBeenCalled();
 
     expect(next).not.toHaveBeenCalled();
+  });
+
+  it("allows an admin to log in from the configured admin URL", async () => {
+    req.body = { email: "admin@example.com", password: "correctPassword" };
+    req.get.mockImplementation((header) =>
+      header === "origin" ? process.env.ADMIN_URL : undefined,
+    );
+
+    const mockAdmin = {
+      _id: "admin-id-123",
+      email: "admin@example.com",
+      password: "hashed-password",
+      role: "admin",
+      correctPassword: jest.fn().mockResolvedValue(true),
+      save: jest.fn().mockResolvedValue(true),
+    };
+
+    User.findOne.mockReturnValue({
+      select: jest.fn().mockResolvedValue(mockAdmin),
+    });
+    jwt.sign.mockReturnValue("admin-jwt-token");
+
+    await Login(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.cookie).toHaveBeenCalledWith(
+      "token",
+      "admin-jwt-token",
+      expect.any(Object),
+    );
+  });
+
+  it("rejects a regular user logging in from the configured admin URL", async () => {
+    req.body = { email: "user@example.com", password: "correctPassword" };
+    req.get.mockImplementation((header) =>
+      header === "origin" ? process.env.ADMIN_URL : undefined,
+    );
+
+    const mockUser = {
+      _id: "user-id-123",
+      email: "user@example.com",
+      password: "hashed-password",
+      role: "user",
+      correctPassword: jest.fn().mockResolvedValue(true),
+    };
+
+    User.findOne.mockReturnValue({
+      select: jest.fn().mockResolvedValue(mockUser),
+    });
+
+    await Login(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(expect.any(AppError));
+    expect(next.mock.calls[0][0].statusCode).toBe(403);
+    expect(res.cookie).not.toHaveBeenCalled();
   });
 
   it("should call next on unexpected DB error", async () => {

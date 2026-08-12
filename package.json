@@ -5,6 +5,7 @@
   "scripts": {
     "build:user": "npm run build --prefix FrontEnd/my-react-app",
     "build:admin": "npm run build --prefix Admin",
-    "build:all": "npm run build:user && npm run build:admin"
+    "build:backend": "npm run build --prefix BackEnd",
+    "build:all": "npm run build:user && npm run build:admin && npm run build:backend"
   }
 }

@@ -6,6 +6,5 @@ export default {
   testPathIgnorePatterns: [
     "/node_modules/",
     "/FrontEnd/my-react-app/",
-    "/src/Controller/authentication/",
   ],
 };

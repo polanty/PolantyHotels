@@ -138,14 +138,31 @@ export const Login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect Email or Password💥", 404));
   }
 
-  const host = req.get("host")?.toLowerCase() || "";
+  const host = req.get?.("host")?.toLowerCase() || "";
   const hostname = host.replace(/:\d+$/, "");
-  const origin = req.get("origin");
-  const originHost = origin ? new URL(origin).host.toLowerCase() : "";
-  const adminOrigins = new Set(["localhost:5174", "127.0.0.1:5174"]);
+  const origin = req.get?.("origin");
+
+  const normalizeOrigin = (value) => {
+    if (!value) return null;
+
+    try {
+      return new URL(value).origin.toLowerCase();
+    } catch {
+      return null;
+    }
+  };
+
+  const adminOrigins = new Set(
+    [
+      process.env.ADMIN_URL,
+      "http://localhost:5174",
+      "http://127.0.0.1:5174",
+    ]
+      .map(normalizeOrigin)
+      .filter(Boolean),
+  );
   const isAdminHost =
-    hostname === "admin.voyage.com" ||
-    adminOrigins.has(originHost) ||
+    adminOrigins.has(normalizeOrigin(origin)) ||
     (!origin && hostname === "localhost");
 
   if (isAdminHost && currentUser.role === "user") {
@@ -159,7 +176,10 @@ export const Login = catchAsync(async (req, res, next) => {
 
   if (!isAdminHost && currentUser.role !== "user") {
     return next(
-      new AppError("Admin users must log in through admin.voyage.com.", 403),
+      new AppError(
+        `Admin users must log in through ${process.env.ADMIN_URL || "the admin portal"}.`,
+        403,
+      ),
     );
   }
 

@@ -4,7 +4,9 @@
   "description": "An Hotel Booking application specifically for Hotels with partnership with Us",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development nodemon server.js",
+    "build": "node --check app.js && node --check server.js",
+    "start": "node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
     "test": "jest",
     "data:upload:locations": "cross-env NODE_EXTRA_CA_CERTS=./certs/avg-web-mail-shield-root.pem node src/DataUpload/Locations/uploadLocations.js",
     "data:upload:reviews": "cross-env NODE_EXTRA_CA_CERTS=./certs/avg-web-mail-shield-root.pem node src/DataUpload/Reviews/uploadReviews.js",
