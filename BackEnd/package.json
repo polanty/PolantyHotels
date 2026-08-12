@@ -4,7 +4,7 @@
   "description": "An Hotel Booking application specifically for Hotels with partnership with Us",
   "main": "index.js",
   "scripts": {
-    "build": "node --check app.js && node --check server.js",
+    "build": "node --check app.js && node --check server.js && node --check api/index.js",
     "start": "node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
     "test": "jest",
