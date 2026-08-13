@@ -715,7 +715,10 @@ export default function HotelDetailsPage() {
         <SearchComponent />
 
         {showPaymentCancelled && (
-          <div className="paymentCancelledBanner" role="alert">
+          <div
+            className="paymentCancelledBanner paymentCancelledBanner--warning"
+            role="alert"
+          >
             <div className="paymentCancelledIcon">
               <span className="material-symbols-outlined">info</span>
             </div>
@@ -740,7 +743,10 @@ export default function HotelDetailsPage() {
         )}
 
         {bookingError && (
-          <div className="paymentCancelledBanner" role="alert">
+          <div
+            className="paymentCancelledBanner paymentCancelledBanner--error"
+            role="alert"
+          >
             <div className="paymentCancelledIcon">
               <span className="material-symbols-outlined">error</span>
             </div>
